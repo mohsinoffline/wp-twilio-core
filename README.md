@@ -38,7 +38,7 @@ Returns an array with response from Twilio's servers on success of a *WP_Error* 
 ```php
 $args = array( 
 	'number_to' => '+13362522164',
-	'message' = 'Hello Programmer!',
+	'message' => 'Hello Programmer!',
 ); 
 twl_send_sms( $args );	
 ```
