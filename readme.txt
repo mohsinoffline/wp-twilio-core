@@ -43,14 +43,6 @@ Disclaimer: This plugin is not affiliated with or supported by Twilio,Inc. All l
 
 Yes, you will need to signup on [Twilio](https://www.twilio.com/), and obtain a number with SMS capability. However, they have trial accounts available which should have enough credit for you to try out the plugin!
 
-== Screenshots ==
-
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets 
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png` 
-(or jpg, jpeg, gif).
-2. This is the second screen shot
-
 == Changelog ==
 
 = 1.0.0 =
