@@ -19,7 +19,6 @@ The plugin also includes functionality to directly send a text message to any pe
 - Functionality to directly send a text message to any permissible number from the plugin settings page
 - Hooks to add additional tabs on the plugin settings page to allow managing all SMS related settings from the same page
 - Basic logging capability to keep track of up to 100 entries
-- Custom filter to modify the response WordPress gives when a user texts your Twilio number (TODO)
 - Mobile Phone User Field added to each profile (TODO)
 
 <h3>twl_send_sms( $args )</h3>
@@ -62,6 +61,7 @@ function add_my_shop_tab_content( $tab, $page_url ) {
 	} 
 	// Add my settings form here!
 }
+add_action( 'twl_display_tab', 'add_my_shop_tab_content', 10, 2 );
 ```
 	
 <h5>Copyright</h5>
