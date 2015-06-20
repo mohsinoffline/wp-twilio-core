@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: WP Twilio Core
- * Plugin URI: http://themebound.com
+ * Plugin URI: http://themebound.com/shop/wp-twilio-core/
  * Description: A simple plugin to add SMS capability to your website using the Twilio API. Allows developers to easily extend the settings page and built in functionality.
  * Version: 1.0.0
  * Author: Themebound.com
@@ -40,7 +40,7 @@ class WP_Twilio_Core {
 	public function init() {
 		$options = $this->get_options();
 		
-		load_plugin_textdomain( 'twilio-core', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( TWL_TD, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 		if ( is_admin() ) {
 			/** Settings Pages **/
