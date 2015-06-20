@@ -67,4 +67,4 @@ add_action( 'twl_display_tab', 'add_my_shop_tab_content', 10, 2 );
 <h5>Copyright</h5>
 Plugin created by <a href="http://themebound.com/shop/wp-twilio-core/">Themebound</a>. 
 
-Disclaimer: This plugin is not directly supported by Twilio,Inc. Please do not contact them for support as they will not be able to help you with it. All logos and trademarks are the property of their respective owners.
+Disclaimer: This plugin is not affiliated with or supported by Twilio,Inc. All logos and trademarks are the property of their respective owners.
