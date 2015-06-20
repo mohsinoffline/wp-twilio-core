@@ -35,25 +35,18 @@ class WP_Twilio_Core {
 
 	private function __construct() {
 		$this->set_page_url();
+		$options = $this->get_options();
 
 		if ( is_admin() ) {
-			
 			/** Settings Pages **/
 			add_action( 'admin_init', array( $this, 'register_settings' ), 1000 );
 			add_action( 'admin_menu', array( $this, 'admin_menu' ), 1000 );
 			
+			/** User Profile Settings **/
+			if( $options['mobile_field'] ) {
+				add_filter( 'user_contactmethods', 'twl_add_contact_item', 10 );			
+			}
 		}
-	}
-
-	/**
-	 * Send SMS
-	 * @param  array $args The arguments used by the Twilio API
-	 * @return void
-	 * @access public
-	 */
-	public function send_sms( $args ) {
-		// Back compat
-		twl_send_sms( $args );
 	}
 
 	/**
@@ -100,7 +93,7 @@ class WP_Twilio_Core {
 	 * @access public
 	 */
 	public function set_page_url() {
-		$base = '';
+		$base = admin_url( 'options-general.php' );
 		$this->page_url = add_query_arg( 'page',  TWL_CORE_OPTION_PAGE, $base );
 	}
 	

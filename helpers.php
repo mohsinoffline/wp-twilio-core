@@ -63,6 +63,7 @@ function twl_get_defaults() {
 		'account_sid' => '',
 		'auth_token' => '',
 		'logging' => '',
+		'mobile_field' => '',
 	);
 	return apply_filters( 'twl_defaults', $twl_defaults );
 }
@@ -100,3 +101,29 @@ function twl_validate_sms_args( $args ) {
 	
 	return $log;
 }
+
+/**
+ * Saves the User Profile Settings
+ * @param  int $user_id The User ID being saved
+ * @return void         Saves to Usermeta
+ */
+function twl_save_profile_settings( $user_id ) {
+	if ( !current_user_can( 'edit_user', $user_id ) )
+		return false;
+
+	$user_key = sanitize_text_field( $_POST['mobile_number'] );
+	update_user_meta( $user_id, 'mobile_number', $_POST['mobile_number'] );
+}
+
+/**
+ * Add the Mobile Number field to the Profile page
+ * @param  array $contact_methods List of contact methods
+ * @return array                  The list of contact methods with the pushover key added
+ * @access public
+ */
+function twl_add_contact_item( $contact_methods ) {
+	$contact_methods['mobile_number'] = __( 'Mobile Number', TWL_TD );
+
+	return $contact_methods;
+}
+
