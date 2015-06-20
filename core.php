@@ -35,7 +35,12 @@ class WP_Twilio_Core {
 
 	private function __construct() {
 		$this->set_page_url();
+	}
+	
+	public function init() {
 		$options = $this->get_options();
+		
+		load_plugin_textdomain( 'twilio-core', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 		if ( is_admin() ) {
 			/** Settings Pages **/
@@ -50,7 +55,7 @@ class WP_Twilio_Core {
 	}
 
 	/**
-	 * Add the Pushover Notifications item to the Settings menu
+	 * Add the Twilio item to the Settings menu
 	 * @return void
 	 * @access public
 	 */
@@ -167,5 +172,6 @@ class WP_Twilio_Core {
 }
 
 $twl_instance = WP_Twilio_Core::get_instance();
+add_action( 'plugins_loaded', array( $twl_instance, 'init' ) );
 register_activation_hook( __FILE__, array( 'WP_Twilio_Core', 'plugin_activated' ) );
 register_uninstall_hook( __FILE__, array( 'WP_Twilio_Core', 'plugin_uninstalled' ) );
