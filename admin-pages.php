@@ -39,7 +39,7 @@ function twl_display_tab_general( $tab, $page_url ) {
 					<label for="<?php echo TWL_CORE_OPTION; ?>[logging]"><?php _e( 'Enable Logging', TWL_TD ); ?></label><br />
 					<small><?php _e( 'Enable or Disable Logging', TWL_TD ); ?></small><br /><br />
 					<input type="checkbox" name="<?php echo TWL_CORE_OPTION; ?>[mobile_field]" value="1" <?php checked( $options['mobile_field'], '1', true ); ?> /> 
-					<label for="<?php echo TWL_CORE_OPTION; ?>[mobile_field]"><?php _e( 'Add Mobile Field to User Profiles', TWL_TD ); ?></label><br />
+					<label for="<?php echo TWL_CORE_OPTION; ?>[mobile_field]"><?php _e( 'Add Mobile Number Field to User Profiles', TWL_TD ); ?></label><br />
 					<small><?php _e( 'Adds a new field "Mobile Number" under Contact Info on all user profile forms.', TWL_TD ); ?></small><br />
 				</td>
 			</tr>
