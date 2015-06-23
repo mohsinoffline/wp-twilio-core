@@ -10,7 +10,7 @@ function twl_filter_message_urls( $message, $args ) {
 	}
 	
 	// remove http:// or https:// since many providers block it
-	$message = preg_replace( '"\b(https?://)"', '', $message );
+	// $message = preg_replace( '"\b(https?://)"', '', $message );
 	
 	return $message;
 }
