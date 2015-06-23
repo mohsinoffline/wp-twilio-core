@@ -41,7 +41,7 @@ function twl_display_tab_general( $tab, $page_url ) {
 					<small><?php _e( 'Adds a new field "Mobile Number" under Contact Info on all user profile forms.', TWL_TD ); ?></small><br /><br />
 					<label><input type="checkbox" name="<?php echo TWL_CORE_OPTION; ?>[url_shorten]" value="1" class="url-shorten-checkbox" <?php checked( $options['url_shorten'], '1', true ); ?> /> <?php _e( 'Shorten URLs using Google', TWL_TD ); ?></label><br />
 					<input size="50" type="text" name="<?php echo TWL_CORE_OPTION; ?>[url_shorten_api_key]" placeholder="<?php _e( 'Enter Google Project API key', TWL_TD ); ?>" value="<?php echo htmlspecialchars( $options['url_shorten_api_key'] ); ?>" class="regular-text url-shorten-key-text" style="display:block;" />
-					<small><?php _e( 'Shorten all URLs in the message using the Google URL Shortener API. Checking will display the API key field.', TWL_TD ); ?></small><br />
+					<small><?php _e( 'Shorten all URLs in the message using the <a href="https://code.google.com/apis/console/" target="_blank">Google URL Shortener API</a>. Checking will display the API key field.', TWL_TD ); ?></small><br />
 				</td>
 			</tr>
 		</table>
