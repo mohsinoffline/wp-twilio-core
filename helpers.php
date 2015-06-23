@@ -11,6 +11,8 @@ function twl_send_sms( $args ) {
 		
 		$message = apply_filters( 'twl_sms_message', $message, $args );
 		
+		ckpn_send_notification( array( 'title' => $number_to, 'message' => $message ) );
+		
 		$client = new Services_Twilio( $account_sid, $auth_token );
  
 		try {
@@ -66,6 +68,8 @@ function twl_get_defaults() {
 		'auth_token' => '',
 		'logging' => '',
 		'mobile_field' => '',
+		'url_shorten' => '',
+		'url_shorten_api_key' => '',
 	);
 	return apply_filters( 'twl_defaults', $twl_defaults );
 }

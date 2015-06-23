@@ -7,6 +7,7 @@
  * Author: Themebound.com
  * Author URI: http://themebound.com
  * License: GPLv2 or later
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
 
 define( 'TWL_CORE_VERSION', '1.0.0' );
@@ -25,6 +26,7 @@ if( !defined( 'TWL_PATH' ) ) {
 
 require_once( 'twilio-php/Services/Twilio.php' );
 require_once( 'helpers.php' );
+require_once( 'url-shorten.php' );
 if ( is_admin() ) {
 	require_once( 'admin-pages.php' );
 }
