@@ -1,10 +1,13 @@
 <?php
 
 function twl_filter_message_urls( $message, $args ) {
-	$regex = '"\b(https?://\S+)"';
-	$message = preg_replace_callback( $regex, function( $url ) { 
-		return twl_url_shorten( $url[0] );
-	}, $message );
+	
+	if( $args['url_shorten'] && $args['url_shorten_api_key'] ) {
+		$regex = '"\b(https?://\S+)"';
+		$message = preg_replace_callback( $regex, function( $url ) { 
+			return twl_url_shorten( $url[0] );
+		}, $message );
+	}
 	
 	// remove http:// or https:// since many providers block it
 	$message = preg_replace( '"\b(https?://)"', '', $message );
