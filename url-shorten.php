@@ -17,7 +17,9 @@ function twl_filter_message_urls( $message, $args ) {
 add_filter( 'twl_sms_message', 'twl_filter_message_urls', 9999, 2 );
 
 function twl_url_shorten( $url ) {
-	$result = wp_remote_post( add_query_arg( 'key', apply_filters( 'googl_api_key', 'AIzaSyBEPh-As7b5US77SgxbZUfMXAwWYjfpWYg' ), 'https://www.googleapis.com/urlshortener/v1/url' ), array(
+	$options = twl_get_options();
+	
+	$result = wp_remote_post( add_query_arg( 'key', apply_filters( 'twl_google_api_key', $options['url_shorten_api_key'] ), 'https://www.googleapis.com/urlshortener/v1/url' ), array(
 		'body' => json_encode( array( 'longUrl' => esc_url_raw( $url ) ) ),
 		'headers' => array( 'Content-Type' => 'application/json' ),
 	) );
