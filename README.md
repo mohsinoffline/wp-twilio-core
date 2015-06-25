@@ -12,14 +12,14 @@ The plugin primarily allows a WordPress developer to extend its settings and fun
 
 The plugin also includes functionality to directly send a text message to any permissible number from the plugin settings page. You can use it to SMS any of your users or just for testing purposes
 
- Here's a list of what the plugin provides out of the box:
+Here's a list of what the plugin provides out of the box:
 
-
-- Custom function to easily send SMS messages to any number (including international ones)
-- Functionality to directly send a text message to any permissible number from the plugin settings page
-- Hooks to add additional tabs on the plugin settings page to allow managing all SMS related settings from the same page
-- Basic logging capability to keep track of up to 100 entries
-- Mobile Phone User Field added to each profile
+* Custom function to easily send SMS messages to any number (including international ones)
+* Functionality to directly send a text message to any permissible number from the plugin settings page
+* Hooks to add additional tabs on the plugin settings page to allow managing all SMS related settings from the same page
+* Basic logging capability to keep track of up to 100 entries
+* Mobile Phone User Field added to each profile (optional)
+* Shorten URLs using Google URL Shortener API (optional)
 
 <h3>twl_send_sms( $args )</h3>
 <p>Sends a standard text message from your Twilio Number when arguments are passed in an array format. Description of each array key is given below.</p>
@@ -31,8 +31,10 @@ number_from *(optional)* | string | Override the Twilio Number from settings. Mu
 account_sid *(optional)* | string | Override the Twilio Account SID from settings. Must be associated with Twilio number and Auth Token.
 auth_token *(optional)* | string | Override the Auth Token from settings. Must be associated with Twilio number and Account SID.
 logging *(optional)* | integer (1 or 0) | Override the logging option set from the settings page. Requires the digit '1' to enable.
+url_shorten *(optional)* | integer (1 or 0) | Override the URL shortening option set from the settings page. Requires the digit '1' to enable.
 
 Returns an array with response from Twilio's servers on success of a *WP_Error* object on failure.
+
 <h5>Example</h5>
 
 ```php
@@ -63,8 +65,10 @@ function add_my_shop_tab_content( $tab, $page_url ) {
 }
 add_action( 'twl_display_tab', 'add_my_shop_tab_content', 10, 2 );
 ```
+<h5>Contributors</h5>
+Feel free to send pull requests. They are always welcome!
 	
 <h5>Copyright</h5>
-Plugin created by <a href="http://themebound.com/shop/wp-twilio-core/">Themebound</a>. 
+[WP Twilio Core](http://themebound.com/shop/wp-twilio-core/) plugin created by [Themebound](http://themebound.com/). It is also available at the [WordPress Plugins repository](https://wordpress.org/plugins/wp-twilio-core/). For custom integration with your WordPress website, please [contact us here](http://themebound.com/contact-us/).
 
-Disclaimer: This plugin is not affiliated with or supported by Twilio,Inc. All logos and trademarks are the property of their respective owners.
+Disclaimer: This plugin is not affiliated with or supported by Twilio, Inc. All logos and trademarks are the property of their respective owners.

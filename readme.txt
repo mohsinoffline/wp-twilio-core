@@ -25,25 +25,41 @@ Here's a list of what the plugin provides out of the box:
 * Functionality to directly send a text message to any permissible number from the plugin settings page
 * Hooks to add additional tabs on the plugin settings page to allow managing all SMS related settings from the same page
 * Basic logging capability to keep track of up to 100 entries
-* Mobile Phone User Field added to each profile
+* Mobile Phone User Field added to each profile (optional)
+* Shorten URLs using Google URL Shortener API (optional)
 
-Visit the [plugin page](http://themebound.com/shop/wp-twilio-core/) for full integration details.
+Extend, Contribute, Integrate
+-------
 
-Disclaimer: This plugin is not affiliated with or supported by Twilio,Inc. All logos and trademarks are the property of their respective owners.
+Visit the [plugin page](http://themebound.com/shop/wp-twilio-core/) for full integration details. Contributors are welcome to send pull requests via [GitHub repository](https://github.com/mohsinoffline/wp-twilio-core).
+
+For custom integration with your WordPress website, please [contact us here](http://themebound.com/contact-us/).
+
+Disclaimer: This plugin is not affiliated with or supported by Twilio, Inc. All logos and trademarks are the property of their respective owners. 
 
 == Installation ==
 
-1. Extract and upload the folder `twilio-core` to the `/wp-content/plugins/` directory
+1. Extract and upload the folder `wp-twilio-core` to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Go to `Settings -> Twilio` in WordPress and enter API details and Twilio number.
 
 == Frequently Asked Questions ==
 
+Please make sure you read through the [SMS FAQs](https://www.twilio.com/help/faq/sms) on the Twilio website.
+
 = Is this service chargeable? =
 
 Yes, you will need to signup on [Twilio](https://www.twilio.com/), and obtain a number with SMS capability. However, they have trial accounts available which should have enough credit for you to try out the plugin!
 
+== Screenshots ==
+
+1. Send text messages from your WordPress website to any number using Twilio!
+2. Settings page in the WordPress admin back end.
+
 == Changelog ==
+
+= 1.0.1 =
+* **NEW:** Added URL shortening option via Google URL Shortener API (goo.gl)
 
 = 1.0.0 =
 * Initial release version
