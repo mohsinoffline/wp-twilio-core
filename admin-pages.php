@@ -13,7 +13,7 @@ function twl_display_tab_general( $tab, $page_url ) {
 				<td>
 					<input size="50" type="text" name="<?php echo TWL_CORE_OPTION; ?>[account_sid]" placeholder="<?php _e( 'Enter Account SID', TWL_TD ); ?>" value="<?php echo htmlspecialchars( $options['account_sid'] ); ?>" class="regular-text" />
 					<br />
-					<?php _e( 'To view API credentials visit <a href="https://www.twilio.com/user/account/voice-sms-mms" target="_blank">https://www.twilio.com/user/account/voice-sms-mms</a>', TWL_TD ); ?>
+					<small><?php _e( 'To view API credentials visit <a href="https://www.twilio.com/user/account/voice-sms-mms" target="_blank">https://www.twilio.com/user/account/voice-sms-mms</a>', TWL_TD ); ?></small>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -21,7 +21,7 @@ function twl_display_tab_general( $tab, $page_url ) {
 				<td>
 					<input size="50" type="text" name="<?php echo TWL_CORE_OPTION; ?>[auth_token]" placeholder="<?php _e( 'Enter Auth Token', TWL_TD ); ?>" value="<?php echo htmlspecialchars( $options['auth_token'] ); ?>" class="regular-text" />
 					<br />
-					<?php _e( 'To view API credentials visit <a href="https://www.twilio.com/user/account/voice-sms-mms" target="_blank">https://www.twilio.com/user/account/voice-sms-mms</a>', TWL_TD ); ?>
+					<small><?php _e( 'To view API credentials visit <a href="https://www.twilio.com/user/account/voice-sms-mms" target="_blank">https://www.twilio.com/user/account/voice-sms-mms</a>', TWL_TD ); ?></small>
 				</td>
 			</tr>
 			<tr valign="top">
@@ -29,7 +29,7 @@ function twl_display_tab_general( $tab, $page_url ) {
 				<td>
 					<input size="50" type="text" name="<?php echo TWL_CORE_OPTION; ?>[number_from]" placeholder="+16175551212" value="<?php echo htmlspecialchars( $options['number_from'] ); ?>" class="regular-text" />
 					<br />
-					<?php _e( 'Country code + 10-digit Twilio phone number (i.e. +16175551212)', TWL_TD ); ?>
+					<small><?php _e( 'Country code + 10-digit Twilio phone number (i.e. +16175551212)', TWL_TD ); ?></small>
 				</td>
 			</tr>
 			<tr valign="top">
