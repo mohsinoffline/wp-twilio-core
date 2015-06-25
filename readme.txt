@@ -4,7 +4,7 @@ Donate link: http://themebound.com/
 Tags: twilio, sms, text message
 Requires at least: 4.2
 Tested up to: 4.2.2
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,7 @@ The plugin primarily allows a WordPress developer to extend its settings and fun
 
 The plugin also includes functionality to directly send a text message to any permissible number from the plugin settings page. You can use it to SMS any of your users or just for testing purposes
 
- Here's a list of what the plugin provides out of the box:
+Here's a list of what the plugin provides out of the box:
 
 
 * Custom function to easily send SMS messages to any number (including international ones)
