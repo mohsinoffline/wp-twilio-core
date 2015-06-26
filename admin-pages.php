@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Display the General settings tab
+ * @return void
+ */
 function twl_display_tab_general( $tab, $page_url ) {
 	if( $tab != 'general' ) {
 		return;
@@ -67,6 +70,10 @@ function twl_display_tab_general( $tab, $page_url ) {
 }
 add_action( 'twl_display_tab', 'twl_display_tab_general', 10, 2 );
 
+/**
+ * Display the Test SMS tab
+ * @return void
+ */
 function twl_display_tab_test( $tab, $page_url ) {
 	if( $tab != 'test' ) {
 		return;

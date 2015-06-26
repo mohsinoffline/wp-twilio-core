@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Shortens URLs in the message if the option is enabled
+ * @param  string $message Message to be formatted
+ * @param  array $args Send message arguments
+ * @return string Message with/without short URLs
+ */
 function twl_filter_message_urls( $message, $args ) {
 	
 	if( $args['url_shorten'] && $args['url_shorten_api_key'] ) {
@@ -16,6 +22,11 @@ function twl_filter_message_urls( $message, $args ) {
 }
 add_filter( 'twl_sms_message', 'twl_filter_message_urls', 9999, 2 );
 
+/**
+ * Process URL via Google URL Shortener API
+ * @param  string $url URL to be shortened
+ * @return string Shortened URL in http://goo.gl/xxx format
+ */
 function twl_url_shorten( $url ) {
 	$options = twl_get_options();
 	

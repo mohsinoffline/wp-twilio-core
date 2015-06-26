@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Sends the actual SMS
+ * @param  array $args Array of arguments described here: https://github.com/mohsinoffline/wp-twilio-core#twl_send_sms-args-
+ * @return array Response object from Twilio PHP library on success or WP_Error object on failure
+ */
 function twl_send_sms( $args ) {
 	$options = twl_get_options();
 	$options['number_to'] = $options['message'] = '';
@@ -31,6 +36,12 @@ function twl_send_sms( $args ) {
 	return $return;
 }
 
+/**
+ * Update logs primarily from twl_send_sms() function
+ * @param  string $log String of new-line separated log entries to be added
+ * @param  int/boolean $enabled Whether to update logs or skip
+ * @return void
+ */
 function twl_update_logs( $log, $enabled = 1 ) {
 	$options = twl_get_options();
 	if ( $enabled == 1 ) {
@@ -47,10 +58,19 @@ function twl_update_logs( $log, $enabled = 1 ) {
 	}
 }
 
+/**
+ * Get saved options
+ * @return array of saved options
+ */
 function twl_get_options() {
 	return apply_filters( 'twl_options', get_option( TWL_CORE_OPTION, array() ) );
 }
 
+/**
+ * Sanitizes option array before it gets saved
+ * @param $array array of options to be saved
+ * @return array of sanitized options
+ */
 function twl_sanitize_option( $option ) {
 	$keys = array_keys( twl_get_defaults() );
 	foreach( $keys as $key ) {
@@ -61,6 +81,10 @@ function twl_sanitize_option( $option ) {
 	return $option;
 }
 
+/**
+ * Get default option array
+ * @return array of default options
+ */
 function twl_get_defaults() {
 	$twl_defaults = array(
 		'number_from' => '',
@@ -74,6 +98,12 @@ function twl_get_defaults() {
 	return apply_filters( 'twl_defaults', $twl_defaults );
 }
 
+/**
+ * Format log message with more information
+ * @param  string $message Message to be formatted
+ * @param  array $args Send message arguments
+ * @return string Formatted message entry
+ */
 function twl_log_entry_format( $message = '', $args ) {
 	if ( $message == '' )
 		return $message;
@@ -81,6 +111,11 @@ function twl_log_entry_format( $message = '', $args ) {
 	return date( 'Y-m-d H:i:s' ) . ' -- ' . __( 'From: ', TWL_TD ) . $args['number_from'] . ' -- ' . __( 'To: ', TWL_TD ) . $args['number_to'] . ' -- ' . $message . "\n";
 }
 
+/**
+ * Validates args before sending message
+ * @param  array $args Send message arguments
+ * @return string Log entries for invalid arguments
+ */
 function twl_validate_sms_args( $args ) {
 	// Check that we have the required elements
 	$log = '';
@@ -124,12 +159,10 @@ function twl_save_profile_settings( $user_id ) {
 /**
  * Add the Mobile Number field to the Profile page
  * @param  array $contact_methods List of contact methods
- * @return array                  The list of contact methods with the pushover key added
- * @access public
+ * @return array The list of contact methods with the mobile field added
  */
 function twl_add_contact_item( $contact_methods ) {
 	$contact_methods['mobile_number'] = __( 'Mobile Number', TWL_TD );
 
 	return $contact_methods;
 }
-
