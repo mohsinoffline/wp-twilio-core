@@ -3,13 +3,14 @@
  * Plugin Name: WP Twilio Core
  * Plugin URI: http://themebound.com/shop/wp-twilio-core/
  * Description: A simple plugin to add SMS capability to your website using the Twilio API. Allows developers to easily extend the settings page and built in functionality.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Themebound.com
  * Author URI: http://themebound.com
  * License: GPLv2 or later
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
 
-define( 'TWL_CORE_VERSION', '1.0.0' );
+define( 'TWL_CORE_VERSION', '1.0.1' );
 define( 'TWL_CORE_OPTION', 'twl_option' );
 define( 'TWL_CORE_OPTION_PAGE', 'twilio-options' );
 define( 'TWL_CORE_SETTING', 'twilio-options' );
@@ -23,10 +24,11 @@ if( !defined( 'TWL_PATH' ) ) {
 	define( 'TWL_PATH', plugin_dir_path( __FILE__ ) );
 }
 
-require_once( 'twilio-php/Services/Twilio.php' );
-require_once( 'helpers.php' );
+require_once( TWL_PATH . 'twilio-php/Services/Twilio.php' );
+require_once( TWL_PATH . 'helpers.php' );
+require_once( TWL_PATH . 'url-shorten.php' );
 if ( is_admin() ) {
-	require_once( 'admin-pages.php' );
+	require_once( TWL_PATH . 'admin-pages.php' );
 }
 
 class WP_Twilio_Core {
@@ -36,20 +38,20 @@ class WP_Twilio_Core {
 	private function __construct() {
 		$this->set_page_url();
 	}
-	
+
 	public function init() {
 		$options = $this->get_options();
-		
+
 		load_plugin_textdomain( TWL_TD, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 		if ( is_admin() ) {
 			/** Settings Pages **/
 			add_action( 'admin_init', array( $this, 'register_settings' ), 1000 );
 			add_action( 'admin_menu', array( $this, 'admin_menu' ), 1000 );
-			
+
 			/** User Profile Settings **/
-			if( $options['mobile_field'] ) {
-				add_filter( 'user_contactmethods', 'twl_add_contact_item', 10 );			
+			if( isset( $options['mobile_field'] ) && $options['mobile_field'] ) {
+				add_filter( 'user_contactmethods', 'twl_add_contact_item', 10 );
 			}
 		}
 	}
@@ -86,12 +88,12 @@ class WP_Twilio_Core {
 			}
 			?>
 			</h2>
-			
+
 			<?php do_action( 'twl_display_tab', $current, $this->page_url ); ?>
 		</div>
 		<?php
 	}
-	
+
 	/**
 	 * Saves the URL of the plugin settings page into the class property
 	 * @return void
@@ -101,7 +103,7 @@ class WP_Twilio_Core {
 		$base = admin_url( 'options-general.php' );
 		$this->page_url = add_query_arg( 'page',  TWL_CORE_OPTION_PAGE, $base );
 	}
-	
+
 	/**
 	 * Returns an array of settings tabs, extensible via a filter
 	 * @return void
@@ -135,7 +137,7 @@ class WP_Twilio_Core {
 	public function get_options() {
 		return twl_get_options();
 	}
-	
+
 	/**
 	 * Get the singleton instance of our plugin
 	 * @return class The Instance
@@ -148,7 +150,7 @@ class WP_Twilio_Core {
 
 		return self::$instance;
 	}
-	
+
 	/**
 	 * Adds the options to the options table
 	 * @return void
@@ -158,7 +160,7 @@ class WP_Twilio_Core {
 		add_option( TWL_CORE_OPTION, twl_get_defaults() );
 		add_option( TWL_LOGS_OPTION, '' );
 	}
-	
+
 	/**
 	 * Deletes the options to the options table
 	 * @return void
