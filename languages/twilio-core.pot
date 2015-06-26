@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WP Twilio Core\n"
-"POT-Creation-Date: 2015-06-20 16:01+0530\n"
+"POT-Creation-Date: 2015-06-26 16:41+0530\n"
 "PO-Revision-Date: 2015-06-20 15:54+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,188 +19,203 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: admin-pages.php:12
+#: admin-pages.php:15
 msgid "Account SID"
 msgstr ""
 
-#: admin-pages.php:12 admin-pages.php:20
+#: admin-pages.php:15 admin-pages.php:23
 msgid "Available from within your Twilio account"
 msgstr ""
 
-#: admin-pages.php:14
+#: admin-pages.php:17
 msgid "Enter Account SID"
 msgstr ""
 
-#: admin-pages.php:16 admin-pages.php:24
+#: admin-pages.php:19 admin-pages.php:27
 msgid ""
 "To view API credentials visit <a href=\"https://www.twilio.com/user/account/"
 "voice-sms-mms\" target=\"_blank\">https://www.twilio.com/user/account/voice-"
 "sms-mms</a>"
 msgstr ""
 
-#: admin-pages.php:20
+#: admin-pages.php:23
 msgid "Auth Token"
 msgstr ""
 
-#: admin-pages.php:22
+#: admin-pages.php:25
 msgid "Enter Auth Token"
 msgstr ""
 
-#: admin-pages.php:28
+#: admin-pages.php:31
 msgid "Twilio Number"
 msgstr ""
 
-#: admin-pages.php:28
+#: admin-pages.php:31
 msgid "Must be a valid number associated with your Twilio account"
 msgstr ""
 
-#: admin-pages.php:32
+#: admin-pages.php:35
 msgid "Country code + 10-digit Twilio phone number (i.e. +16175551212)"
 msgstr ""
 
-#: admin-pages.php:36
+#: admin-pages.php:39
 msgid "Advanced &amp; Debug Options"
 msgstr ""
 
-#: admin-pages.php:36
+#: admin-pages.php:39
 msgid "With great power, comes great responsiblity."
 msgstr ""
 
-#: admin-pages.php:39
+#: admin-pages.php:41
 msgid "Enable Logging"
 msgstr ""
 
-#: admin-pages.php:40
+#: admin-pages.php:42
 msgid "Enable or Disable Logging"
 msgstr ""
 
-#: admin-pages.php:42
+#: admin-pages.php:43
 msgid "Add Mobile Number Field to User Profiles"
 msgstr ""
 
-#: admin-pages.php:43
+#: admin-pages.php:44
 msgid ""
 "Adds a new field \"Mobile Number\" under Contact Info on all user profile "
 "forms."
 msgstr ""
 
-#: admin-pages.php:48
+#: admin-pages.php:45
+msgid "Shorten URLs using Google"
+msgstr ""
+
+#: admin-pages.php:46
+msgid "Enter Google Project API key"
+msgstr ""
+
+#: admin-pages.php:47
+msgid ""
+"Shorten all URLs in the message using the <a href=\"https://code.google.com/"
+"apis/console/\" target=\"_blank\">Google URL Shortener API</a>. Checking "
+"will display the API key field."
+msgstr ""
+
+#: admin-pages.php:52
 msgid "Save Changes"
 msgstr ""
 
-#: admin-pages.php:64
+#: admin-pages.php:87
 msgid ""
 "Some details are missing. Please fill all the fields below and try again."
 msgstr ""
 
-#: admin-pages.php:77
+#: admin-pages.php:100
 msgid "Send a Message"
 msgstr ""
 
-#: admin-pages.php:78
+#: admin-pages.php:101
 msgid ""
 "If you are sending messages while in trial mode, the recipient phone number "
 "must be verified with Twilio."
 msgstr ""
 
-#: admin-pages.php:82
+#: admin-pages.php:105
 msgid "Recipient Number"
 msgstr ""
 
-#: admin-pages.php:86
+#: admin-pages.php:109
 msgid ""
 "The destination phone number. Format with a '+' and country code e.g., "
 "+16175551212 "
 msgstr ""
 
-#: admin-pages.php:90
+#: admin-pages.php:113
 msgid "Message Body"
 msgstr ""
 
-#: admin-pages.php:93
+#: admin-pages.php:116
 msgid "The text of the message you want to send, limited to 1600 characters."
 msgstr ""
 
-#: admin-pages.php:98
+#: admin-pages.php:121
 msgid "Send Message"
 msgstr ""
 
-#: admin-pages.php:119
+#: admin-pages.php:142
 msgid "Logs Cleared"
 msgstr ""
 
-#: admin-pages.php:125
+#: admin-pages.php:148
 msgid "Logging currently disabled."
 msgstr ""
 
-#: admin-pages.php:129
+#: admin-pages.php:152
 msgid "Clear Logs"
 msgstr ""
 
-#: admin-pages.php:130 core.php:113
+#: admin-pages.php:153 core.php:115
 msgid "Logs"
 msgstr ""
 
-#: core.php:63
+#: core.php:65
 msgid "Twilio"
 msgstr ""
 
-#: core.php:77
+#: core.php:79
 msgid "Twilio for WordPress"
 msgstr ""
 
-#: core.php:112
+#: core.php:114
 msgid "Settings"
 msgstr ""
 
-#: core.php:114
+#: core.php:116
 msgid "Test"
 msgstr ""
 
-#: helpers.php:16
+#: helpers.php:25
 #, php-format
 msgid "Success! Message SID: %s"
 msgstr ""
 
-#: helpers.php:19
+#: helpers.php:28
 #, php-format
 msgid "****** API Error: %s ******"
 msgstr ""
 
-#: helpers.php:24
+#: helpers.php:33
 msgid ""
 "Some details are missing. Please make sure you have added all details in the "
 "settings tab."
 msgstr ""
 
-#: helpers.php:75
+#: helpers.php:111
 msgid "From: "
 msgstr ""
 
-#: helpers.php:75
+#: helpers.php:111
 msgid "To: "
 msgstr ""
 
-#: helpers.php:83
+#: helpers.php:124
 msgid "****** Missing Twilio Number ******"
 msgstr ""
 
-#: helpers.php:87
+#: helpers.php:128
 msgid "****** Missing Recipient Number ******"
 msgstr ""
 
-#: helpers.php:91
+#: helpers.php:132
 msgid "****** Missing Message ******"
 msgstr ""
 
-#: helpers.php:95
+#: helpers.php:136
 msgid "****** Missing Account SID ******"
 msgstr ""
 
-#: helpers.php:99
+#: helpers.php:140
 msgid "****** Missing Auth Token ******"
 msgstr ""
 
-#: helpers.php:125
+#: helpers.php:165
 msgid "Mobile Number"
 msgstr ""
