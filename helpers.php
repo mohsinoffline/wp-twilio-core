@@ -10,25 +10,25 @@ function twl_send_sms( $args ) {
 	$options['number_to'] = $options['message'] = '';
 	$args = wp_parse_args( $args, $options );
 	$log = twl_validate_sms_args( $args );
-	
+
 	if( !$log ) {
 		extract( $args );
-		
+
 		$message = apply_filters( 'twl_sms_message', $message, $args );
-		
+
 		ckpn_send_notification( array( 'title' => $number_to, 'message' => $message ) );
-		
+
 		$client = new Services_Twilio( $account_sid, $auth_token );
- 
+
 		try {
 			$response = $client->account->messages->SendMessage( $number_from, $number_to, $message );
 			$log = twl_log_entry_format( sprintf( __( 'Success! Message SID: %s', TWL_TD ), $response->sid ), $args );
-			$return = $response; 
+			$return = $response;
 		} catch( Services_Twilio_RestException $e ) {
 			$log = twl_log_entry_format( sprintf( __( '****** API Error: %s ******', TWL_TD ), $e->getMessage() ), $args );
 			$return = new WP_Error( 'api-error', $e->getMessage(), $e );
 		}
-		
+
 	} else {
 		$return = new WP_Error( 'missing-details', __( 'Some details are missing. Please make sure you have added all details in the settings tab.', TWL_TD ) );
 	}
@@ -119,27 +119,27 @@ function twl_log_entry_format( $message = '', $args ) {
 function twl_validate_sms_args( $args ) {
 	// Check that we have the required elements
 	$log = '';
-	
+
 	if( !$args['number_from'] ) {
 		$log .= twl_log_entry_format( __( '****** Missing Twilio Number ******', TWL_TD ), $args );
 	}
-	
+
 	if( !$args['number_to'] ) {
 		$log .= twl_log_entry_format( __( '****** Missing Recipient Number ******', TWL_TD ), $args );
 	}
-	
+
 	if( !$args['message'] ) {
 		$log .= twl_log_entry_format( __( '****** Missing Message ******', TWL_TD ), $args );
 	}
-	
+
 	if( !$args['account_sid'] ) {
 		$log .= twl_log_entry_format( __( '****** Missing Account SID ******', TWL_TD ), $args );
 	}
-	
+
 	if( !$args['auth_token'] ) {
 		$log .= twl_log_entry_format( __( '****** Missing Auth Token ******', TWL_TD ), $args );
 	}
-	
+
 	return $log;
 }
 
