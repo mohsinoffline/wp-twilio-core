@@ -49,10 +49,11 @@ class WP_Twilio_Core {
 			add_action( 'admin_init', array( $this, 'register_settings' ), 1000 );
 			add_action( 'admin_menu', array( $this, 'admin_menu' ), 1000 );
 
-			/** User Profile Settings **/
-			if( isset( $options['mobile_field'] ) && $options['mobile_field'] ) {
-				add_filter( 'user_contactmethods', 'twl_add_contact_item', 10 );
-			}
+		}
+
+		/** User Profile Settings **/
+		if( isset( $options['mobile_field'] ) && $options['mobile_field'] ) {
+			add_filter( 'user_contactmethods', 'twl_add_contact_item', 10 );
 		}
 	}
 

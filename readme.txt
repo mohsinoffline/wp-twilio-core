@@ -1,10 +1,10 @@
 === WP Twilio Core ===
 Contributors: mohsinoffline
-Donate link: http://themebound.com/
+Donate link: https://themebound.com/
 Tags: twilio, sms, text message
 Requires at least: 4.2
 Tested up to: 4.2.2
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,9 +31,9 @@ Here's a list of what the plugin provides out of the box:
 Extend, Contribute, Integrate
 -------
 
-Visit the [plugin page](http://themebound.com/shop/wp-twilio-core/) for full integration details. Contributors are welcome to send pull requests via [GitHub repository](https://github.com/mohsinoffline/wp-twilio-core).
+Visit the [plugin page](https://themebound.com/shop/wp-twilio-core/) for full integration details. Contributors are welcome to send pull requests via [GitHub repository](https://github.com/mohsinoffline/wp-twilio-core).
 
-For custom integration with your WordPress website, please [contact us here](http://themebound.com/contact-us/).
+For custom integration with your WordPress website, please [contact us here](https://themebound.com/contact-us/).
 
 Disclaimer: This plugin is not affiliated with or supported by Twilio, Inc. All logos and trademarks are the property of their respective owners. 
 
@@ -58,8 +58,11 @@ Yes, you will need to signup on [Twilio](https://www.twilio.com/), and obtain a 
 
 == Changelog ==
 
+= 1.0.2 =
+* Made "Mobile Number" field available on front end
+
 = 1.0.1 =
-* **NEW:** Added URL shortening option via Google URL Shortener API (goo.gl)
+* Added URL shortening option via Google URL Shortener API (goo.gl)
 
 = 1.0.0 =
 * Initial release version
