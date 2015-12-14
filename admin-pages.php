@@ -87,7 +87,7 @@ function twl_display_tab_test( $tab, $page_url ) {
 			printf( '<div class="error"> <p> %s </p> </div>', esc_html__( 'Some details are missing. Please fill all the fields below and try again.', TWL_TD ) );
 			extract( $_POST );
 		} else {
-			$response = twl_send_sms( $_POST );
+			$response = twl_send_sms( stripslashes_deep( $_POST ) );
 			if( is_wp_error( $response ) ) {
 				printf( '<div class="error"> <p> %s </p> </div>', esc_html( $response->get_error_message() ) );
 				extract( $_POST );
