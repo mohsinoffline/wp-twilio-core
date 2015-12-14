@@ -3,8 +3,8 @@ Contributors: mohsinoffline
 Donate link: https://themebound.com/
 Tags: twilio, sms, text message
 Requires at least: 4.2
-Tested up to: 4.2.2
-Stable tag: 1.0.2
+Tested up to: 4.4
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,9 @@ Yes, you will need to signup on [Twilio](https://www.twilio.com/), and obtain a 
 2. Settings page in the WordPress admin back end.
 
 == Changelog ==
+
+= 1.0.3 =
+* Fixed backslashes in test message
 
 = 1.0.2 =
 * Made "Mobile Number" field available on front end
