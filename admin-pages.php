@@ -447,7 +447,6 @@ function add_my_verify_content( $tab, $page_url ) {
 		}
 	}
 	echo '</table>';
-    	
     $verify_url = esc_url( wp_nonce_url( add_query_arg( array( 'tab' => $tab, 'run_verify' => 1 ), $page_url ), 'run_verify' ) );
     ?>
     <p><a class="button gray" href="<?php echo $verify_url; ?>"><?php _e( 'Verify', TWL_TD ); ?></a></p>
