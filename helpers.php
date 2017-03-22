@@ -16,13 +16,13 @@ function twl_send_sms( $args ) {
 
 		$message = apply_filters( 'twl_sms_message', $message, $args );
 
-		$client = new Services_Twilio( $account_sid, $auth_token );
+		$client = new Twilio\Rest\Client( $account_sid, $auth_token );
 
 		try {
-			$response = $client->account->messages->SendMessage( $number_from, $number_to, $message );
+			$response = $client->messages->create( $number_to, array( 'from' => $number_from, 'body' => $message ) );
 			$log = twl_log_entry_format( sprintf( __( 'Success! Message SID: %s', TWL_TD ), $response->sid ), $args );
 			$return = $response;
-		} catch( Services_Twilio_RestException $e ) {
+		} catch( \Exception $e ) {
 			$log = twl_log_entry_format( sprintf( __( '****** API Error: %s ******', TWL_TD ), $e->getMessage() ), $args );
 			$return = new WP_Error( 'api-error', $e->getMessage(), $e );
 		}
