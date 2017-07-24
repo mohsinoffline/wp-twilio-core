@@ -23,6 +23,7 @@ Here's a list of what the plugin provides out of the box:
 
 <h3>twl_send_sms( $args )</h3>
 <p>Sends a standard text message from your Twilio Number when arguments are passed in an array format. Description of each array key is given below.</p>
+
 Array Key | Type | Description
 ------------- | ------------- | ----
 number_to | string | The mobile number that will be texted. Must be formatted as country code + 10-digit number (i.e. +13362522164).
