@@ -35,13 +35,12 @@ class AccountList extends ListResource {
      * 
      * @param array|Options $options Optional Arguments
      * @return AccountInstance Newly created AccountInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($options = array()) {
         $options = new Values($options);
 
-        $data = Values::of(array(
-            'FriendlyName' => $options['friendlyName'],
-        ));
+        $data = Values::of(array('FriendlyName' => $options['friendlyName'], ));
 
         $payload = $this->version->create(
             'POST',
@@ -50,10 +49,7 @@ class AccountList extends ListResource {
             $data
         );
 
-        return new AccountInstance(
-            $this->version,
-            $payload
-        );
+        return new AccountInstance($this->version, $payload);
     }
 
     /**
@@ -133,16 +129,29 @@ class AccountList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of AccountInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of AccountInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new AccountPage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Constructs a AccountContext
      * 
      * @param string $sid Fetch by unique Account Sid
      * @return \Twilio\Rest\Api\V2010\AccountContext 
      */
     public function getContext($sid) {
-        return new AccountContext(
-            $this->version,
-            $sid
-        );
+        return new AccountContext($this->version, $sid);
     }
 
     /**

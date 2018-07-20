@@ -28,9 +28,7 @@ class FeedbackSummaryList extends ListResource {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-        );
+        $this->solution = array('accountSid' => $accountSid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/Calls/FeedbackSummary.json';
     }
@@ -38,10 +36,13 @@ class FeedbackSummaryList extends ListResource {
     /**
      * Create a new FeedbackSummaryInstance
      * 
-     * @param \DateTime $startDate The start_date
-     * @param \DateTime $endDate The end_date
+     * @param \DateTime $startDate Only include usage that has occurred on or after
+     *                             this date.
+     * @param \DateTime $endDate Only include usage that has occurred on or before
+     *                           this date.
      * @param array|Options $options Optional Arguments
      * @return FeedbackSummaryInstance Newly created FeedbackSummaryInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($startDate, $endDate, $options = array()) {
         $options = new Values($options);
@@ -61,11 +62,7 @@ class FeedbackSummaryList extends ListResource {
             $data
         );
 
-        return new FeedbackSummaryInstance(
-            $this->version,
-            $payload,
-            $this->solution['accountSid']
-        );
+        return new FeedbackSummaryInstance($this->version, $payload, $this->solution['accountSid']);
     }
 
     /**
@@ -75,11 +72,7 @@ class FeedbackSummaryList extends ListResource {
      * @return \Twilio\Rest\Api\V2010\Account\Call\FeedbackSummaryContext 
      */
     public function getContext($sid) {
-        return new FeedbackSummaryContext(
-            $this->version,
-            $this->solution['accountSid'],
-            $sid
-        );
+        return new FeedbackSummaryContext($this->version, $this->solution['accountSid'], $sid);
     }
 
     /**

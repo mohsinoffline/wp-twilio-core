@@ -26,10 +26,7 @@ class AddOnResultList extends ListResource {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-            'referenceSid' => $referenceSid,
-        );
+        $this->solution = array('accountSid' => $accountSid, 'referenceSid' => $referenceSid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/Recordings/' . rawurlencode($referenceSid) . '/AddOnResults.json';
     }
@@ -99,6 +96,22 @@ class AddOnResultList extends ListResource {
             'GET',
             $this->uri,
             $params
+        );
+
+        return new AddOnResultPage($this->version, $response, $this->solution);
+    }
+
+    /**
+     * Retrieve a specific page of AddOnResultInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of AddOnResultInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
         );
 
         return new AddOnResultPage($this->version, $response, $this->solution);

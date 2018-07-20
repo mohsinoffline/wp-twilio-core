@@ -26,9 +26,7 @@ class OutgoingCallerIdList extends ListResource {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-        );
+        $this->solution = array('accountSid' => $accountSid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/OutgoingCallerIds.json';
     }
@@ -110,17 +108,29 @@ class OutgoingCallerIdList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of OutgoingCallerIdInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of OutgoingCallerIdInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new OutgoingCallerIdPage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Constructs a OutgoingCallerIdContext
      * 
      * @param string $sid Fetch by unique outgoing-caller-id Sid
      * @return \Twilio\Rest\Api\V2010\Account\OutgoingCallerIdContext 
      */
     public function getContext($sid) {
-        return new OutgoingCallerIdContext(
-            $this->version,
-            $this->solution['accountSid'],
-            $sid
-        );
+        return new OutgoingCallerIdContext($this->version, $this->solution['accountSid'], $sid);
     }
 
     /**

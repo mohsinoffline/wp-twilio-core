@@ -28,9 +28,7 @@ class ThisMonthList extends ListResource {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-        );
+        $this->solution = array('accountSid' => $accountSid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/Usage/Records/ThisMonth.json';
     }
@@ -98,6 +96,7 @@ class ThisMonthList extends ListResource {
             'Category' => $options['category'],
             'StartDate' => Serialize::iso8601Date($options['startDate']),
             'EndDate' => Serialize::iso8601Date($options['endDate']),
+            'IncludeSubaccounts' => Serialize::booleanToString($options['includeSubaccounts']),
             'PageToken' => $pageToken,
             'Page' => $pageNumber,
             'PageSize' => $pageSize,
@@ -107,6 +106,22 @@ class ThisMonthList extends ListResource {
             'GET',
             $this->uri,
             $params
+        );
+
+        return new ThisMonthPage($this->version, $response, $this->solution);
+    }
+
+    /**
+     * Retrieve a specific page of ThisMonthInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of ThisMonthInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
         );
 
         return new ThisMonthPage($this->version, $response, $this->solution);

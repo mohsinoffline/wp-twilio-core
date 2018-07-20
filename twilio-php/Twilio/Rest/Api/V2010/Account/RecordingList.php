@@ -20,16 +20,14 @@ class RecordingList extends ListResource {
      * Construct the RecordingList
      * 
      * @param Version $version Version that contains the resource
-     * @param string $accountSid The unique sid that identifies this account
+     * @param string $accountSid The unique SID that identifies this account
      * @return \Twilio\Rest\Api\V2010\Account\RecordingList 
      */
     public function __construct(Version $version, $accountSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-        );
+        $this->solution = array('accountSid' => $accountSid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/Recordings.json';
     }
@@ -98,6 +96,7 @@ class RecordingList extends ListResource {
             'DateCreated' => Serialize::iso8601DateTime($options['dateCreated']),
             'DateCreated>' => Serialize::iso8601DateTime($options['dateCreatedAfter']),
             'CallSid' => $options['callSid'],
+            'ConferenceSid' => $options['conferenceSid'],
             'PageToken' => $pageToken,
             'Page' => $pageNumber,
             'PageSize' => $pageSize,
@@ -113,17 +112,29 @@ class RecordingList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of RecordingInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of RecordingInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new RecordingPage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Constructs a RecordingContext
      * 
-     * @param string $sid Fetch by unique recording Sid
+     * @param string $sid Fetch by unique recording SID
      * @return \Twilio\Rest\Api\V2010\Account\RecordingContext 
      */
     public function getContext($sid) {
-        return new RecordingContext(
-            $this->version,
-            $this->solution['accountSid'],
-            $sid
-        );
+        return new RecordingContext($this->version, $this->solution['accountSid'], $sid);
     }
 
     /**

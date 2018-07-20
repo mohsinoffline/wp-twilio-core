@@ -18,7 +18,8 @@ class CredentialListMappingList extends ListResource {
      * Construct the CredentialListMappingList
      * 
      * @param Version $version Version that contains the resource
-     * @param string $accountSid The account_sid
+     * @param string $accountSid The unique id of the Account that responsible for
+     *                           this resource.
      * @param string $domainSid A string that uniquely identifies the SIP Domain
      * @return \Twilio\Rest\Api\V2010\Account\Sip\Domain\CredentialListMappingList 
      */
@@ -26,10 +27,7 @@ class CredentialListMappingList extends ListResource {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-            'domainSid' => $domainSid,
-        );
+        $this->solution = array('accountSid' => $accountSid, 'domainSid' => $domainSid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/SIP/Domains/' . rawurlencode($domainSid) . '/CredentialListMappings.json';
     }
@@ -40,11 +38,10 @@ class CredentialListMappingList extends ListResource {
      * @param string $credentialListSid The credential_list_sid
      * @return CredentialListMappingInstance Newly created
      *                                       CredentialListMappingInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($credentialListSid) {
-        $data = Values::of(array(
-            'CredentialListSid' => $credentialListSid,
-        ));
+        $data = Values::of(array('CredentialListSid' => $credentialListSid, ));
 
         $payload = $this->version->create(
             'POST',
@@ -127,6 +124,23 @@ class CredentialListMappingList extends ListResource {
             'GET',
             $this->uri,
             $params
+        );
+
+        return new CredentialListMappingPage($this->version, $response, $this->solution);
+    }
+
+    /**
+     * Retrieve a specific page of CredentialListMappingInstance records from the
+     * API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of CredentialListMappingInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
         );
 
         return new CredentialListMappingPage($this->version, $response, $this->solution);

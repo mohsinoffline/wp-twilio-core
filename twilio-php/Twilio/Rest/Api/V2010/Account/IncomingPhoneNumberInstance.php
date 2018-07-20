@@ -18,6 +18,7 @@ use Twilio\Version;
 
 /**
  * @property string accountSid
+ * @property string addressSid
  * @property string addressRequirements
  * @property string apiVersion
  * @property boolean beta
@@ -25,7 +26,9 @@ use Twilio\Version;
  * @property \DateTime dateCreated
  * @property \DateTime dateUpdated
  * @property string friendlyName
+ * @property string identitySid
  * @property string phoneNumber
+ * @property string origin
  * @property string sid
  * @property string smsApplicationSid
  * @property string smsFallbackMethod
@@ -46,6 +49,8 @@ use Twilio\Version;
  * @property string emergencyAddressSid
  */
 class IncomingPhoneNumberInstance extends InstanceResource {
+    protected $_assignedAddOns = null;
+
     /**
      * Initialize the IncomingPhoneNumberInstance
      * 
@@ -61,6 +66,7 @@ class IncomingPhoneNumberInstance extends InstanceResource {
         // Marshaled Properties
         $this->properties = array(
             'accountSid' => Values::array_get($payload, 'account_sid'),
+            'addressSid' => Values::array_get($payload, 'address_sid'),
             'addressRequirements' => Values::array_get($payload, 'address_requirements'),
             'apiVersion' => Values::array_get($payload, 'api_version'),
             'beta' => Values::array_get($payload, 'beta'),
@@ -68,7 +74,9 @@ class IncomingPhoneNumberInstance extends InstanceResource {
             'dateCreated' => Deserialize::dateTime(Values::array_get($payload, 'date_created')),
             'dateUpdated' => Deserialize::dateTime(Values::array_get($payload, 'date_updated')),
             'friendlyName' => Values::array_get($payload, 'friendly_name'),
+            'identitySid' => Values::array_get($payload, 'identity_sid'),
             'phoneNumber' => Values::array_get($payload, 'phone_number'),
+            'origin' => Values::array_get($payload, 'origin'),
             'sid' => Values::array_get($payload, 'sid'),
             'smsApplicationSid' => Values::array_get($payload, 'sms_application_sid'),
             'smsFallbackMethod' => Values::array_get($payload, 'sms_fallback_method'),
@@ -89,10 +97,7 @@ class IncomingPhoneNumberInstance extends InstanceResource {
             'emergencyAddressSid' => Values::array_get($payload, 'emergency_address_sid'),
         );
 
-        $this->solution = array(
-            'accountSid' => $accountSid,
-            'sid' => $sid ?: $this->properties['sid'],
-        );
+        $this->solution = array('accountSid' => $accountSid, 'sid' => $sid ?: $this->properties['sid'], );
     }
 
     /**
@@ -120,17 +125,17 @@ class IncomingPhoneNumberInstance extends InstanceResource {
      * 
      * @param array|Options $options Optional Arguments
      * @return IncomingPhoneNumberInstance Updated IncomingPhoneNumberInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function update($options = array()) {
-        return $this->proxy()->update(
-            $options
-        );
+        return $this->proxy()->update($options);
     }
 
     /**
      * Fetch a IncomingPhoneNumberInstance
      * 
      * @return IncomingPhoneNumberInstance Fetched IncomingPhoneNumberInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         return $this->proxy()->fetch();
@@ -140,9 +145,19 @@ class IncomingPhoneNumberInstance extends InstanceResource {
      * Deletes the IncomingPhoneNumberInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->proxy()->delete();
+    }
+
+    /**
+     * Access the assignedAddOns
+     * 
+     * @return \Twilio\Rest\Api\V2010\Account\IncomingPhoneNumber\AssignedAddOnList 
+     */
+    protected function getAssignedAddOns() {
+        return $this->proxy()->assignedAddOns;
     }
 
     /**

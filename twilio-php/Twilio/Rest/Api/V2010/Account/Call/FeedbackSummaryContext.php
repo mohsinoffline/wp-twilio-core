@@ -26,10 +26,7 @@ class FeedbackSummaryContext extends InstanceContext {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-            'sid' => $sid,
-        );
+        $this->solution = array('accountSid' => $accountSid, 'sid' => $sid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/Calls/FeedbackSummary/' . rawurlencode($sid) . '.json';
     }
@@ -38,6 +35,7 @@ class FeedbackSummaryContext extends InstanceContext {
      * Fetch a FeedbackSummaryInstance
      * 
      * @return FeedbackSummaryInstance Fetched FeedbackSummaryInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         $params = Values::of(array());
@@ -60,6 +58,7 @@ class FeedbackSummaryContext extends InstanceContext {
      * Deletes the FeedbackSummaryInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->version->delete('delete', $this->uri);

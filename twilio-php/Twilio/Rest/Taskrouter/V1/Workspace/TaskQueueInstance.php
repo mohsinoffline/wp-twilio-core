@@ -34,15 +34,16 @@ use Twilio\Version;
  * @property array links
  */
 class TaskQueueInstance extends InstanceResource {
-    protected $_taskQueuesStatistics = null;
-    protected $_taskQueueStatistics = null;
+    protected $_statistics = null;
+    protected $_realTimeStatistics = null;
+    protected $_cumulativeStatistics = null;
 
     /**
      * Initialize the TaskQueueInstance
      * 
      * @param \Twilio\Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
-     * @param string $workspaceSid The workspace_sid
+     * @param string $workspaceSid The ID of the Workspace that owns this TaskQueue
      * @param string $sid The sid
      * @return \Twilio\Rest\Taskrouter\V1\Workspace\TaskQueueInstance 
      */
@@ -68,10 +69,7 @@ class TaskQueueInstance extends InstanceResource {
             'links' => Values::array_get($payload, 'links'),
         );
 
-        $this->solution = array(
-            'workspaceSid' => $workspaceSid,
-            'sid' => $sid ?: $this->properties['sid'],
-        );
+        $this->solution = array('workspaceSid' => $workspaceSid, 'sid' => $sid ?: $this->properties['sid'], );
     }
 
     /**
@@ -98,6 +96,7 @@ class TaskQueueInstance extends InstanceResource {
      * Fetch a TaskQueueInstance
      * 
      * @return TaskQueueInstance Fetched TaskQueueInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         return $this->proxy()->fetch();
@@ -108,38 +107,47 @@ class TaskQueueInstance extends InstanceResource {
      * 
      * @param array|Options $options Optional Arguments
      * @return TaskQueueInstance Updated TaskQueueInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function update($options = array()) {
-        return $this->proxy()->update(
-            $options
-        );
+        return $this->proxy()->update($options);
     }
 
     /**
      * Deletes the TaskQueueInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->proxy()->delete();
     }
 
     /**
-     * Access the taskQueuesStatistics
-     * 
-     * @return \Twilio\Rest\Taskrouter\V1\Workspace\TaskQueue\TaskQueuesStatisticsList 
-     */
-    protected function getTaskQueuesStatistics() {
-        return $this->proxy()->taskQueuesStatistics;
-    }
-
-    /**
-     * Access the taskQueueStatistics
+     * Access the statistics
      * 
      * @return \Twilio\Rest\Taskrouter\V1\Workspace\TaskQueue\TaskQueueStatisticsList 
      */
-    protected function getTaskQueueStatistics() {
-        return $this->proxy()->taskQueueStatistics;
+    protected function getStatistics() {
+        return $this->proxy()->statistics;
+    }
+
+    /**
+     * Access the realTimeStatistics
+     * 
+     * @return \Twilio\Rest\Taskrouter\V1\Workspace\TaskQueue\TaskQueueRealTimeStatisticsList 
+     */
+    protected function getRealTimeStatistics() {
+        return $this->proxy()->realTimeStatistics;
+    }
+
+    /**
+     * Access the cumulativeStatistics
+     * 
+     * @return \Twilio\Rest\Taskrouter\V1\Workspace\TaskQueue\TaskQueueCumulativeStatisticsList 
+     */
+    protected function getCumulativeStatistics() {
+        return $this->proxy()->cumulativeStatistics;
     }
 
     /**

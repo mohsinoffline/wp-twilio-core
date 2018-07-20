@@ -20,15 +20,15 @@ class TaskQueueStatisticsTest extends HolodeckTestCase {
         $this->holodeck->mock(new Response(500, ''));
 
         try {
-            $this->twilio->taskrouter->v1->workspaces("WSaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-                                         ->taskQueues("WQaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-                                         ->taskQueueStatistics()->fetch();
+            $this->twilio->taskrouter->v1->workspaces("WSXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+                                         ->taskQueues("WQXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+                                         ->statistics()->fetch();
         } catch (DeserializeException $e) {}
           catch (TwilioException $e) {}
 
         $this->assertRequest(new Request(
             'get',
-            'https://taskrouter.twilio.com/v1/Workspaces/WSaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/TaskQueues/WQaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/Statistics'
+            'https://taskrouter.twilio.com/v1/Workspaces/WSXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/TaskQueues/WQXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/Statistics'
         ));
     }
 
@@ -92,7 +92,8 @@ class TaskQueueStatisticsTest extends HolodeckTestCase {
                     "tasks_by_status": {
                         "assigned": 0,
                         "pending": 0,
-                        "reserved": 0
+                        "reserved": 0,
+                        "wrapping": 0
                     },
                     "total_available_workers": 0,
                     "total_eligible_workers": 0,
@@ -104,9 +105,9 @@ class TaskQueueStatisticsTest extends HolodeckTestCase {
             '
         ));
 
-        $actual = $this->twilio->taskrouter->v1->workspaces("WSaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-                                               ->taskQueues("WQaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-                                               ->taskQueueStatistics()->fetch();
+        $actual = $this->twilio->taskrouter->v1->workspaces("WSXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+                                               ->taskQueues("WQXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+                                               ->statistics()->fetch();
 
         $this->assertNotNull($actual);
     }

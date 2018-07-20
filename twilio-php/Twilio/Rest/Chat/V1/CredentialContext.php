@@ -27,9 +27,7 @@ class CredentialContext extends InstanceContext {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'sid' => $sid,
-        );
+        $this->solution = array('sid' => $sid, );
 
         $this->uri = '/Credentials/' . rawurlencode($sid) . '';
     }
@@ -38,6 +36,7 @@ class CredentialContext extends InstanceContext {
      * Fetch a CredentialInstance
      * 
      * @return CredentialInstance Fetched CredentialInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         $params = Values::of(array());
@@ -48,11 +47,7 @@ class CredentialContext extends InstanceContext {
             $params
         );
 
-        return new CredentialInstance(
-            $this->version,
-            $payload,
-            $this->solution['sid']
-        );
+        return new CredentialInstance($this->version, $payload, $this->solution['sid']);
     }
 
     /**
@@ -60,6 +55,7 @@ class CredentialContext extends InstanceContext {
      * 
      * @param array|Options $options Optional Arguments
      * @return CredentialInstance Updated CredentialInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function update($options = array()) {
         $options = new Values($options);
@@ -80,17 +76,14 @@ class CredentialContext extends InstanceContext {
             $data
         );
 
-        return new CredentialInstance(
-            $this->version,
-            $payload,
-            $this->solution['sid']
-        );
+        return new CredentialInstance($this->version, $payload, $this->solution['sid']);
     }
 
     /**
      * Deletes the CredentialInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->version->delete('delete', $this->uri);

@@ -19,16 +19,15 @@ class WorkflowList extends ListResource {
      * Construct the WorkflowList
      * 
      * @param Version $version Version that contains the resource
-     * @param string $workspaceSid The workspace_sid
+     * @param string $workspaceSid The ID of the Workspace that contains this
+     *                             Workflow
      * @return \Twilio\Rest\Taskrouter\V1\Workspace\WorkflowList 
      */
     public function __construct(Version $version, $workspaceSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'workspaceSid' => $workspaceSid,
-        );
+        $this->solution = array('workspaceSid' => $workspaceSid, );
 
         $this->uri = '/Workspaces/' . rawurlencode($workspaceSid) . '/Workflows';
     }
@@ -109,12 +108,31 @@ class WorkflowList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of WorkflowInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of WorkflowInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new WorkflowPage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Create a new WorkflowInstance
      * 
-     * @param string $friendlyName The friendly_name
-     * @param string $configuration The configuration
+     * @param string $friendlyName A string representing a human readable name for
+     *                             this Workflow.
+     * @param string $configuration JSON document configuring the rules for this
+     *                              Workflow.
      * @param array|Options $options Optional Arguments
      * @return WorkflowInstance Newly created WorkflowInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($friendlyName, $configuration, $options = array()) {
         $options = new Values($options);
@@ -134,11 +152,7 @@ class WorkflowList extends ListResource {
             $data
         );
 
-        return new WorkflowInstance(
-            $this->version,
-            $payload,
-            $this->solution['workspaceSid']
-        );
+        return new WorkflowInstance($this->version, $payload, $this->solution['workspaceSid']);
     }
 
     /**
@@ -148,11 +162,7 @@ class WorkflowList extends ListResource {
      * @return \Twilio\Rest\Taskrouter\V1\Workspace\WorkflowContext 
      */
     public function getContext($sid) {
-        return new WorkflowContext(
-            $this->version,
-            $this->solution['workspaceSid'],
-            $sid
-        );
+        return new WorkflowContext($this->version, $this->solution['workspaceSid'], $sid);
     }
 
     /**

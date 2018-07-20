@@ -36,9 +36,7 @@ class CallList extends ListResource {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-        );
+        $this->solution = array('accountSid' => $accountSid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/Calls.json';
     }
@@ -46,10 +44,11 @@ class CallList extends ListResource {
     /**
      * Create a new CallInstance
      * 
-     * @param string $to Phone number, SIP address or client identifier to call
+     * @param string $to Phone number, SIP address, or client identifier to call
      * @param string $from Twilio number from which to originate the call
      * @param array|Options $options Optional Arguments
      * @return CallInstance Newly created CallInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($to, $from, $options = array()) {
         $options = new Values($options);
@@ -63,7 +62,7 @@ class CallList extends ListResource {
             'FallbackUrl' => $options['fallbackUrl'],
             'FallbackMethod' => $options['fallbackMethod'],
             'StatusCallback' => $options['statusCallback'],
-            'StatusCallbackEvent' => $options['statusCallbackEvent'],
+            'StatusCallbackEvent' => Serialize::map($options['statusCallbackEvent'], function($e) { return $e; }),
             'StatusCallbackMethod' => $options['statusCallbackMethod'],
             'SendDigits' => $options['sendDigits'],
             'IfMachine' => $options['ifMachine'],
@@ -74,6 +73,11 @@ class CallList extends ListResource {
             'RecordingStatusCallbackMethod' => $options['recordingStatusCallbackMethod'],
             'SipAuthUsername' => $options['sipAuthUsername'],
             'SipAuthPassword' => $options['sipAuthPassword'],
+            'MachineDetection' => $options['machineDetection'],
+            'MachineDetectionTimeout' => $options['machineDetectionTimeout'],
+            'RecordingStatusCallbackEvent' => Serialize::map($options['recordingStatusCallbackEvent'], function($e) { return $e; }),
+            'Trim' => $options['trim'],
+            'CallerId' => $options['callerId'],
         ));
 
         $payload = $this->version->create(
@@ -83,11 +87,7 @@ class CallList extends ListResource {
             $data
         );
 
-        return new CallInstance(
-            $this->version,
-            $payload,
-            $this->solution['accountSid']
-        );
+        return new CallInstance($this->version, $payload, $this->solution['accountSid']);
     }
 
     /**
@@ -175,14 +175,27 @@ class CallList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of CallInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of CallInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new CallPage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Access the feedbackSummaries
      */
     protected function getFeedbackSummaries() {
         if (!$this->_feedbackSummaries) {
-            $this->_feedbackSummaries = new FeedbackSummaryList(
-                $this->version,
-                $this->solution['accountSid']
-            );
+            $this->_feedbackSummaries = new FeedbackSummaryList($this->version, $this->solution['accountSid']);
         }
 
         return $this->_feedbackSummaries;
@@ -195,11 +208,7 @@ class CallList extends ListResource {
      * @return \Twilio\Rest\Api\V2010\Account\CallContext 
      */
     public function getContext($sid) {
-        return new CallContext(
-            $this->version,
-            $this->solution['accountSid'],
-            $sid
-        );
+        return new CallContext($this->version, $this->solution['accountSid'], $sid);
     }
 
     /**

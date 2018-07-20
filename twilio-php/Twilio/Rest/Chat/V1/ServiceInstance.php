@@ -29,6 +29,7 @@ use Twilio\Version;
  * @property boolean reachabilityEnabled
  * @property integer typingIndicatorTimeout
  * @property integer consumptionReportInterval
+ * @property array limits
  * @property array webhooks
  * @property string preWebhookUrl
  * @property string postWebhookUrl
@@ -68,6 +69,7 @@ class ServiceInstance extends InstanceResource {
             'reachabilityEnabled' => Values::array_get($payload, 'reachability_enabled'),
             'typingIndicatorTimeout' => Values::array_get($payload, 'typing_indicator_timeout'),
             'consumptionReportInterval' => Values::array_get($payload, 'consumption_report_interval'),
+            'limits' => Values::array_get($payload, 'limits'),
             'webhooks' => Values::array_get($payload, 'webhooks'),
             'preWebhookUrl' => Values::array_get($payload, 'pre_webhook_url'),
             'postWebhookUrl' => Values::array_get($payload, 'post_webhook_url'),
@@ -78,9 +80,7 @@ class ServiceInstance extends InstanceResource {
             'links' => Values::array_get($payload, 'links'),
         );
 
-        $this->solution = array(
-            'sid' => $sid ?: $this->properties['sid'],
-        );
+        $this->solution = array('sid' => $sid ?: $this->properties['sid'], );
     }
 
     /**
@@ -91,10 +91,7 @@ class ServiceInstance extends InstanceResource {
      */
     protected function proxy() {
         if (!$this->context) {
-            $this->context = new ServiceContext(
-                $this->version,
-                $this->solution['sid']
-            );
+            $this->context = new ServiceContext($this->version, $this->solution['sid']);
         }
 
         return $this->context;
@@ -104,6 +101,7 @@ class ServiceInstance extends InstanceResource {
      * Fetch a ServiceInstance
      * 
      * @return ServiceInstance Fetched ServiceInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         return $this->proxy()->fetch();
@@ -113,6 +111,7 @@ class ServiceInstance extends InstanceResource {
      * Deletes the ServiceInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->proxy()->delete();
@@ -123,11 +122,10 @@ class ServiceInstance extends InstanceResource {
      * 
      * @param array|Options $options Optional Arguments
      * @return ServiceInstance Updated ServiceInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function update($options = array()) {
-        return $this->proxy()->update(
-            $options
-        );
+        return $this->proxy()->update($options);
     }
 
     /**

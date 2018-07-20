@@ -20,16 +20,14 @@ class TaskList extends ListResource {
      * Construct the TaskList
      * 
      * @param Version $version Version that contains the resource
-     * @param string $workspaceSid The workspace_sid
+     * @param string $workspaceSid The ID of the Workspace that holds this Task
      * @return \Twilio\Rest\Taskrouter\V1\Workspace\TaskList 
      */
     public function __construct(Version $version, $workspaceSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'workspaceSid' => $workspaceSid,
-        );
+        $this->solution = array('workspaceSid' => $workspaceSid, );
 
         $this->uri = '/Workspaces/' . rawurlencode($workspaceSid) . '/Tasks';
     }
@@ -95,7 +93,7 @@ class TaskList extends ListResource {
         $options = new Values($options);
         $params = Values::of(array(
             'Priority' => $options['priority'],
-            'AssignmentStatus' => $options['assignmentStatus'],
+            'AssignmentStatus' => Serialize::map($options['assignmentStatus'], function($e) { return $e; }),
             'WorkflowSid' => $options['workflowSid'],
             'WorkflowName' => $options['workflowName'],
             'TaskQueueSid' => $options['taskQueueSid'],
@@ -118,10 +116,27 @@ class TaskList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of TaskInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of TaskInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new TaskPage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Create a new TaskInstance
      * 
      * @param array|Options $options Optional Arguments
      * @return TaskInstance Newly created TaskInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($options = array()) {
         $options = new Values($options);
@@ -141,11 +156,7 @@ class TaskList extends ListResource {
             $data
         );
 
-        return new TaskInstance(
-            $this->version,
-            $payload,
-            $this->solution['workspaceSid']
-        );
+        return new TaskInstance($this->version, $payload, $this->solution['workspaceSid']);
     }
 
     /**
@@ -155,11 +166,7 @@ class TaskList extends ListResource {
      * @return \Twilio\Rest\Taskrouter\V1\Workspace\TaskContext 
      */
     public function getContext($sid) {
-        return new TaskContext(
-            $this->version,
-            $this->solution['workspaceSid'],
-            $sid
-        );
+        return new TaskContext($this->version, $this->solution['workspaceSid'], $sid);
     }
 
     /**

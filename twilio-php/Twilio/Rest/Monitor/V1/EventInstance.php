@@ -37,7 +37,7 @@ class EventInstance extends InstanceResource {
      * 
      * @param \Twilio\Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
-     * @param string $sid The sid
+     * @param string $sid A 34 character string that uniquely identifies this event.
      * @return \Twilio\Rest\Monitor\V1\EventInstance 
      */
     public function __construct(Version $version, array $payload, $sid = null) {
@@ -61,9 +61,7 @@ class EventInstance extends InstanceResource {
             'links' => Values::array_get($payload, 'links'),
         );
 
-        $this->solution = array(
-            'sid' => $sid ?: $this->properties['sid'],
-        );
+        $this->solution = array('sid' => $sid ?: $this->properties['sid'], );
     }
 
     /**
@@ -74,10 +72,7 @@ class EventInstance extends InstanceResource {
      */
     protected function proxy() {
         if (!$this->context) {
-            $this->context = new EventContext(
-                $this->version,
-                $this->solution['sid']
-            );
+            $this->context = new EventContext($this->version, $this->solution['sid']);
         }
 
         return $this->context;
@@ -87,6 +82,7 @@ class EventInstance extends InstanceResource {
      * Fetch a EventInstance
      * 
      * @return EventInstance Fetched EventInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         return $this->proxy()->fetch();

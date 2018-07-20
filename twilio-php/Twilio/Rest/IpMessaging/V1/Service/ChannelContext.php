@@ -43,10 +43,7 @@ class ChannelContext extends InstanceContext {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'serviceSid' => $serviceSid,
-            'sid' => $sid,
-        );
+        $this->solution = array('serviceSid' => $serviceSid, 'sid' => $sid, );
 
         $this->uri = '/Services/' . rawurlencode($serviceSid) . '/Channels/' . rawurlencode($sid) . '';
     }
@@ -55,6 +52,7 @@ class ChannelContext extends InstanceContext {
      * Fetch a ChannelInstance
      * 
      * @return ChannelInstance Fetched ChannelInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         $params = Values::of(array());
@@ -77,6 +75,7 @@ class ChannelContext extends InstanceContext {
      * Deletes the ChannelInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->version->delete('delete', $this->uri);
@@ -87,6 +86,7 @@ class ChannelContext extends InstanceContext {
      * 
      * @param array|Options $options Optional Arguments
      * @return ChannelInstance Updated ChannelInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function update($options = array()) {
         $options = new Values($options);

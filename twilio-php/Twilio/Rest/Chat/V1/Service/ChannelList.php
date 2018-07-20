@@ -11,6 +11,7 @@ namespace Twilio\Rest\Chat\V1\Service;
 
 use Twilio\ListResource;
 use Twilio\Options;
+use Twilio\Serialize;
 use Twilio\Values;
 use Twilio\Version;
 
@@ -19,16 +20,15 @@ class ChannelList extends ListResource {
      * Construct the ChannelList
      * 
      * @param Version $version Version that contains the resource
-     * @param string $serviceSid The service_sid
+     * @param string $serviceSid The unique id of the [Service][service] this
+     *                           channel belongs to.
      * @return \Twilio\Rest\Chat\V1\Service\ChannelList 
      */
     public function __construct(Version $version, $serviceSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'serviceSid' => $serviceSid,
-        );
+        $this->solution = array('serviceSid' => $serviceSid, );
 
         $this->uri = '/Services/' . rawurlencode($serviceSid) . '/Channels';
     }
@@ -38,6 +38,7 @@ class ChannelList extends ListResource {
      * 
      * @param array|Options $options Optional Arguments
      * @return ChannelInstance Newly created ChannelInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($options = array()) {
         $options = new Values($options);
@@ -56,11 +57,7 @@ class ChannelList extends ListResource {
             $data
         );
 
-        return new ChannelInstance(
-            $this->version,
-            $payload,
-            $this->solution['serviceSid']
-        );
+        return new ChannelInstance($this->version, $payload, $this->solution['serviceSid']);
     }
 
     /**
@@ -123,7 +120,7 @@ class ChannelList extends ListResource {
     public function page($options = array(), $pageSize = Values::NONE, $pageToken = Values::NONE, $pageNumber = Values::NONE) {
         $options = new Values($options);
         $params = Values::of(array(
-            'Type' => $options['type'],
+            'Type' => Serialize::map($options['type'], function($e) { return $e; }),
             'PageToken' => $pageToken,
             'Page' => $pageNumber,
             'PageSize' => $pageSize,
@@ -139,17 +136,29 @@ class ChannelList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of ChannelInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of ChannelInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new ChannelPage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Constructs a ChannelContext
      * 
      * @param string $sid The sid
      * @return \Twilio\Rest\Chat\V1\Service\ChannelContext 
      */
     public function getContext($sid) {
-        return new ChannelContext(
-            $this->version,
-            $this->solution['serviceSid'],
-            $sid
-        );
+        return new ChannelContext($this->version, $this->solution['serviceSid'], $sid);
     }
 
     /**

@@ -42,7 +42,8 @@ class ChannelInstance extends InstanceResource {
      * 
      * @param \Twilio\Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
-     * @param string $serviceSid The service_sid
+     * @param string $serviceSid The unique id of the [Service][service] this
+     *                           channel belongs to.
      * @param string $sid The sid
      * @return \Twilio\Rest\Chat\V1\Service\ChannelInstance 
      */
@@ -67,10 +68,7 @@ class ChannelInstance extends InstanceResource {
             'links' => Values::array_get($payload, 'links'),
         );
 
-        $this->solution = array(
-            'serviceSid' => $serviceSid,
-            'sid' => $sid ?: $this->properties['sid'],
-        );
+        $this->solution = array('serviceSid' => $serviceSid, 'sid' => $sid ?: $this->properties['sid'], );
     }
 
     /**
@@ -96,6 +94,7 @@ class ChannelInstance extends InstanceResource {
      * Fetch a ChannelInstance
      * 
      * @return ChannelInstance Fetched ChannelInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         return $this->proxy()->fetch();
@@ -105,6 +104,7 @@ class ChannelInstance extends InstanceResource {
      * Deletes the ChannelInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->proxy()->delete();
@@ -115,11 +115,10 @@ class ChannelInstance extends InstanceResource {
      * 
      * @param array|Options $options Optional Arguments
      * @return ChannelInstance Updated ChannelInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function update($options = array()) {
-        return $this->proxy()->update(
-            $options
-        );
+        return $this->proxy()->update($options);
     }
 
     /**

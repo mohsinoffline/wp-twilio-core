@@ -38,7 +38,7 @@ class EventInstance extends InstanceResource {
      * 
      * @param \Twilio\Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
-     * @param string $workspaceSid The sid
+     * @param string $workspaceSid The unique ID of the Workspace
      * @param string $sid The sid
      * @return \Twilio\Rest\Taskrouter\V1\Workspace\EventInstance 
      */
@@ -64,10 +64,7 @@ class EventInstance extends InstanceResource {
             'url' => Values::array_get($payload, 'url'),
         );
 
-        $this->solution = array(
-            'workspaceSid' => $workspaceSid,
-            'sid' => $sid ?: $this->properties['sid'],
-        );
+        $this->solution = array('workspaceSid' => $workspaceSid, 'sid' => $sid ?: $this->properties['sid'], );
     }
 
     /**
@@ -93,6 +90,7 @@ class EventInstance extends InstanceResource {
      * Fetch a EventInstance
      * 
      * @return EventInstance Fetched EventInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         return $this->proxy()->fetch();

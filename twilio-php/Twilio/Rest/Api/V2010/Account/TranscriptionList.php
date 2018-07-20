@@ -25,9 +25,7 @@ class TranscriptionList extends ListResource {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-        );
+        $this->solution = array('accountSid' => $accountSid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/Transcriptions.json';
     }
@@ -103,17 +101,29 @@ class TranscriptionList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of TranscriptionInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of TranscriptionInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new TranscriptionPage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Constructs a TranscriptionContext
      * 
-     * @param string $sid Fetch by unique transcription Sid
+     * @param string $sid Fetch by unique transcription SID
      * @return \Twilio\Rest\Api\V2010\Account\TranscriptionContext 
      */
     public function getContext($sid) {
-        return new TranscriptionContext(
-            $this->version,
-            $this->solution['accountSid'],
-            $sid
-        );
+        return new TranscriptionContext($this->version, $this->solution['accountSid'], $sid);
     }
 
     /**

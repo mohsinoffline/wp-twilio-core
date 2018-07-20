@@ -25,9 +25,7 @@ class CountryContext extends InstanceContext {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'isoCountry' => $isoCountry,
-        );
+        $this->solution = array('isoCountry' => $isoCountry, );
 
         $this->uri = '/PhoneNumbers/Countries/' . rawurlencode($isoCountry) . '';
     }
@@ -36,6 +34,7 @@ class CountryContext extends InstanceContext {
      * Fetch a CountryInstance
      * 
      * @return CountryInstance Fetched CountryInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         $params = Values::of(array());
@@ -46,11 +45,7 @@ class CountryContext extends InstanceContext {
             $params
         );
 
-        return new CountryInstance(
-            $this->version,
-            $payload,
-            $this->solution['isoCountry']
-        );
+        return new CountryInstance($this->version, $payload, $this->solution['isoCountry']);
     }
 
     /**

@@ -27,10 +27,7 @@ class TriggerContext extends InstanceContext {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-            'sid' => $sid,
-        );
+        $this->solution = array('accountSid' => $accountSid, 'sid' => $sid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/Usage/Triggers/' . rawurlencode($sid) . '.json';
     }
@@ -39,6 +36,7 @@ class TriggerContext extends InstanceContext {
      * Fetch a TriggerInstance
      * 
      * @return TriggerInstance Fetched TriggerInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         $params = Values::of(array());
@@ -62,6 +60,7 @@ class TriggerContext extends InstanceContext {
      * 
      * @param array|Options $options Optional Arguments
      * @return TriggerInstance Updated TriggerInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function update($options = array()) {
         $options = new Values($options);
@@ -91,6 +90,7 @@ class TriggerContext extends InstanceContext {
      * Deletes the TriggerInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->version->delete('delete', $this->uri);

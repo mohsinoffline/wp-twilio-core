@@ -25,9 +25,7 @@ class AuthorizedConnectAppList extends ListResource {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-        );
+        $this->solution = array('accountSid' => $accountSid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/AuthorizedConnectApps.json';
     }
@@ -98,6 +96,23 @@ class AuthorizedConnectAppList extends ListResource {
             'GET',
             $this->uri,
             $params
+        );
+
+        return new AuthorizedConnectAppPage($this->version, $response, $this->solution);
+    }
+
+    /**
+     * Retrieve a specific page of AuthorizedConnectAppInstance records from the
+     * API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of AuthorizedConnectAppInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
         );
 
         return new AuthorizedConnectAppPage($this->version, $response, $this->solution);

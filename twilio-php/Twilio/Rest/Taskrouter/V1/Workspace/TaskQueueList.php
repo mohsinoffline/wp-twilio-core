@@ -9,26 +9,31 @@
 
 namespace Twilio\Rest\Taskrouter\V1\Workspace;
 
+use Twilio\Exceptions\TwilioException;
 use Twilio\ListResource;
 use Twilio\Options;
+use Twilio\Rest\Taskrouter\V1\Workspace\TaskQueue\TaskQueuesStatisticsList;
 use Twilio\Values;
 use Twilio\Version;
 
+/**
+ * @property \Twilio\Rest\Taskrouter\V1\Workspace\TaskQueue\TaskQueuesStatisticsList statistics
+ */
 class TaskQueueList extends ListResource {
+    protected $_statistics = null;
+
     /**
      * Construct the TaskQueueList
      * 
      * @param Version $version Version that contains the resource
-     * @param string $workspaceSid The workspace_sid
+     * @param string $workspaceSid The ID of the Workspace that owns this TaskQueue
      * @return \Twilio\Rest\Taskrouter\V1\Workspace\TaskQueueList 
      */
     public function __construct(Version $version, $workspaceSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'workspaceSid' => $workspaceSid,
-        );
+        $this->solution = array('workspaceSid' => $workspaceSid, );
 
         $this->uri = '/Workspaces/' . rawurlencode($workspaceSid) . '/TaskQueues';
     }
@@ -111,13 +116,32 @@ class TaskQueueList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of TaskQueueInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of TaskQueueInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new TaskQueuePage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Create a new TaskQueueInstance
      * 
-     * @param string $friendlyName The friendly_name
-     * @param string $reservationActivitySid The reservation_activity_sid
-     * @param string $assignmentActivitySid The assignment_activity_sid
+     * @param string $friendlyName Human readable description of this TaskQueue
+     * @param string $reservationActivitySid ActivitySID to assign workers once a
+     *                                       task is reserved for them
+     * @param string $assignmentActivitySid ActivitySID to assign workers once a
+     *                                      task is assigned for them
      * @param array|Options $options Optional Arguments
      * @return TaskQueueInstance Newly created TaskQueueInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($friendlyName, $reservationActivitySid, $assignmentActivitySid, $options = array()) {
         $options = new Values($options);
@@ -138,11 +162,18 @@ class TaskQueueList extends ListResource {
             $data
         );
 
-        return new TaskQueueInstance(
-            $this->version,
-            $payload,
-            $this->solution['workspaceSid']
-        );
+        return new TaskQueueInstance($this->version, $payload, $this->solution['workspaceSid']);
+    }
+
+    /**
+     * Access the statistics
+     */
+    protected function getStatistics() {
+        if (!$this->_statistics) {
+            $this->_statistics = new TaskQueuesStatisticsList($this->version, $this->solution['workspaceSid']);
+        }
+
+        return $this->_statistics;
     }
 
     /**
@@ -152,11 +183,40 @@ class TaskQueueList extends ListResource {
      * @return \Twilio\Rest\Taskrouter\V1\Workspace\TaskQueueContext 
      */
     public function getContext($sid) {
-        return new TaskQueueContext(
-            $this->version,
-            $this->solution['workspaceSid'],
-            $sid
-        );
+        return new TaskQueueContext($this->version, $this->solution['workspaceSid'], $sid);
+    }
+
+    /**
+     * Magic getter to lazy load subresources
+     * 
+     * @param string $name Subresource to return
+     * @return \Twilio\ListResource The requested subresource
+     * @throws \Twilio\Exceptions\TwilioException For unknown subresources
+     */
+    public function __get($name) {
+        if (property_exists($this, '_' . $name)) {
+            $method = 'get' . ucfirst($name);
+            return $this->$method();
+        }
+
+        throw new TwilioException('Unknown subresource ' . $name);
+    }
+
+    /**
+     * Magic caller to get resource contexts
+     * 
+     * @param string $name Resource to return
+     * @param array $arguments Context parameters
+     * @return \Twilio\InstanceContext The requested resource context
+     * @throws \Twilio\Exceptions\TwilioException For unknown resource
+     */
+    public function __call($name, $arguments) {
+        $property = $this->$name;
+        if (method_exists($property, 'getContext')) {
+            return call_user_func_array(array($property, 'getContext'), $arguments);
+        }
+
+        throw new TwilioException('Resource does not have a context');
     }
 
     /**

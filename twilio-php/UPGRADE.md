@@ -1,7 +1,41 @@
 # Upgrade Guide
 
-_After `5.1.1` all `MINOR` and `MAJOR` version bumps will have upgrade notes 
+_After `5.1.1` all `MINOR` and `MAJOR` version bumps will have upgrade notes
 posted here._
+
+[2017-09-28] 5.1x.x to 5.15.x
+---------------------------
+
+### CHANGED - `Body` parameter on Chat `Message` creation is no longer required.
+
+#### Rationale
+This was changed to add support for sending media in Chat messages, users can now either provide a `body` or a `media_sid`.
+
+#### 5.1x.x
+```php
+<?php
+
+use Twilio\Rest\Client;
+
+$client = new Client();
+$client->chat->v2->service('IS123')->channel('CH123')->message->create("this is the body");
+```
+
+#### 5.15.x
+```php
+<?php
+
+use Twilio\Rest\Client;
+
+$client = new Client();
+$client->chat->v2->service('IS123')->channel('CH123')->message->create(array("body"=>"this is the body"));
+```
+
+
+[2017-05-22] 5.9.x to 5.10.x
+---------------------------
+
+### CHANGED - Rename room `Recordings` resource to `RoomRecordings` to avoid class name conflict (backwards incompatible).
 
 [2017-03-03] 5.5.x to 5.6.x
 ---------------------------
@@ -362,7 +396,7 @@ provided.
 ### CHANGED - IP Messaging / Chat Roles Update
   - `RoleInstance::update(string $friendlyName, string[] $permission)` to `RoleInstance::update(string[] $permission)`
   - `RoleContext::update(string $friendlyName, string[] $permission)` to `RoleContext::update(string[] $permission)`
-  
+
 #### 5.3.x
 ```php
 <?php
@@ -390,7 +424,7 @@ Role Updates do not support updating the friendlyName.
 
 ### CHANGED - Page Load Exception
   - `Page::processResponse(Response $response) throws DeserializeException` to `Page::processResponse(Response $response) throws RestException`
-  
+
 #### 5.3.x
 ```php
 <?php
@@ -442,7 +476,7 @@ try {
 
 #### Rationale
 Exceptions were improved to include more information about what went wrong.  The
-`Page` class that is used by `read` and `stream` was missed, this bring `Page` 
+`Page` class that is used by `read` and `stream` was missed, this bring `Page`
 up to parity with other exceptions.
 
 The Exception class was changed to reflect that the failure is not in processing

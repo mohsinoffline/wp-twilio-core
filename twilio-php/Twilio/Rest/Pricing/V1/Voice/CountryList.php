@@ -100,16 +100,29 @@ class CountryList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of CountryInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of CountryInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new CountryPage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Constructs a CountryContext
      * 
      * @param string $isoCountry The iso_country
      * @return \Twilio\Rest\Pricing\V1\Voice\CountryContext 
      */
     public function getContext($isoCountry) {
-        return new CountryContext(
-            $this->version,
-            $isoCountry
-        );
+        return new CountryContext($this->version, $isoCountry);
     }
 
     /**

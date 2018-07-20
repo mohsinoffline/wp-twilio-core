@@ -18,16 +18,14 @@ class EventContext extends InstanceContext {
      * Initialize the EventContext
      * 
      * @param \Twilio\Version $version Version that contains the resource
-     * @param string $sid The sid
+     * @param string $sid A 34 character string that uniquely identifies this event.
      * @return \Twilio\Rest\Monitor\V1\EventContext 
      */
     public function __construct(Version $version, $sid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'sid' => $sid,
-        );
+        $this->solution = array('sid' => $sid, );
 
         $this->uri = '/Events/' . rawurlencode($sid) . '';
     }
@@ -36,6 +34,7 @@ class EventContext extends InstanceContext {
      * Fetch a EventInstance
      * 
      * @return EventInstance Fetched EventInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         $params = Values::of(array());
@@ -46,11 +45,7 @@ class EventContext extends InstanceContext {
             $params
         );
 
-        return new EventInstance(
-            $this->version,
-            $payload,
-            $this->solution['sid']
-        );
+        return new EventInstance($this->version, $payload, $this->solution['sid']);
     }
 
     /**

@@ -27,9 +27,7 @@ class NewSigningKeyList extends ListResource {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-        );
+        $this->solution = array('accountSid' => $accountSid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/SigningKeys.json';
     }
@@ -39,13 +37,12 @@ class NewSigningKeyList extends ListResource {
      * 
      * @param array|Options $options Optional Arguments
      * @return NewSigningKeyInstance Newly created NewSigningKeyInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($options = array()) {
         $options = new Values($options);
 
-        $data = Values::of(array(
-            'FriendlyName' => $options['friendlyName'],
-        ));
+        $data = Values::of(array('FriendlyName' => $options['friendlyName'], ));
 
         $payload = $this->version->create(
             'POST',
@@ -54,11 +51,7 @@ class NewSigningKeyList extends ListResource {
             $data
         );
 
-        return new NewSigningKeyInstance(
-            $this->version,
-            $payload,
-            $this->solution['accountSid']
-        );
+        return new NewSigningKeyInstance($this->version, $payload, $this->solution['accountSid']);
     }
 
     /**

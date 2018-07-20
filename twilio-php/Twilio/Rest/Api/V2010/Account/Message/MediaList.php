@@ -28,10 +28,7 @@ class MediaList extends ListResource {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-            'messageSid' => $messageSid,
-        );
+        $this->solution = array('accountSid' => $accountSid, 'messageSid' => $messageSid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/Messages/' . rawurlencode($messageSid) . '/Media.json';
     }
@@ -108,6 +105,22 @@ class MediaList extends ListResource {
             'GET',
             $this->uri,
             $params
+        );
+
+        return new MediaPage($this->version, $response, $this->solution);
+    }
+
+    /**
+     * Retrieve a specific page of MediaInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of MediaInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
         );
 
         return new MediaPage($this->version, $response, $this->solution);

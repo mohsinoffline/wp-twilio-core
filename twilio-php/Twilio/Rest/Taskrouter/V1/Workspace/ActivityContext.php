@@ -27,10 +27,7 @@ class ActivityContext extends InstanceContext {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'workspaceSid' => $workspaceSid,
-            'sid' => $sid,
-        );
+        $this->solution = array('workspaceSid' => $workspaceSid, 'sid' => $sid, );
 
         $this->uri = '/Workspaces/' . rawurlencode($workspaceSid) . '/Activities/' . rawurlencode($sid) . '';
     }
@@ -39,6 +36,7 @@ class ActivityContext extends InstanceContext {
      * Fetch a ActivityInstance
      * 
      * @return ActivityInstance Fetched ActivityInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         $params = Values::of(array());
@@ -62,13 +60,12 @@ class ActivityContext extends InstanceContext {
      * 
      * @param array|Options $options Optional Arguments
      * @return ActivityInstance Updated ActivityInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function update($options = array()) {
         $options = new Values($options);
 
-        $data = Values::of(array(
-            'FriendlyName' => $options['friendlyName'],
-        ));
+        $data = Values::of(array('FriendlyName' => $options['friendlyName'], ));
 
         $payload = $this->version->update(
             'POST',
@@ -89,6 +86,7 @@ class ActivityContext extends InstanceContext {
      * Deletes the ActivityInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->version->delete('delete', $this->uri);

@@ -26,9 +26,7 @@ class CredentialListList extends ListResource {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-        );
+        $this->solution = array('accountSid' => $accountSid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/SIP/CredentialLists.json';
     }
@@ -104,15 +102,30 @@ class CredentialListList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of CredentialListInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of CredentialListInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new CredentialListPage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Create a new CredentialListInstance
      * 
-     * @param string $friendlyName The friendly_name
+     * @param string $friendlyName Human readable descriptive text
      * @return CredentialListInstance Newly created CredentialListInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($friendlyName) {
-        $data = Values::of(array(
-            'FriendlyName' => $friendlyName,
-        ));
+        $data = Values::of(array('FriendlyName' => $friendlyName, ));
 
         $payload = $this->version->create(
             'POST',
@@ -121,25 +134,17 @@ class CredentialListList extends ListResource {
             $data
         );
 
-        return new CredentialListInstance(
-            $this->version,
-            $payload,
-            $this->solution['accountSid']
-        );
+        return new CredentialListInstance($this->version, $payload, $this->solution['accountSid']);
     }
 
     /**
      * Constructs a CredentialListContext
      * 
-     * @param string $sid Fetch by unique credential Sid
+     * @param string $sid Fetch by unique credential list Sid
      * @return \Twilio\Rest\Api\V2010\Account\Sip\CredentialListContext 
      */
     public function getContext($sid) {
-        return new CredentialListContext(
-            $this->version,
-            $this->solution['accountSid'],
-            $sid
-        );
+        return new CredentialListContext($this->version, $this->solution['accountSid'], $sid);
     }
 
     /**

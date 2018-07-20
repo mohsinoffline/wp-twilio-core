@@ -27,7 +27,7 @@ class TaskQueuesStatisticsInstance extends InstanceResource {
      * 
      * @param \Twilio\Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
-     * @param string $workspaceSid The workspace_sid
+     * @param string $workspaceSid The ID of the Workspace that owns this TaskQueue
      * @return \Twilio\Rest\Taskrouter\V1\Workspace\TaskQueue\TaskQueuesStatisticsInstance 
      */
     public function __construct(Version $version, array $payload, $workspaceSid) {
@@ -42,9 +42,7 @@ class TaskQueuesStatisticsInstance extends InstanceResource {
             'workspaceSid' => Values::array_get($payload, 'workspace_sid'),
         );
 
-        $this->solution = array(
-            'workspaceSid' => $workspaceSid,
-        );
+        $this->solution = array('workspaceSid' => $workspaceSid, );
     }
 
     /**

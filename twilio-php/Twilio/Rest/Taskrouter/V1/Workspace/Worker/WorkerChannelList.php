@@ -18,18 +18,17 @@ class WorkerChannelList extends ListResource {
      * Construct the WorkerChannelList
      * 
      * @param Version $version Version that contains the resource
-     * @param string $workspaceSid The workspace_sid
-     * @param string $workerSid The worker_sid
+     * @param string $workspaceSid The unique ID of the Workspace that this
+     *                             WorkerChannel belongs to.
+     * @param string $workerSid The unique ID of the Worker that this WorkerChannel
+     *                          belongs to.
      * @return \Twilio\Rest\Taskrouter\V1\Workspace\Worker\WorkerChannelList 
      */
     public function __construct(Version $version, $workspaceSid, $workerSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'workspaceSid' => $workspaceSid,
-            'workerSid' => $workerSid,
-        );
+        $this->solution = array('workspaceSid' => $workspaceSid, 'workerSid' => $workerSid, );
 
         $this->uri = '/Workspaces/' . rawurlencode($workspaceSid) . '/Workers/' . rawurlencode($workerSid) . '/Channels';
     }
@@ -99,6 +98,22 @@ class WorkerChannelList extends ListResource {
             'GET',
             $this->uri,
             $params
+        );
+
+        return new WorkerChannelPage($this->version, $response, $this->solution);
+    }
+
+    /**
+     * Retrieve a specific page of WorkerChannelInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of WorkerChannelInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
         );
 
         return new WorkerChannelPage($this->version, $response, $this->solution);

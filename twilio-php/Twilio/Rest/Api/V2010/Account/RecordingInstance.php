@@ -19,8 +19,10 @@ use Twilio\Version;
  * @property string accountSid
  * @property string apiVersion
  * @property string callSid
+ * @property string conferenceSid
  * @property \DateTime dateCreated
  * @property \DateTime dateUpdated
+ * @property \DateTime startTime
  * @property string duration
  * @property string sid
  * @property string price
@@ -28,7 +30,10 @@ use Twilio\Version;
  * @property string status
  * @property integer channels
  * @property string source
+ * @property integer errorCode
  * @property string uri
+ * @property array encryptionDetails
+ * @property array subresourceUris
  */
 class RecordingInstance extends InstanceResource {
     protected $_transcriptions = null;
@@ -39,8 +44,8 @@ class RecordingInstance extends InstanceResource {
      * 
      * @param \Twilio\Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
-     * @param string $accountSid The unique sid that identifies this account
-     * @param string $sid Fetch by unique recording Sid
+     * @param string $accountSid The unique SID that identifies this account
+     * @param string $sid Fetch by unique recording SID
      * @return \Twilio\Rest\Api\V2010\Account\RecordingInstance 
      */
     public function __construct(Version $version, array $payload, $accountSid, $sid = null) {
@@ -51,8 +56,10 @@ class RecordingInstance extends InstanceResource {
             'accountSid' => Values::array_get($payload, 'account_sid'),
             'apiVersion' => Values::array_get($payload, 'api_version'),
             'callSid' => Values::array_get($payload, 'call_sid'),
+            'conferenceSid' => Values::array_get($payload, 'conference_sid'),
             'dateCreated' => Deserialize::dateTime(Values::array_get($payload, 'date_created')),
             'dateUpdated' => Deserialize::dateTime(Values::array_get($payload, 'date_updated')),
+            'startTime' => Deserialize::dateTime(Values::array_get($payload, 'start_time')),
             'duration' => Values::array_get($payload, 'duration'),
             'sid' => Values::array_get($payload, 'sid'),
             'price' => Values::array_get($payload, 'price'),
@@ -60,13 +67,13 @@ class RecordingInstance extends InstanceResource {
             'status' => Values::array_get($payload, 'status'),
             'channels' => Values::array_get($payload, 'channels'),
             'source' => Values::array_get($payload, 'source'),
+            'errorCode' => Values::array_get($payload, 'error_code'),
             'uri' => Values::array_get($payload, 'uri'),
+            'encryptionDetails' => Values::array_get($payload, 'encryption_details'),
+            'subresourceUris' => Values::array_get($payload, 'subresource_uris'),
         );
 
-        $this->solution = array(
-            'accountSid' => $accountSid,
-            'sid' => $sid ?: $this->properties['sid'],
-        );
+        $this->solution = array('accountSid' => $accountSid, 'sid' => $sid ?: $this->properties['sid'], );
     }
 
     /**
@@ -92,6 +99,7 @@ class RecordingInstance extends InstanceResource {
      * Fetch a RecordingInstance
      * 
      * @return RecordingInstance Fetched RecordingInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         return $this->proxy()->fetch();
@@ -101,6 +109,7 @@ class RecordingInstance extends InstanceResource {
      * Deletes the RecordingInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->proxy()->delete();

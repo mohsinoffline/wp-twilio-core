@@ -11,6 +11,7 @@ namespace Twilio\Rest\IpMessaging\V1\Service\Channel;
 
 use Twilio\ListResource;
 use Twilio\Options;
+use Twilio\Serialize;
 use Twilio\Values;
 use Twilio\Version;
 
@@ -19,18 +20,16 @@ class InviteList extends ListResource {
      * Construct the InviteList
      * 
      * @param Version $version Version that contains the resource
-     * @param string $serviceSid The service_sid
-     * @param string $channelSid The channel_sid
+     * @param string $serviceSid The unique id of the Service this member belongs
+     *                           to.
+     * @param string $channelSid The unique id of the Channel for this member.
      * @return \Twilio\Rest\IpMessaging\V1\Service\Channel\InviteList 
      */
     public function __construct(Version $version, $serviceSid, $channelSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'serviceSid' => $serviceSid,
-            'channelSid' => $channelSid,
-        );
+        $this->solution = array('serviceSid' => $serviceSid, 'channelSid' => $channelSid, );
 
         $this->uri = '/Services/' . rawurlencode($serviceSid) . '/Channels/' . rawurlencode($channelSid) . '/Invites';
     }
@@ -38,17 +37,16 @@ class InviteList extends ListResource {
     /**
      * Create a new InviteInstance
      * 
-     * @param string $identity The identity
+     * @param string $identity A unique string identifier for this User in this
+     *                         Service.
      * @param array|Options $options Optional Arguments
      * @return InviteInstance Newly created InviteInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($identity, $options = array()) {
         $options = new Values($options);
 
-        $data = Values::of(array(
-            'Identity' => $identity,
-            'RoleSid' => $options['roleSid'],
-        ));
+        $data = Values::of(array('Identity' => $identity, 'RoleSid' => $options['roleSid'], ));
 
         $payload = $this->version->create(
             'POST',
@@ -125,7 +123,7 @@ class InviteList extends ListResource {
     public function page($options = array(), $pageSize = Values::NONE, $pageToken = Values::NONE, $pageNumber = Values::NONE) {
         $options = new Values($options);
         $params = Values::of(array(
-            'Identity' => $options['identity'],
+            'Identity' => Serialize::map($options['identity'], function($e) { return $e; }),
             'PageToken' => $pageToken,
             'Page' => $pageNumber,
             'PageSize' => $pageSize,
@@ -135,6 +133,22 @@ class InviteList extends ListResource {
             'GET',
             $this->uri,
             $params
+        );
+
+        return new InvitePage($this->version, $response, $this->solution);
+    }
+
+    /**
+     * Retrieve a specific page of InviteInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of InviteInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
         );
 
         return new InvitePage($this->version, $response, $this->solution);

@@ -43,9 +43,7 @@ class ServiceContext extends InstanceContext {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'sid' => $sid,
-        );
+        $this->solution = array('sid' => $sid, );
 
         $this->uri = '/Services/' . rawurlencode($sid) . '';
     }
@@ -54,6 +52,7 @@ class ServiceContext extends InstanceContext {
      * Fetch a ServiceInstance
      * 
      * @return ServiceInstance Fetched ServiceInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         $params = Values::of(array());
@@ -64,17 +63,14 @@ class ServiceContext extends InstanceContext {
             $params
         );
 
-        return new ServiceInstance(
-            $this->version,
-            $payload,
-            $this->solution['sid']
-        );
+        return new ServiceInstance($this->version, $payload, $this->solution['sid']);
     }
 
     /**
      * Deletes the ServiceInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->version->delete('delete', $this->uri);
@@ -85,6 +81,7 @@ class ServiceContext extends InstanceContext {
      * 
      * @param array|Options $options Optional Arguments
      * @return ServiceInstance Updated ServiceInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function update($options = array()) {
         $options = new Values($options);
@@ -109,7 +106,7 @@ class ServiceContext extends InstanceContext {
             'PreWebhookUrl' => $options['preWebhookUrl'],
             'PostWebhookUrl' => $options['postWebhookUrl'],
             'WebhookMethod' => $options['webhookMethod'],
-            'WebhookFilters' => $options['webhookFilters'],
+            'WebhookFilters' => Serialize::map($options['webhookFilters'], function($e) { return $e; }),
             'Webhooks.OnMessageSend.Url' => $options['webhooksOnMessageSendUrl'],
             'Webhooks.OnMessageSend.Method' => $options['webhooksOnMessageSendMethod'],
             'Webhooks.OnMessageSend.Format' => $options['webhooksOnMessageSendFormat'],
@@ -158,6 +155,8 @@ class ServiceContext extends InstanceContext {
             'Webhooks.OnMemberRemoved.Url' => $options['webhooksOnMemberRemovedUrl'],
             'Webhooks.OnMemberRemoved.Method' => $options['webhooksOnMemberRemovedMethod'],
             'Webhooks.OnMemberRemoved.Format' => $options['webhooksOnMemberRemovedFormat'],
+            'Limits.ChannelMembers' => $options['limitsChannelMembers'],
+            'Limits.UserChannels' => $options['limitsUserChannels'],
         ));
 
         $payload = $this->version->update(
@@ -167,11 +166,7 @@ class ServiceContext extends InstanceContext {
             $data
         );
 
-        return new ServiceInstance(
-            $this->version,
-            $payload,
-            $this->solution['sid']
-        );
+        return new ServiceInstance($this->version, $payload, $this->solution['sid']);
     }
 
     /**
@@ -181,10 +176,7 @@ class ServiceContext extends InstanceContext {
      */
     protected function getChannels() {
         if (!$this->_channels) {
-            $this->_channels = new ChannelList(
-                $this->version,
-                $this->solution['sid']
-            );
+            $this->_channels = new ChannelList($this->version, $this->solution['sid']);
         }
 
         return $this->_channels;
@@ -197,10 +189,7 @@ class ServiceContext extends InstanceContext {
      */
     protected function getRoles() {
         if (!$this->_roles) {
-            $this->_roles = new RoleList(
-                $this->version,
-                $this->solution['sid']
-            );
+            $this->_roles = new RoleList($this->version, $this->solution['sid']);
         }
 
         return $this->_roles;
@@ -213,10 +202,7 @@ class ServiceContext extends InstanceContext {
      */
     protected function getUsers() {
         if (!$this->_users) {
-            $this->_users = new UserList(
-                $this->version,
-                $this->solution['sid']
-            );
+            $this->_users = new UserList($this->version, $this->solution['sid']);
         }
 
         return $this->_users;

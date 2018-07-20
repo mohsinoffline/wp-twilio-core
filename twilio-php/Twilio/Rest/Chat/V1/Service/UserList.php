@@ -19,16 +19,14 @@ class UserList extends ListResource {
      * Construct the UserList
      * 
      * @param Version $version Version that contains the resource
-     * @param string $serviceSid The service_sid
+     * @param string $serviceSid The unique id of the Service this user belongs to.
      * @return \Twilio\Rest\Chat\V1\Service\UserList 
      */
     public function __construct(Version $version, $serviceSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'serviceSid' => $serviceSid,
-        );
+        $this->solution = array('serviceSid' => $serviceSid, );
 
         $this->uri = '/Services/' . rawurlencode($serviceSid) . '/Users';
     }
@@ -36,9 +34,11 @@ class UserList extends ListResource {
     /**
      * Create a new UserInstance
      * 
-     * @param string $identity The identity
+     * @param string $identity A unique string that identifies the user within this
+     *                         service - often a username or email address.
      * @param array|Options $options Optional Arguments
      * @return UserInstance Newly created UserInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($identity, $options = array()) {
         $options = new Values($options);
@@ -57,11 +57,7 @@ class UserList extends ListResource {
             $data
         );
 
-        return new UserInstance(
-            $this->version,
-            $payload,
-            $this->solution['serviceSid']
-        );
+        return new UserInstance($this->version, $payload, $this->solution['serviceSid']);
     }
 
     /**
@@ -135,17 +131,29 @@ class UserList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of UserInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of UserInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new UserPage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Constructs a UserContext
      * 
      * @param string $sid The sid
      * @return \Twilio\Rest\Chat\V1\Service\UserContext 
      */
     public function getContext($sid) {
-        return new UserContext(
-            $this->version,
-            $this->solution['serviceSid'],
-            $sid
-        );
+        return new UserContext($this->version, $this->solution['serviceSid'], $sid);
     }
 
     /**

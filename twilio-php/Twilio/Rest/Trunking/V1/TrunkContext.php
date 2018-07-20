@@ -47,9 +47,7 @@ class TrunkContext extends InstanceContext {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'sid' => $sid,
-        );
+        $this->solution = array('sid' => $sid, );
 
         $this->uri = '/Trunks/' . rawurlencode($sid) . '';
     }
@@ -58,6 +56,7 @@ class TrunkContext extends InstanceContext {
      * Fetch a TrunkInstance
      * 
      * @return TrunkInstance Fetched TrunkInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         $params = Values::of(array());
@@ -68,17 +67,14 @@ class TrunkContext extends InstanceContext {
             $params
         );
 
-        return new TrunkInstance(
-            $this->version,
-            $payload,
-            $this->solution['sid']
-        );
+        return new TrunkInstance($this->version, $payload, $this->solution['sid']);
     }
 
     /**
      * Deletes the TrunkInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->version->delete('delete', $this->uri);
@@ -89,6 +85,7 @@ class TrunkContext extends InstanceContext {
      * 
      * @param array|Options $options Optional Arguments
      * @return TrunkInstance Updated TrunkInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function update($options = array()) {
         $options = new Values($options);
@@ -100,6 +97,7 @@ class TrunkContext extends InstanceContext {
             'DisasterRecoveryMethod' => $options['disasterRecoveryMethod'],
             'Recording' => $options['recording'],
             'Secure' => Serialize::booleanToString($options['secure']),
+            'CnamLookupEnabled' => Serialize::booleanToString($options['cnamLookupEnabled']),
         ));
 
         $payload = $this->version->update(
@@ -109,11 +107,7 @@ class TrunkContext extends InstanceContext {
             $data
         );
 
-        return new TrunkInstance(
-            $this->version,
-            $payload,
-            $this->solution['sid']
-        );
+        return new TrunkInstance($this->version, $payload, $this->solution['sid']);
     }
 
     /**
@@ -123,10 +117,7 @@ class TrunkContext extends InstanceContext {
      */
     protected function getOriginationUrls() {
         if (!$this->_originationUrls) {
-            $this->_originationUrls = new OriginationUrlList(
-                $this->version,
-                $this->solution['sid']
-            );
+            $this->_originationUrls = new OriginationUrlList($this->version, $this->solution['sid']);
         }
 
         return $this->_originationUrls;
@@ -139,10 +130,7 @@ class TrunkContext extends InstanceContext {
      */
     protected function getCredentialsLists() {
         if (!$this->_credentialsLists) {
-            $this->_credentialsLists = new CredentialListList(
-                $this->version,
-                $this->solution['sid']
-            );
+            $this->_credentialsLists = new CredentialListList($this->version, $this->solution['sid']);
         }
 
         return $this->_credentialsLists;
@@ -155,10 +143,7 @@ class TrunkContext extends InstanceContext {
      */
     protected function getIpAccessControlLists() {
         if (!$this->_ipAccessControlLists) {
-            $this->_ipAccessControlLists = new IpAccessControlListList(
-                $this->version,
-                $this->solution['sid']
-            );
+            $this->_ipAccessControlLists = new IpAccessControlListList($this->version, $this->solution['sid']);
         }
 
         return $this->_ipAccessControlLists;
@@ -171,10 +156,7 @@ class TrunkContext extends InstanceContext {
      */
     protected function getPhoneNumbers() {
         if (!$this->_phoneNumbers) {
-            $this->_phoneNumbers = new PhoneNumberList(
-                $this->version,
-                $this->solution['sid']
-            );
+            $this->_phoneNumbers = new PhoneNumberList($this->version, $this->solution['sid']);
         }
 
         return $this->_phoneNumbers;

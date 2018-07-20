@@ -20,13 +20,13 @@ class ServiceTest extends HolodeckTestCase {
         $this->holodeck->mock(new Response(500, ''));
 
         try {
-            $this->twilio->ipMessaging->v1->services("ISaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")->fetch();
+            $this->twilio->ipMessaging->v1->services("ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")->fetch();
         } catch (DeserializeException $e) {}
           catch (TwilioException $e) {}
 
         $this->assertRequest(new Request(
             'get',
-            'https://ip-messaging.twilio.com/v1/Services/ISaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+            'https://ip-messaging.twilio.com/v1/Services/ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
         ));
     }
 
@@ -43,6 +43,11 @@ class ServiceTest extends HolodeckTestCase {
                 "default_channel_role_sid": "RLaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "default_service_role_sid": "RLaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "friendly_name": "friendly_name",
+                "limits": {
+                    "actions_per_second": 20,
+                    "channel_members": 100,
+                    "user_channels": 250
+                },
                 "links": {},
                 "notifications": {},
                 "post_webhook_url": "post_webhook_url",
@@ -61,7 +66,7 @@ class ServiceTest extends HolodeckTestCase {
             '
         ));
 
-        $actual = $this->twilio->ipMessaging->v1->services("ISaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")->fetch();
+        $actual = $this->twilio->ipMessaging->v1->services("ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")->fetch();
 
         $this->assertNotNull($actual);
     }
@@ -70,13 +75,13 @@ class ServiceTest extends HolodeckTestCase {
         $this->holodeck->mock(new Response(500, ''));
 
         try {
-            $this->twilio->ipMessaging->v1->services("ISaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")->delete();
+            $this->twilio->ipMessaging->v1->services("ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")->delete();
         } catch (DeserializeException $e) {}
           catch (TwilioException $e) {}
 
         $this->assertRequest(new Request(
             'delete',
-            'https://ip-messaging.twilio.com/v1/Services/ISaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+            'https://ip-messaging.twilio.com/v1/Services/ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
         ));
     }
 
@@ -86,7 +91,7 @@ class ServiceTest extends HolodeckTestCase {
             null
         ));
 
-        $actual = $this->twilio->ipMessaging->v1->services("ISaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")->delete();
+        $actual = $this->twilio->ipMessaging->v1->services("ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")->delete();
 
         $this->assertTrue($actual);
     }
@@ -99,9 +104,7 @@ class ServiceTest extends HolodeckTestCase {
         } catch (DeserializeException $e) {}
           catch (TwilioException $e) {}
 
-        $values = array(
-            'FriendlyName' => "friendlyName",
-        );
+        $values = array('FriendlyName' => "friendlyName", );
 
         $this->assertRequest(new Request(
             'post',
@@ -124,6 +127,11 @@ class ServiceTest extends HolodeckTestCase {
                 "default_channel_role_sid": "RLaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "default_service_role_sid": "RLaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "friendly_name": "friendly_name",
+                "limits": {
+                    "actions_per_second": 20,
+                    "channel_members": 100,
+                    "user_channels": 250
+                },
                 "links": {},
                 "notifications": {},
                 "post_webhook_url": "post_webhook_url",
@@ -167,13 +175,13 @@ class ServiceTest extends HolodeckTestCase {
             '
             {
                 "meta": {
-                    "first_page_url": "https://ip-messaging.twilio.com/v1/Services?Page=0&PageSize=50",
+                    "first_page_url": "https://chat.twilio.com/v1/Services?Page=0&PageSize=50",
                     "key": "services",
                     "next_page_url": null,
                     "page": 0,
                     "page_size": 0,
                     "previous_page_url": null,
-                    "url": "https://ip-messaging.twilio.com/v1/Services"
+                    "url": "https://chat.twilio.com/v1/Services"
                 },
                 "services": []
             }
@@ -191,13 +199,13 @@ class ServiceTest extends HolodeckTestCase {
             '
             {
                 "meta": {
-                    "first_page_url": "https://ip-messaging.twilio.com/v1/Services?Page=0&PageSize=50",
+                    "first_page_url": "https://chat.twilio.com/v1/Services?Page=0&PageSize=50",
                     "key": "services",
                     "next_page_url": null,
                     "page": 0,
                     "page_size": 1,
                     "previous_page_url": null,
-                    "url": "https://ip-messaging.twilio.com/v1/Services"
+                    "url": "https://chat.twilio.com/v1/Services"
                 },
                 "services": [
                     {
@@ -209,6 +217,11 @@ class ServiceTest extends HolodeckTestCase {
                         "default_channel_role_sid": "RLaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                         "default_service_role_sid": "RLaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                         "friendly_name": "friendly_name",
+                        "limits": {
+                            "actions_per_second": 20,
+                            "channel_members": 100,
+                            "user_channels": 250
+                        },
                         "links": {},
                         "notifications": {},
                         "post_webhook_url": "post_webhook_url",
@@ -238,13 +251,13 @@ class ServiceTest extends HolodeckTestCase {
         $this->holodeck->mock(new Response(500, ''));
 
         try {
-            $this->twilio->ipMessaging->v1->services("ISaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")->update();
+            $this->twilio->ipMessaging->v1->services("ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")->update();
         } catch (DeserializeException $e) {}
           catch (TwilioException $e) {}
 
         $this->assertRequest(new Request(
             'post',
-            'https://ip-messaging.twilio.com/v1/Services/ISaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+            'https://ip-messaging.twilio.com/v1/Services/ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
         ));
     }
 
@@ -261,6 +274,11 @@ class ServiceTest extends HolodeckTestCase {
                 "default_channel_role_sid": "RLaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "default_service_role_sid": "RLaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "friendly_name": "friendly_name",
+                "limits": {
+                    "actions_per_second": 20,
+                    "channel_members": 500,
+                    "user_channels": 600
+                },
                 "links": {},
                 "notifications": {},
                 "post_webhook_url": "post_webhook_url",
@@ -279,7 +297,7 @@ class ServiceTest extends HolodeckTestCase {
             '
         ));
 
-        $actual = $this->twilio->ipMessaging->v1->services("ISaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")->update();
+        $actual = $this->twilio->ipMessaging->v1->services("ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")->update();
 
         $this->assertNotNull($actual);
     }

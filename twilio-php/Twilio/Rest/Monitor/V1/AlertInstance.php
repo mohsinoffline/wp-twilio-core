@@ -67,9 +67,7 @@ class AlertInstance extends InstanceResource {
             'responseHeaders' => Values::array_get($payload, 'response_headers'),
         );
 
-        $this->solution = array(
-            'sid' => $sid ?: $this->properties['sid'],
-        );
+        $this->solution = array('sid' => $sid ?: $this->properties['sid'], );
     }
 
     /**
@@ -80,10 +78,7 @@ class AlertInstance extends InstanceResource {
      */
     protected function proxy() {
         if (!$this->context) {
-            $this->context = new AlertContext(
-                $this->version,
-                $this->solution['sid']
-            );
+            $this->context = new AlertContext($this->version, $this->solution['sid']);
         }
 
         return $this->context;
@@ -93,6 +88,7 @@ class AlertInstance extends InstanceResource {
      * Fetch a AlertInstance
      * 
      * @return AlertInstance Fetched AlertInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         return $this->proxy()->fetch();
@@ -102,6 +98,7 @@ class AlertInstance extends InstanceResource {
      * Deletes the AlertInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->proxy()->delete();

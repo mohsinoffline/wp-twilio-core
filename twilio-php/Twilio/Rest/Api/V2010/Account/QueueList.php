@@ -26,9 +26,7 @@ class QueueList extends ListResource {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-        );
+        $this->solution = array('accountSid' => $accountSid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/Queues.json';
     }
@@ -104,20 +102,34 @@ class QueueList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of QueueInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of QueueInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new QueuePage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Create a new QueueInstance
      * 
      * @param string $friendlyName A user-provided string that identifies this
      *                             queue.
      * @param array|Options $options Optional Arguments
      * @return QueueInstance Newly created QueueInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($friendlyName, $options = array()) {
         $options = new Values($options);
 
-        $data = Values::of(array(
-            'FriendlyName' => $friendlyName,
-            'MaxSize' => $options['maxSize'],
-        ));
+        $data = Values::of(array('FriendlyName' => $friendlyName, 'MaxSize' => $options['maxSize'], ));
 
         $payload = $this->version->create(
             'POST',
@@ -126,11 +138,7 @@ class QueueList extends ListResource {
             $data
         );
 
-        return new QueueInstance(
-            $this->version,
-            $payload,
-            $this->solution['accountSid']
-        );
+        return new QueueInstance($this->version, $payload, $this->solution['accountSid']);
     }
 
     /**
@@ -140,11 +148,7 @@ class QueueList extends ListResource {
      * @return \Twilio\Rest\Api\V2010\Account\QueueContext 
      */
     public function getContext($sid) {
-        return new QueueContext(
-            $this->version,
-            $this->solution['accountSid'],
-            $sid
-        );
+        return new QueueContext($this->version, $this->solution['accountSid'], $sid);
     }
 
     /**

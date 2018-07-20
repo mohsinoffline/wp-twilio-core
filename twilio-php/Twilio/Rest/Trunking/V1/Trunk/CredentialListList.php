@@ -25,9 +25,7 @@ class CredentialListList extends ListResource {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'trunkSid' => $trunkSid,
-        );
+        $this->solution = array('trunkSid' => $trunkSid, );
 
         $this->uri = '/Trunks/' . rawurlencode($trunkSid) . '/CredentialLists';
     }
@@ -35,13 +33,16 @@ class CredentialListList extends ListResource {
     /**
      * Create a new CredentialListInstance
      * 
-     * @param string $credentialListSid The credential_list_sid
+     * @param string $credentialListSid The SID of the Credential List that you
+     *                                  want to associate with this trunk. Once
+     *                                  associated, Twilio will start
+     *                                  authenticating access to the trunk against
+     *                                  this list.
      * @return CredentialListInstance Newly created CredentialListInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($credentialListSid) {
-        $data = Values::of(array(
-            'CredentialListSid' => $credentialListSid,
-        ));
+        $data = Values::of(array('CredentialListSid' => $credentialListSid, ));
 
         $payload = $this->version->create(
             'POST',
@@ -50,11 +51,7 @@ class CredentialListList extends ListResource {
             $data
         );
 
-        return new CredentialListInstance(
-            $this->version,
-            $payload,
-            $this->solution['trunkSid']
-        );
+        return new CredentialListInstance($this->version, $payload, $this->solution['trunkSid']);
     }
 
     /**
@@ -128,17 +125,29 @@ class CredentialListList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of CredentialListInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of CredentialListInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new CredentialListPage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Constructs a CredentialListContext
      * 
      * @param string $sid The sid
      * @return \Twilio\Rest\Trunking\V1\Trunk\CredentialListContext 
      */
     public function getContext($sid) {
-        return new CredentialListContext(
-            $this->version,
-            $this->solution['trunkSid'],
-            $sid
-        );
+        return new CredentialListContext($this->version, $this->solution['trunkSid'], $sid);
     }
 
     /**

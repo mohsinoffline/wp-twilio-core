@@ -27,9 +27,7 @@ class ApplicationList extends ListResource {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-        );
+        $this->solution = array('accountSid' => $accountSid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/Applications.json';
     }
@@ -37,9 +35,10 @@ class ApplicationList extends ListResource {
     /**
      * Create a new ApplicationInstance
      * 
-     * @param string $friendlyName The friendly_name
+     * @param string $friendlyName A human readable description of the application
      * @param array|Options $options Optional Arguments
      * @return ApplicationInstance Newly created ApplicationInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($friendlyName, $options = array()) {
         $options = new Values($options);
@@ -69,11 +68,7 @@ class ApplicationList extends ListResource {
             $data
         );
 
-        return new ApplicationInstance(
-            $this->version,
-            $payload,
-            $this->solution['accountSid']
-        );
+        return new ApplicationInstance($this->version, $payload, $this->solution['accountSid']);
     }
 
     /**
@@ -152,17 +147,29 @@ class ApplicationList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of ApplicationInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of ApplicationInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new ApplicationPage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Constructs a ApplicationContext
      * 
      * @param string $sid Fetch by unique Application Sid
      * @return \Twilio\Rest\Api\V2010\Account\ApplicationContext 
      */
     public function getContext($sid) {
-        return new ApplicationContext(
-            $this->version,
-            $this->solution['accountSid'],
-            $sid
-        );
+        return new ApplicationContext($this->version, $this->solution['accountSid'], $sid);
     }
 
     /**

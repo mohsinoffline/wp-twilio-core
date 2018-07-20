@@ -31,7 +31,8 @@ class UserChannelInstance extends InstanceResource {
      * @param \Twilio\Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
      * @param string $serviceSid The service_sid
-     * @param string $userSid The sid
+     * @param string $userSid A 34 character string that uniquely identifies this
+     *                        resource.
      * @return \Twilio\Rest\IpMessaging\V1\Service\User\UserChannelInstance 
      */
     public function __construct(Version $version, array $payload, $serviceSid, $userSid) {
@@ -49,10 +50,7 @@ class UserChannelInstance extends InstanceResource {
             'links' => Values::array_get($payload, 'links'),
         );
 
-        $this->solution = array(
-            'serviceSid' => $serviceSid,
-            'userSid' => $userSid,
-        );
+        $this->solution = array('serviceSid' => $serviceSid, 'userSid' => $userSid, );
     }
 
     /**

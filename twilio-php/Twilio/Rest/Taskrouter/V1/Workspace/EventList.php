@@ -20,16 +20,14 @@ class EventList extends ListResource {
      * Construct the EventList
      * 
      * @param Version $version Version that contains the resource
-     * @param string $workspaceSid The sid
+     * @param string $workspaceSid The unique ID of the Workspace
      * @return \Twilio\Rest\Taskrouter\V1\Workspace\EventList 
      */
     public function __construct(Version $version, $workspaceSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'workspaceSid' => $workspaceSid,
-        );
+        $this->solution = array('workspaceSid' => $workspaceSid, );
 
         $this->uri = '/Workspaces/' . rawurlencode($workspaceSid) . '/Events';
     }
@@ -118,17 +116,29 @@ class EventList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of EventInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of EventInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new EventPage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Constructs a EventContext
      * 
      * @param string $sid The sid
      * @return \Twilio\Rest\Taskrouter\V1\Workspace\EventContext 
      */
     public function getContext($sid) {
-        return new EventContext(
-            $this->version,
-            $this->solution['workspaceSid'],
-            $sid
-        );
+        return new EventContext($this->version, $this->solution['workspaceSid'], $sid);
     }
 
     /**

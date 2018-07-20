@@ -27,10 +27,7 @@ class ReservationList extends ListResource {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'workspaceSid' => $workspaceSid,
-            'workerSid' => $workerSid,
-        );
+        $this->solution = array('workspaceSid' => $workspaceSid, 'workerSid' => $workerSid, );
 
         $this->uri = '/Workspaces/' . rawurlencode($workspaceSid) . '/Workers/' . rawurlencode($workerSid) . '/Reservations';
     }
@@ -105,6 +102,22 @@ class ReservationList extends ListResource {
             'GET',
             $this->uri,
             $params
+        );
+
+        return new ReservationPage($this->version, $response, $this->solution);
+    }
+
+    /**
+     * Retrieve a specific page of ReservationInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of ReservationInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
         );
 
         return new ReservationPage($this->version, $response, $this->solution);

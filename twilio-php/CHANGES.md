@@ -1,6 +1,522 @@
 twilio-php Changelog
 ====================
 
+[2018-07-16] Version 5.20.0
+----------------------------
+**Library**
+- PR #489: Add a request body validator. Thanks to @cjcodes!
+
+**Twiml**
+- Add support for SSML on Say verb, the message body is changed to be optional **(breaking change)**
+
+
+[2018-07-11] Version 5.19.7
+----------------------------
+**Api**
+- Add `cidr_prefix_length` param to SIP IpAddresses API
+
+**Studio**
+- Add new /Execution endpoints to begin Engagement -> Execution migration
+
+**Video**
+- [Rooms] Allow deletion of individual recordings from a room
+
+
+[2018-07-05] Version 5.19.6
+----------------------------
+**Library**
+- PR #483: Add Dockerfile and related changes to build the Docker image. Thanks to @jonatasbaldin!
+
+**Api**
+- Release `Call Recording Controls` feature support in helper libraries
+- Add Voice Insights sub-category keys to usage records
+
+
+[2018-06-21] Version 5.19.5
+----------------------------
+**Library**
+- PR #484: Fixes for adding child nodes / text. Thanks to @ekarson!
+- PR #482: Allow adding TwiML children with generic tag names. Thanks to @yannieyip!
+
+**Api**
+- Add Fraud Lookups category to usage records
+
+**Video**
+- Allow user to set `ContentDisposition` when obtaining media URLs for Room Recordings and Compositions
+- Add Composition Settings resource
+
+
+[2018-06-15] Version 5.19.4
+----------------------------
+**Library**
+- PR #480: Allow adding mixed content in TwiML nodes. Thanks to @ekarson!
+- PR #481: Add method to validate ssl certificate. Thanks to @yannieyip!
+- PR #469: Ability to specify custom claims when creating ClientToken. Thanks to @erickskrauch!
+
+**Twiml**
+- Add methods to helper libraries to inject arbitrary text under a TwiML node
+
+
+[2018-06-04] Version 5.19.3
+----------------------------
+**Chat**
+- Add Binding and UserBinding documentation
+
+**Lookups**
+- Add back support for `fraud` lookup type
+
+
+[2018-05-25] Version 5.19.2
+----------------------------
+**Studio**
+- Add endpoint to delete engagements
+
+
+[2018-05-18] Version 5.19.1
+----------------------------
+**Api**
+- Add more programmable video categories to usage records
+- Add 'include_subaccounts' parameter to all variation of usage_record fetch
+
+**Trunking**
+- Added cnam_lookup_enabled parameter to Trunk resource.
+- Added case-insensitivity for recording parameter to Trunk resource.
+
+
+[2018-05-11] Version 5.19.0
+----------------------------
+**Library**
+- PR #472: Added @throws PHPDoc tags to Sync API Context and Version classes. Thanks to @lamungu!
+
+**Chat**
+- Add Channel Webhooks resource
+
+**Monitor**
+- Update event filtering to support date/time **(breaking change)**
+
+**Wireless**
+- Updated `maturity` to `ga` for all wireless apis
+
+
+[2018-04-28] Version 5.18.0
+----------------------------
+**Video**
+- Redesign API by adding custom `VideoLayout` object. **(breaking change)**
+
+
+[2018-04-20] Version 5.17.1
+----------------------------
+**Twiml**
+- Gather input Enum: remove unnecessary "dtmf speech" value as you can now specify multiple enum values for this parameter and both "dtmf" and "speech" are already available.
+
+
+[2018-04-13] Version 5.17.0
+----------------------------
+**Library**
+- PR #468: Add incoming.allow to AccessToken VoiceGrant. Thanks to @ryan-rowland!
+
+**Preview**
+- Support for Understand V2 APIs - renames various resources and adds new fields
+
+**Studio**
+- Change parameters type from string to object in engagement resource
+
+**Video**
+- [Recordings] Change `size` type to `long`. **(breaking change)**
+
+
+[2018-03-22] Version 5.16.7
+----------------------------
+**Lookups**
+- Disable support for `fraud` lookups *(breaking change)*
+
+**Preview**
+- Add `BuildDuration` and `ErrorCode` to Understand ModelBuild
+
+**Studio**
+- Add new /Context endpoint for step and engagement resources.
+
+
+[2018-03-09] Version 5.16.6
+----------------------------
+**Api**
+- Add `caller_id` param to Outbound Calls API
+- Release `trim` recording Outbound Calls API functionality in helper libraries
+- Add `trim` param to Outbound Calls API
+
+**Lookups**
+- Add support for `fraud` lookup type
+
+**Numbers**
+- Initial Release
+
+**Video**
+- [composer] Add `room_sid` to Composition resource.
+- [composer] Add `SEQUENCE` value to available layouts, and `trim` and `reuse` params.
+
+**Twiml**
+- Adds support for passing in multiple input type enums when setting `input` on `Gather`
+
+
+[2018-02-09] Version 5.16.5
+----------------------------
+**Api**
+- Add `AnnounceUrl` and `AnnounceMethod` params for conference announce
+
+**Chat**
+- Add support to looking up user channels by identity in v1
+
+
+[2018-01-30] Version 5.16.4
+----------------------------
+**Api**
+- Add `studio-engagements` usage key
+
+**Preview**
+- Remove Studio Engagement Deletion
+
+**Studio**
+- Initial Release
+
+**Video**
+- [omit] Beta: Allow updates to `SubscribedTracks`.
+- Add `SubscribedTracks`.
+- Add track name to Video Recording resource
+- Add Composition and Composition Media resources
+
+
+[2018-01-19] Version 5.16.3
+----------------------------
+**Api**
+- Add `conference_sid` property on Recordings
+- Add proxy and sms usage key
+
+**Chat**
+- Make user channels accessible by identity
+- Add notifications logs flag parameter
+
+**Fax**
+- Added `ttl` parameter
+  `ttl` is the number of minutes a fax is considered valid.
+
+**Preview**
+- Add `call_delay`, `extension`, `verification_code`, and `verification_call_sids`.
+- Add `failure_reason` to HostedNumberOrders.
+- Add DependentHostedNumberOrders endpoint for AuthorizationDocuments preview API.
+
+**Taskrouter**
+- Less verbose naming of cumulative and real time statistics *(breaking change)*
+
+
+[2017-12-15] Version 5.16.2
+----------------------------
+**Api**
+- Add `voip`, `national`, `shared_cost`, and `machine_to_machine` sub-resources to `/2010-04-01/Accounts/{AccountSid}/AvailablePhoneNumbers/{IsoCountryCode}/`
+- Add programmable video keys
+
+**Preview**
+- Add `verification_type` and `verification_document_sid` to HostedNumberOrders.
+
+**Proxy**
+- Fixed typo in session status enum value
+
+**Twiml**
+- Fix Dial record property incorrectly typed as accepting TrimEnum values when it actually has its own enum of values. *(breaking change)*
+- Add `priority` and `timeout` properties to Task TwiML.
+- Add support for `recording_status_callback_event` for Dial verb and for Conference
+
+
+[2017-12-01] Version 5.16.1
+----------------------------
+**Api**
+- Use the correct properties for Dependent Phone Numbers of an Address *(breaking change)*
+- Update Call Recordings with the correct properties
+
+**Preview**
+- Add `status` and `email` query param filters for AuthorizationDocument list endpoint
+
+**Proxy**
+- Added DELETE support to Interaction
+- Standardized enum values to dash-case
+- Rename Service#friendly_name to Service#unique_name
+
+**Video**
+- Remove beta flag from `media_region` and `video_codecs`
+
+**Wireless**
+- Bug fix: Changed `operator_mcc` and `operator_mnc` in `DataSessions` subresource from `integer` to `string`
+
+
+[2017-11-17] Version 5.16.0
+----------------------------
+**Sync**
+- Add TTL support for Sync objects *(breaking change)*
+  - The required `data` parameter on the following actions is now optional: "Update Document", "Update Map Item", "Update List Item"
+  - New actions available for updating TTL of Sync objects: "Update List", "Update Map", "Update Stream"
+
+**Video**
+- [bi] Rename `RoomParticipant` to `Participant`
+- Add Recording Settings resource
+- Expose EncryptionKey and MediaExternalLocation properties in Recording resource
+
+
+[2017-11-10] Version 5.15.6
+----------------------------
+**Accounts**
+- Add AWS credential type
+
+**Preview**
+- Removed `iso_country` as required field for creating a HostedNumberOrder.
+
+**Proxy**
+- Added new fields to Service: geo_match_level, number_selection_behavior, intercept_callback_url, out_of_session_callback_url
+
+
+[2017-11-03] Version 5.15.5
+----------------------------
+**Library**
+- Issue 451: Do not set CURLOPT_INFILESIZE by default
+- PR #454: Fix the JsonSerializable. Thanks @vinu!
+
+**Api**
+- Add programmable video keys
+
+**Video**
+- Add `Participants`
+
+
+[2017-10-27] Version 5.15.4
+----------------------------
+**Chat**
+- Add Binding resource
+- Add UserBinding resource
+
+
+[2017-10-20] Version 5.15.3
+----------------------------
+**Api**
+- Add `address_sid` param to IncomingPhoneNumbers create and update
+- Add 'fax_enabled' option for Phone Number Search
+
+
+[2017-10-13] Version 5.15.2
+----------------------------
+**Api**
+- Add `smart_encoded` param for Messages
+- Add `identity_sid` param to IncomingPhoneNumbers create and update
+
+**Preview**
+- Make 'address_sid' and 'email' optional fields when creating a HostedNumberOrder
+- Add AuthorizationDocuments preview API.
+
+**Proxy**
+- Initial Release
+
+**Wireless**
+- Added `ip_address` to sim resource
+
+
+[2017-10-06] Version 5.15.1
+----------------------------
+**Preview**
+- Add `acc_security` (authy-phone-verification) initial api-definitions
+
+**Taskrouter**
+- [bi] Less verbose naming of cumulative and real time statistics
+
+
+[2017-09-28] Version 5.15.0
+----------------------------
+**Library**
+- Add warnings when trying to import/use objects from legacy versions of the library.
+
+**Chat**
+- Make member accessible through identity
+- Make channel subresources accessible by channel unique name
+- Set get list 'max_page_size' parameter to 100
+- Add service instance webhook retry configuration
+- Add media message capability
+- Make `body` an optional parameter on Message creation. *(breaking change)*
+
+**Notify**
+- `data`, `apn`, `gcm`, `fcm`, `sms` parameters in `Notifications` create resource now accept objects instead of strings. Passing manually stringified json objects will continue to work.
+
+**Taskrouter**
+- Add new query ability by TaskChannelSid or TaskChannelUniqueName
+- Move Events, Worker, Workers endpoint over to CPR
+- Add new RealTime and Cumulative Statistics endpoints
+
+**Video**
+- Create should allow an array of video_codecs.
+- Add video_codecs as a property of room to make it externally visible.
+
+
+[2017-09-15] Version 5.14.1
+----------------------------
+**Api**
+- Add `sip_registration` property on SIP Domains
+- Add new video and market usage category keys
+
+
+[2017-09-01] Version 5.14.0
+----------------------------
+**TwiML**
+- Add classes for all TwiML verbs.
+
+[2017-09-01] Version 5.13.4
+----------------------------
+**Sync**
+- Add support for Streams
+
+**Wireless**
+- Added DataSessions sub-resource to Sims.
+
+
+[2017-08-25] Version 5.13.3
+----------------------------
+**Library**
+- Add `lastRequest` and `lastResponse` properties to `CurlClient` to help debugging.
+
+**Api**
+- Update `status` enum for Recordings to include 'failed'
+- Add `errorCode` property on Recordings
+
+**Chat**
+- Add mutable parameters for channel, members and messages
+
+**Video**
+- New `media_region` parameter when creating a room, which controls which region media will be served out of.
+
+
+[2017-08-18] Version 5.13.2
+----------------------------
+**Api**
+- Add VoiceReceiveMode {'voice', 'fax'} option to IncomingPhoneNumber UPDATE requests
+
+**Chat**
+- Add channel message media information
+- Add service instance message media information
+
+**Preview**
+- Removed 'email' from bulk_exports configuration api [bi]. No migration plan needed because api has not been used yet.
+- Add DeployedDevices.
+
+**Sync**
+- Add support for Service Instance unique names
+
+
+[2017-08-10] Version 5.13.1
+----------------------------
+**Api**
+- Add New wireless usage keys added
+- Add `auto_correct_address` param for Addresses create and update
+- Add ChatGrant to Grants and deprecate IpMessagingGrant
+
+**Video**
+- Add `video_codec` enum and `video_codecs` parameter, which can be set to either `VP8` or `H264` during room creation.
+- Restrict recordings page size to 100
+
+
+[2017-07-27] Version 5.13.0
+----------------------------
+This release adds Beta and Preview products to main artifact.
+
+Previously, Beta and Preview products were only included in the `alpha`
+artifact. They are now being included in the main artifact to ease product
+discoverability and the collective operational overhead of maintaining multiple
+artifacts per library.
+
+**Api**
+- Remove unused `encryption_type` property on Recordings *(breaking change)*
+- Update `status` enum for Messages to include 'accepted'
+
+**Messaging**
+- Fix incorrectly typed capabilities property for PhoneNumbers.
+
+**Notify**
+- Add `ToBinding` optional parameter on Notifications resource creation. Accepted values are json strings.
+
+**Preview**
+- Add `sms_application_sid` to HostedNumberOrders.
+
+**Taskrouter**
+- Fully support conference functionality in reservations.
+
+
+[2017-07-13] Version 5.12.1
+---------------------------
+- This release drops official support for PHP 5.3 and PHP 5.4, which were EOL'd
+  in 2014 and 2015 respectively.
+- Reinstate `getPage` functionality.
+
+
+[2017-07-13] Version 5.12.0
+----------------------------
+**Api**
+- Update `AnnounceMethod` parameter naming for consistency
+
+**Notify**
+- Add `ToBinding` optional parameter on Notifications resource creation. Accepted values are json strings.
+
+**Preview**
+- Add `verification_attempts` to HostedNumberOrders.
+- Add `status_callback_url` and `status_callback_method` to HostedNumberOrders.
+
+**Video**
+- Filter recordings by date using the parameters `DateCreatedAfter` and `DateCreatedBefore`.
+- Override the default time-to-live of a recording's media URL through the `Ttl` parameter (in seconds, default value is 3600).
+- Add query parameters `SourceSid`, `Status`, `DateCreatedAfter` and `DateCreatedBefore` to the convenience method for retrieving Room recordings.
+
+**Wireless**
+- Added national and international data limits to the RatePlans resource.
+
+
+[2017-06-16] Version 5.11.0
+---------------------------
+
+- Add `locality` field to `AvailablePhoneNumbers`.
+- Add `origin` field to `IncomingPhoneNumbers`.
+- Add `in_locality` parameter to `AvailablePhoneNumbers`.
+- Add `origin` parameter to `IncomingPhoneNumbers`.
+- Add `announce_url` parameter to `Participants`.
+- Add `announce_url_method` parameter to `Participants`.
+- Add `getPage()` methods to lists to begin paging starting from a given url.
+
+[2017-05-24] Version 5.10.0
+--------------------------
+- Rename room `Recordings` resource to `RoomRecordings` to avoid class name conflict (backwards incompatible).
+
+[2017-05-19] Version 5.9.0
+--------------------------
+- Add support for video.twilio.com.
+
+[2017-04-27] Version 5.8.0
+--------------------------
+- Add support for Twilio Chat v2
+- Add `recordingChannels`, `recordingStatusCallback`, `recordingStatusCallbackMethod`, `sipAuthUsername`, `sipAuthPassword`, `region`, `conferenceRecordingStatusCallback`, `conferenceRecordingStatusCallbackMethod` optional parameters to conference participant resource.
+- Add support for setting `DEBUG_HTTP_TRAFFIC=true` environment varibale to dump request and response information. Thanks @kevinburke, PR #394.
+- Add deprecation warning to `ConversationsGrant`, it is being replaced by `VideoGrant`.
+
+[2017-04-12] Version 5.7.3
+--------------------------
+- Add TaskRouterGrant.
+- Update VideoGrant.
+    - Add `room` as preferred grant granularity.
+    - Deprecate setting `configurationProfileSid` on grant.
+
+[2017-04-04] Version 5.7.2
+--------------------------
+- Add `validityPeriod` parameter to Message creation
+
+[2017-03-22] Version 5.7.1
+--------------------------
+- Add Answering Machine Detection to Call creation
+- Add `WRAPPING` entry to Status for Task
+
+- **Twilio Chat**
+  - Add `limits` map to Service
+  - Add `limitsChannelMembers` and `limitsUserChannels` field to ServiceUpdater
+
 [2017-03-13] Version 5.7.0
 --------------------------
 Breaking Changes, refer to [Upgrade Guide][upgrade]

@@ -68,10 +68,7 @@ class TriggerInstance extends InstanceResource {
             'usageRecordUri' => Values::array_get($payload, 'usage_record_uri'),
         );
 
-        $this->solution = array(
-            'accountSid' => $accountSid,
-            'sid' => $sid ?: $this->properties['sid'],
-        );
+        $this->solution = array('accountSid' => $accountSid, 'sid' => $sid ?: $this->properties['sid'], );
     }
 
     /**
@@ -97,6 +94,7 @@ class TriggerInstance extends InstanceResource {
      * Fetch a TriggerInstance
      * 
      * @return TriggerInstance Fetched TriggerInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         return $this->proxy()->fetch();
@@ -107,17 +105,17 @@ class TriggerInstance extends InstanceResource {
      * 
      * @param array|Options $options Optional Arguments
      * @return TriggerInstance Updated TriggerInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function update($options = array()) {
-        return $this->proxy()->update(
-            $options
-        );
+        return $this->proxy()->update($options);
     }
 
     /**
      * Deletes the TriggerInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->proxy()->delete();

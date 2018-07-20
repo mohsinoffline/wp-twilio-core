@@ -32,7 +32,8 @@ class ActivityInstance extends InstanceResource {
      * 
      * @param \Twilio\Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
-     * @param string $workspaceSid The workspace_sid
+     * @param string $workspaceSid The unique ID of the Workspace that this
+     *                             Activity belongs to.
      * @param string $sid The sid
      * @return \Twilio\Rest\Taskrouter\V1\Workspace\ActivityInstance 
      */
@@ -51,10 +52,7 @@ class ActivityInstance extends InstanceResource {
             'url' => Values::array_get($payload, 'url'),
         );
 
-        $this->solution = array(
-            'workspaceSid' => $workspaceSid,
-            'sid' => $sid ?: $this->properties['sid'],
-        );
+        $this->solution = array('workspaceSid' => $workspaceSid, 'sid' => $sid ?: $this->properties['sid'], );
     }
 
     /**
@@ -81,6 +79,7 @@ class ActivityInstance extends InstanceResource {
      * Fetch a ActivityInstance
      * 
      * @return ActivityInstance Fetched ActivityInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         return $this->proxy()->fetch();
@@ -91,17 +90,17 @@ class ActivityInstance extends InstanceResource {
      * 
      * @param array|Options $options Optional Arguments
      * @return ActivityInstance Updated ActivityInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function update($options = array()) {
-        return $this->proxy()->update(
-            $options
-        );
+        return $this->proxy()->update($options);
     }
 
     /**
      * Deletes the ActivityInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->proxy()->delete();

@@ -28,11 +28,7 @@ class MessageContext extends InstanceContext {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'serviceSid' => $serviceSid,
-            'channelSid' => $channelSid,
-            'sid' => $sid,
-        );
+        $this->solution = array('serviceSid' => $serviceSid, 'channelSid' => $channelSid, 'sid' => $sid, );
 
         $this->uri = '/Services/' . rawurlencode($serviceSid) . '/Channels/' . rawurlencode($channelSid) . '/Messages/' . rawurlencode($sid) . '';
     }
@@ -41,6 +37,7 @@ class MessageContext extends InstanceContext {
      * Fetch a MessageInstance
      * 
      * @return MessageInstance Fetched MessageInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         $params = Values::of(array());
@@ -64,6 +61,7 @@ class MessageContext extends InstanceContext {
      * Deletes the MessageInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->version->delete('delete', $this->uri);
@@ -74,14 +72,12 @@ class MessageContext extends InstanceContext {
      * 
      * @param array|Options $options Optional Arguments
      * @return MessageInstance Updated MessageInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function update($options = array()) {
         $options = new Values($options);
 
-        $data = Values::of(array(
-            'Body' => $options['body'],
-            'Attributes' => $options['attributes'],
-        ));
+        $data = Values::of(array('Body' => $options['body'], 'Attributes' => $options['attributes'], ));
 
         $payload = $this->version->update(
             'POST',

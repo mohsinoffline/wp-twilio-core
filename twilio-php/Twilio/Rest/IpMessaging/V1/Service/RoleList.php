@@ -10,6 +10,7 @@
 namespace Twilio\Rest\IpMessaging\V1\Service;
 
 use Twilio\ListResource;
+use Twilio\Serialize;
 use Twilio\Values;
 use Twilio\Version;
 
@@ -18,16 +19,14 @@ class RoleList extends ListResource {
      * Construct the RoleList
      * 
      * @param Version $version Version that contains the resource
-     * @param string $serviceSid The service_sid
+     * @param string $serviceSid The unique id of the Service this role belongs to.
      * @return \Twilio\Rest\IpMessaging\V1\Service\RoleList 
      */
     public function __construct(Version $version, $serviceSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'serviceSid' => $serviceSid,
-        );
+        $this->solution = array('serviceSid' => $serviceSid, );
 
         $this->uri = '/Services/' . rawurlencode($serviceSid) . '/Roles';
     }
@@ -35,16 +34,17 @@ class RoleList extends ListResource {
     /**
      * Create a new RoleInstance
      * 
-     * @param string $friendlyName The friendly_name
-     * @param string $type The type
-     * @param string $permission The permission
+     * @param string $friendlyName The human-readable name of this role.
+     * @param string $type What kind of role this is.
+     * @param string $permission A permission this role should have.
      * @return RoleInstance Newly created RoleInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($friendlyName, $type, $permission) {
         $data = Values::of(array(
             'FriendlyName' => $friendlyName,
             'Type' => $type,
-            'Permission' => $permission,
+            'Permission' => Serialize::map($permission, function($e) { return $e; }),
         ));
 
         $payload = $this->version->create(
@@ -54,11 +54,7 @@ class RoleList extends ListResource {
             $data
         );
 
-        return new RoleInstance(
-            $this->version,
-            $payload,
-            $this->solution['serviceSid']
-        );
+        return new RoleInstance($this->version, $payload, $this->solution['serviceSid']);
     }
 
     /**
@@ -132,17 +128,29 @@ class RoleList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of RoleInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of RoleInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new RolePage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Constructs a RoleContext
      * 
      * @param string $sid The sid
      * @return \Twilio\Rest\IpMessaging\V1\Service\RoleContext 
      */
     public function getContext($sid) {
-        return new RoleContext(
-            $this->version,
-            $this->solution['serviceSid'],
-            $sid
-        );
+        return new RoleContext($this->version, $this->solution['serviceSid'], $sid);
     }
 
     /**

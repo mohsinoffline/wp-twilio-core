@@ -18,7 +18,8 @@ class CredentialList extends ListResource {
      * Construct the CredentialList
      * 
      * @param Version $version Version that contains the resource
-     * @param string $accountSid The account_sid
+     * @param string $accountSid The unique id of the Account that responsible for
+     *                           this resource.
      * @param string $credentialListSid The credential_list_sid
      * @return \Twilio\Rest\Api\V2010\Account\Sip\CredentialList\CredentialList 
      */
@@ -26,10 +27,7 @@ class CredentialList extends ListResource {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-            'credentialListSid' => $credentialListSid,
-        );
+        $this->solution = array('accountSid' => $accountSid, 'credentialListSid' => $credentialListSid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/SIP/CredentialLists/' . rawurlencode($credentialListSid) . '/Credentials.json';
     }
@@ -105,17 +103,31 @@ class CredentialList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of CredentialInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of CredentialInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new CredentialPage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Create a new CredentialInstance
      * 
-     * @param string $username The username
-     * @param string $password The password
+     * @param string $username The username for this credential.
+     * @param string $password The password will not be returned in the response.
      * @return CredentialInstance Newly created CredentialInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($username, $password) {
-        $data = Values::of(array(
-            'Username' => $username,
-            'Password' => $password,
-        ));
+        $data = Values::of(array('Username' => $username, 'Password' => $password, ));
 
         $payload = $this->version->create(
             'POST',

@@ -10,6 +10,7 @@
 namespace Twilio\Rest\Api\V2010\Account\Sip\IpAccessControlList;
 
 use Twilio\ListResource;
+use Twilio\Options;
 use Twilio\Values;
 use Twilio\Version;
 
@@ -18,7 +19,8 @@ class IpAddressList extends ListResource {
      * Construct the IpAddressList
      * 
      * @param Version $version Version that contains the resource
-     * @param string $accountSid The account_sid
+     * @param string $accountSid The unique id of the Account that responsible for
+     *                           this resource.
      * @param string $ipAccessControlListSid The ip_access_control_list_sid
      * @return \Twilio\Rest\Api\V2010\Account\Sip\IpAccessControlList\IpAddressList 
      */
@@ -105,16 +107,37 @@ class IpAddressList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of IpAddressInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of IpAddressInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new IpAddressPage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Create a new IpAddressInstance
      * 
      * @param string $friendlyName The friendly_name
      * @param string $ipAddress The ip_address
+     * @param array|Options $options Optional Arguments
      * @return IpAddressInstance Newly created IpAddressInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
-    public function create($friendlyName, $ipAddress) {
+    public function create($friendlyName, $ipAddress, $options = array()) {
+        $options = new Values($options);
+
         $data = Values::of(array(
             'FriendlyName' => $friendlyName,
             'IpAddress' => $ipAddress,
+            'CidrPrefixLength' => $options['cidrPrefixLength'],
         ));
 
         $payload = $this->version->create(

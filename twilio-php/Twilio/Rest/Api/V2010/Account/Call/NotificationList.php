@@ -28,10 +28,7 @@ class NotificationList extends ListResource {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-            'callSid' => $callSid,
-        );
+        $this->solution = array('accountSid' => $accountSid, 'callSid' => $callSid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/Calls/' . rawurlencode($callSid) . '/Notifications.json';
     }
@@ -109,6 +106,22 @@ class NotificationList extends ListResource {
             'GET',
             $this->uri,
             $params
+        );
+
+        return new NotificationPage($this->version, $response, $this->solution);
+    }
+
+    /**
+     * Retrieve a specific page of NotificationInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of NotificationInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
         );
 
         return new NotificationPage($this->version, $response, $this->solution);

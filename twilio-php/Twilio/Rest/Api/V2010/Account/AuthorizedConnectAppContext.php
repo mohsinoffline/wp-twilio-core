@@ -26,10 +26,7 @@ class AuthorizedConnectAppContext extends InstanceContext {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-            'connectAppSid' => $connectAppSid,
-        );
+        $this->solution = array('accountSid' => $accountSid, 'connectAppSid' => $connectAppSid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/AuthorizedConnectApps/' . rawurlencode($connectAppSid) . '.json';
     }
@@ -38,6 +35,7 @@ class AuthorizedConnectAppContext extends InstanceContext {
      * Fetch a AuthorizedConnectAppInstance
      * 
      * @return AuthorizedConnectAppInstance Fetched AuthorizedConnectAppInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         $params = Values::of(array());

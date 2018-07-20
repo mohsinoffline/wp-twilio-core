@@ -19,17 +19,15 @@ class UserChannelList extends ListResource {
      * 
      * @param Version $version Version that contains the resource
      * @param string $serviceSid The service_sid
-     * @param string $userSid The sid
+     * @param string $userSid A 34 character string that uniquely identifies this
+     *                        resource.
      * @return \Twilio\Rest\IpMessaging\V1\Service\User\UserChannelList 
      */
     public function __construct(Version $version, $serviceSid, $userSid) {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'serviceSid' => $serviceSid,
-            'userSid' => $userSid,
-        );
+        $this->solution = array('serviceSid' => $serviceSid, 'userSid' => $userSid, );
 
         $this->uri = '/Services/' . rawurlencode($serviceSid) . '/Users/' . rawurlencode($userSid) . '/Channels';
     }
@@ -99,6 +97,22 @@ class UserChannelList extends ListResource {
             'GET',
             $this->uri,
             $params
+        );
+
+        return new UserChannelPage($this->version, $response, $this->solution);
+    }
+
+    /**
+     * Retrieve a specific page of UserChannelInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of UserChannelInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
         );
 
         return new UserChannelPage($this->version, $response, $this->solution);

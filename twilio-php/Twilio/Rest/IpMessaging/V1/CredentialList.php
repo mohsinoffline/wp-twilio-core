@@ -102,11 +102,28 @@ class CredentialList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of CredentialInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of CredentialInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new CredentialPage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Create a new CredentialInstance
      * 
-     * @param string $type The type
+     * @param string $type Credential type, one of "gcm" or "apn"
      * @param array|Options $options Optional Arguments
      * @return CredentialInstance Newly created CredentialInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($type, $options = array()) {
         $options = new Values($options);
@@ -128,10 +145,7 @@ class CredentialList extends ListResource {
             $data
         );
 
-        return new CredentialInstance(
-            $this->version,
-            $payload
-        );
+        return new CredentialInstance($this->version, $payload);
     }
 
     /**
@@ -141,10 +155,7 @@ class CredentialList extends ListResource {
      * @return \Twilio\Rest\IpMessaging\V1\CredentialContext 
      */
     public function getContext($sid) {
-        return new CredentialContext(
-            $this->version,
-            $sid
-        );
+        return new CredentialContext($this->version, $sid);
     }
 
     /**

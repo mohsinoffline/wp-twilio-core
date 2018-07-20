@@ -41,6 +41,8 @@ class WorkspaceInstance extends InstanceResource {
     protected $_workers = null;
     protected $_workflows = null;
     protected $_statistics = null;
+    protected $_realTimeStatistics = null;
+    protected $_cumulativeStatistics = null;
     protected $_taskChannels = null;
 
     /**
@@ -73,9 +75,7 @@ class WorkspaceInstance extends InstanceResource {
             'links' => Values::array_get($payload, 'links'),
         );
 
-        $this->solution = array(
-            'sid' => $sid ?: $this->properties['sid'],
-        );
+        $this->solution = array('sid' => $sid ?: $this->properties['sid'], );
     }
 
     /**
@@ -87,10 +87,7 @@ class WorkspaceInstance extends InstanceResource {
      */
     protected function proxy() {
         if (!$this->context) {
-            $this->context = new WorkspaceContext(
-                $this->version,
-                $this->solution['sid']
-            );
+            $this->context = new WorkspaceContext($this->version, $this->solution['sid']);
         }
 
         return $this->context;
@@ -100,6 +97,7 @@ class WorkspaceInstance extends InstanceResource {
      * Fetch a WorkspaceInstance
      * 
      * @return WorkspaceInstance Fetched WorkspaceInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         return $this->proxy()->fetch();
@@ -110,17 +108,17 @@ class WorkspaceInstance extends InstanceResource {
      * 
      * @param array|Options $options Optional Arguments
      * @return WorkspaceInstance Updated WorkspaceInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function update($options = array()) {
-        return $this->proxy()->update(
-            $options
-        );
+        return $this->proxy()->update($options);
     }
 
     /**
      * Deletes the WorkspaceInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->proxy()->delete();
@@ -187,6 +185,24 @@ class WorkspaceInstance extends InstanceResource {
      */
     protected function getStatistics() {
         return $this->proxy()->statistics;
+    }
+
+    /**
+     * Access the realTimeStatistics
+     * 
+     * @return \Twilio\Rest\Taskrouter\V1\Workspace\WorkspaceRealTimeStatisticsList 
+     */
+    protected function getRealTimeStatistics() {
+        return $this->proxy()->realTimeStatistics;
+    }
+
+    /**
+     * Access the cumulativeStatistics
+     * 
+     * @return \Twilio\Rest\Taskrouter\V1\Workspace\WorkspaceCumulativeStatisticsList 
+     */
+    protected function getCumulativeStatistics() {
+        return $this->proxy()->cumulativeStatistics;
     }
 
     /**

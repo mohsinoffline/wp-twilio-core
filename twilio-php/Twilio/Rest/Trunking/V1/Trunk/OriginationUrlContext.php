@@ -28,10 +28,7 @@ class OriginationUrlContext extends InstanceContext {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'trunkSid' => $trunkSid,
-            'sid' => $sid,
-        );
+        $this->solution = array('trunkSid' => $trunkSid, 'sid' => $sid, );
 
         $this->uri = '/Trunks/' . rawurlencode($trunkSid) . '/OriginationUrls/' . rawurlencode($sid) . '';
     }
@@ -40,6 +37,7 @@ class OriginationUrlContext extends InstanceContext {
      * Fetch a OriginationUrlInstance
      * 
      * @return OriginationUrlInstance Fetched OriginationUrlInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         $params = Values::of(array());
@@ -62,6 +60,7 @@ class OriginationUrlContext extends InstanceContext {
      * Deletes the OriginationUrlInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->version->delete('delete', $this->uri);
@@ -72,6 +71,7 @@ class OriginationUrlContext extends InstanceContext {
      * 
      * @param array|Options $options Optional Arguments
      * @return OriginationUrlInstance Updated OriginationUrlInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function update($options = array()) {
         $options = new Values($options);

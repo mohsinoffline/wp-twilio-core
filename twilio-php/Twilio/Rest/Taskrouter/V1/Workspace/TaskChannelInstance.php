@@ -50,10 +50,7 @@ class TaskChannelInstance extends InstanceResource {
             'url' => Values::array_get($payload, 'url'),
         );
 
-        $this->solution = array(
-            'workspaceSid' => $workspaceSid,
-            'sid' => $sid ?: $this->properties['sid'],
-        );
+        $this->solution = array('workspaceSid' => $workspaceSid, 'sid' => $sid ?: $this->properties['sid'], );
     }
 
     /**
@@ -80,6 +77,7 @@ class TaskChannelInstance extends InstanceResource {
      * Fetch a TaskChannelInstance
      * 
      * @return TaskChannelInstance Fetched TaskChannelInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         return $this->proxy()->fetch();

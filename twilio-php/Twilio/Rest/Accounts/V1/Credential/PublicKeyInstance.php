@@ -46,9 +46,7 @@ class PublicKeyInstance extends InstanceResource {
             'url' => Values::array_get($payload, 'url'),
         );
 
-        $this->solution = array(
-            'sid' => $sid ?: $this->properties['sid'],
-        );
+        $this->solution = array('sid' => $sid ?: $this->properties['sid'], );
     }
 
     /**
@@ -61,10 +59,7 @@ class PublicKeyInstance extends InstanceResource {
      */
     protected function proxy() {
         if (!$this->context) {
-            $this->context = new PublicKeyContext(
-                $this->version,
-                $this->solution['sid']
-            );
+            $this->context = new PublicKeyContext($this->version, $this->solution['sid']);
         }
 
         return $this->context;
@@ -74,6 +69,7 @@ class PublicKeyInstance extends InstanceResource {
      * Fetch a PublicKeyInstance
      * 
      * @return PublicKeyInstance Fetched PublicKeyInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         return $this->proxy()->fetch();
@@ -84,17 +80,17 @@ class PublicKeyInstance extends InstanceResource {
      * 
      * @param array|Options $options Optional Arguments
      * @return PublicKeyInstance Updated PublicKeyInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function update($options = array()) {
-        return $this->proxy()->update(
-            $options
-        );
+        return $this->proxy()->update($options);
     }
 
     /**
      * Deletes the PublicKeyInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->proxy()->delete();

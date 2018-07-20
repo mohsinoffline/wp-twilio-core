@@ -27,11 +27,7 @@ class IpAccessControlListMappingContext extends InstanceContext {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-            'domainSid' => $domainSid,
-            'sid' => $sid,
-        );
+        $this->solution = array('accountSid' => $accountSid, 'domainSid' => $domainSid, 'sid' => $sid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/SIP/Domains/' . rawurlencode($domainSid) . '/IpAccessControlListMappings/' . rawurlencode($sid) . '.json';
     }
@@ -41,6 +37,7 @@ class IpAccessControlListMappingContext extends InstanceContext {
      * 
      * @return IpAccessControlListMappingInstance Fetched
      *                                            IpAccessControlListMappingInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch() {
         $params = Values::of(array());
@@ -64,6 +61,7 @@ class IpAccessControlListMappingContext extends InstanceContext {
      * Deletes the IpAccessControlListMappingInstance
      * 
      * @return boolean True if delete succeeds, false otherwise
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function delete() {
         return $this->version->delete('delete', $this->uri);

@@ -16,9 +16,9 @@ use Twilio\Values;
 use Twilio\Version;
 
 /**
- * @property string accountSid
- * @property array cumulative
  * @property array realtime
+ * @property array cumulative
+ * @property string accountSid
  * @property string workspaceSid
  * @property string url
  */
@@ -28,7 +28,8 @@ class WorkersStatisticsInstance extends InstanceResource {
      * 
      * @param \Twilio\Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
-     * @param string $workspaceSid The workspace_sid
+     * @param string $workspaceSid The ID of the Workflow this worker is associated
+     *                             with
      * @return \Twilio\Rest\Taskrouter\V1\Workspace\Worker\WorkersStatisticsInstance 
      */
     public function __construct(Version $version, array $payload, $workspaceSid) {
@@ -36,16 +37,14 @@ class WorkersStatisticsInstance extends InstanceResource {
 
         // Marshaled Properties
         $this->properties = array(
-            'accountSid' => Values::array_get($payload, 'account_sid'),
-            'cumulative' => Values::array_get($payload, 'cumulative'),
             'realtime' => Values::array_get($payload, 'realtime'),
+            'cumulative' => Values::array_get($payload, 'cumulative'),
+            'accountSid' => Values::array_get($payload, 'account_sid'),
             'workspaceSid' => Values::array_get($payload, 'workspace_sid'),
             'url' => Values::array_get($payload, 'url'),
         );
 
-        $this->solution = array(
-            'workspaceSid' => $workspaceSid,
-        );
+        $this->solution = array('workspaceSid' => $workspaceSid, );
     }
 
     /**
@@ -56,10 +55,7 @@ class WorkersStatisticsInstance extends InstanceResource {
      */
     protected function proxy() {
         if (!$this->context) {
-            $this->context = new WorkersStatisticsContext(
-                $this->version,
-                $this->solution['workspaceSid']
-            );
+            $this->context = new WorkersStatisticsContext($this->version, $this->solution['workspaceSid']);
         }
 
         return $this->context;
@@ -70,11 +66,10 @@ class WorkersStatisticsInstance extends InstanceResource {
      * 
      * @param array|Options $options Optional Arguments
      * @return WorkersStatisticsInstance Fetched WorkersStatisticsInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function fetch($options = array()) {
-        return $this->proxy()->fetch(
-            $options
-        );
+        return $this->proxy()->fetch($options);
     }
 
     /**

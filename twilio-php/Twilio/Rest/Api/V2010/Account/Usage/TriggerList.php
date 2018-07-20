@@ -27,9 +27,7 @@ class TriggerList extends ListResource {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array(
-            'accountSid' => $accountSid,
-        );
+        $this->solution = array('accountSid' => $accountSid, );
 
         $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/Usage/Triggers.json';
     }
@@ -42,6 +40,7 @@ class TriggerList extends ListResource {
      * @param string $usageCategory The usage category the trigger watches
      * @param array|Options $options Optional Arguments
      * @return TriggerInstance Newly created TriggerInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($callbackUrl, $triggerValue, $usageCategory, $options = array()) {
         $options = new Values($options);
@@ -63,11 +62,7 @@ class TriggerList extends ListResource {
             $data
         );
 
-        return new TriggerInstance(
-            $this->version,
-            $payload,
-            $this->solution['accountSid']
-        );
+        return new TriggerInstance($this->version, $payload, $this->solution['accountSid']);
     }
 
     /**
@@ -148,17 +143,29 @@ class TriggerList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of TriggerInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of TriggerInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new TriggerPage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Constructs a TriggerContext
      * 
      * @param string $sid Fetch by unique usage-trigger Sid
      * @return \Twilio\Rest\Api\V2010\Account\Usage\TriggerContext 
      */
     public function getContext($sid) {
-        return new TriggerContext(
-            $this->version,
-            $this->solution['accountSid'],
-            $sid
-        );
+        return new TriggerContext($this->version, $this->solution['accountSid'], $sid);
     }
 
     /**

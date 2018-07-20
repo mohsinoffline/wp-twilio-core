@@ -36,6 +36,7 @@ class TrunkList extends ListResource {
      * 
      * @param array|Options $options Optional Arguments
      * @return TrunkInstance Newly created TrunkInstance
+     * @throws TwilioException When an HTTP error occurs.
      */
     public function create($options = array()) {
         $options = new Values($options);
@@ -47,6 +48,7 @@ class TrunkList extends ListResource {
             'DisasterRecoveryMethod' => $options['disasterRecoveryMethod'],
             'Recording' => $options['recording'],
             'Secure' => Serialize::booleanToString($options['secure']),
+            'CnamLookupEnabled' => Serialize::booleanToString($options['cnamLookupEnabled']),
         ));
 
         $payload = $this->version->create(
@@ -56,10 +58,7 @@ class TrunkList extends ListResource {
             $data
         );
 
-        return new TrunkInstance(
-            $this->version,
-            $payload
-        );
+        return new TrunkInstance($this->version, $payload);
     }
 
     /**
@@ -133,16 +132,29 @@ class TrunkList extends ListResource {
     }
 
     /**
+     * Retrieve a specific page of TrunkInstance records from the API.
+     * Request is executed immediately
+     * 
+     * @param string $targetUrl API-generated URL for the requested results page
+     * @return \Twilio\Page Page of TrunkInstance
+     */
+    public function getPage($targetUrl) {
+        $response = $this->version->getDomain()->getClient()->request(
+            'GET',
+            $targetUrl
+        );
+
+        return new TrunkPage($this->version, $response, $this->solution);
+    }
+
+    /**
      * Constructs a TrunkContext
      * 
      * @param string $sid The sid
      * @return \Twilio\Rest\Trunking\V1\TrunkContext 
      */
     public function getContext($sid) {
-        return new TrunkContext(
-            $this->version,
-            $sid
-        );
+        return new TrunkContext($this->version, $sid);
     }
 
     /**
