@@ -1,6 +1,153 @@
 twilio-php Changelog
 ====================
 
+[2018-10-15] Version 5.24.1
+----------------------------
+**Api**
+- Add <Pay> Verb Transactions category to usage records
+
+**Twiml**
+- Add support for `Pay` verb
+
+
+[2018-10-15] Version 5.24.0
+----------------------------
+**Api**
+- Add `coaching` and `call_sid_to_coach` to participant properties, create and update requests.
+
+**Authy**
+- Set public library visibility, and added PII stanza
+- Dropped support for `FactorType` param given new Factor prefixes **(breaking change)**
+- Supported `DELETE` actions for Authy resources
+- Move Authy Services resources to `authy` subdomain
+
+**Autopilot**
+- Introduce `autopilot` subdomain with all resources from `preview.understand`
+
+**Preview**
+- Renamed Understand intent to task **(breaking change)**
+- Deprecated Authy endpoints from `preview` to `authy` subdomain
+
+**Taskrouter**
+- Allow TaskQueue ReservationActivitySid and AssignmentActivitySid to not be configured for MultiTask Workspaces
+
+**Verify**
+- Add `LookupEnabled` optional parameter on Service resource creation or update.
+- Add `SendDigits` optional parameter on Verification creation.
+- Add delete action on Service resourse.
+
+**Twiml**
+- Add custom parameters to TwiML `Client` noun and renamed the optional `name` field to `identity`. This is a breaking change in Ruby, and applications will need to transition from `dial.client ''` and `dial.client 'alice'` formats to `dial.client` and `dial.client(identity: alice)` formats. **(breaking change)**
+
+
+[2018-10-04] Version 5.23.1
+----------------------------
+**Preview**
+- Renamed response headers for Challenge and Factors Signatures
+
+**Video**
+- [Composer] Add Composition Hook resources
+
+**Twiml**
+- Add `debug` to `Gather`
+- Add `participantIdentity` to `Room`
+
+
+[2018-09-28] Version 5.23.0
+----------------------------
+**Api**
+- Set `call_sid_to_coach` parameter in participant to be `preview`
+
+**Preview**
+- Supported `totp` in Authy preview endpoints
+- Allowed `latest` in Authy Challenges endpoints
+
+**Voice**
+- changed path param name from parent_iso_code to iso_code for highrisk_special_prefixes api **(breaking change)**
+- added geo permissions public api
+
+
+[2018-09-21] Version 5.22.0
+----------------------------
+**Preview**
+- Add `Form` resource to Authy preview given a `form_type`
+- Add Authy initial api-definitions in the 4 main resources: Services, Entities, Factors, Challenges
+
+**Pricing**
+- add voice_numbers resource (v2)
+
+**Verify**
+- Move from preview to beta **(breaking change)**
+
+
+[2018-08-31] Version 5.21.4
+----------------------------
+**Api**
+- Add `call_sid_to_coach` parameter to participant create request
+- Add `voice_receive_mode` param to IncomingPhoneNumbers create
+
+**Video**
+- [Recordings] Expose `offset` property in resource
+
+
+[2018-08-23] Version 5.21.3
+----------------------------
+**Chat**
+- Add User Channel instance resource
+
+
+[2018-08-17] Version 5.21.2
+----------------------------
+**Api**
+- Add Proxy Active Sessions category to usage records
+
+**Preview**
+- Add `Actions` endpoints and remove `ResponseUrl` from assistants on the Understand api
+
+**Pricing**
+- add voice_country resource (v2)
+
+
+[2018-08-09] Version 5.21.1
+----------------------------
+**Library**
+- PR #498: Add deprecation warning to the old Twiml class. Thanks to @ekarson!
+- PR #497: Add tests for namespacing and twiml constructors. Thanks to @cjcodes!
+
+**Studio**
+- Studio is now GA
+
+
+[2018-08-03] Version 5.21.0
+----------------------------
+**Library**
+- PR #492: Tag and push Docker latest image when deploying with TravisCI. Thanks to @jonatasbaldin!
+
+**Api**
+- Add support for sip domains to map credential lists for registrations
+
+**Chat**
+- Make message From field updatable
+- Add REST API webhooks
+
+**Notify**
+- Removing deprecated `segments`, `users`, `segment_memberships`, `user_bindings` classes from helper libraries. **(breaking change)**
+
+**Preview**
+- Add new Intent Statistics endpoint
+- Remove `ttl` from Assistants
+
+**Proxy**
+- Enable setting a proxy number as reserved
+
+**Video**
+- Add `group-small` room type
+
+**Twiml**
+- Add `Connect` and `Room` for Programmable Video Rooms
+- Add support for SSML lang tag on Say verb
+
+
 [2018-07-16] Version 5.20.0
 ----------------------------
 **Library**

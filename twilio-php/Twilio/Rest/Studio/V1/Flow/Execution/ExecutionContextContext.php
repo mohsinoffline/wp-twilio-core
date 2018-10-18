@@ -13,16 +13,13 @@ use Twilio\InstanceContext;
 use Twilio\Values;
 use Twilio\Version;
 
-/**
- * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
- */
 class ExecutionContextContext extends InstanceContext {
     /**
      * Initialize the ExecutionContextContext
      * 
      * @param \Twilio\Version $version Version that contains the resource
-     * @param string $flowSid The flow_sid
-     * @param string $executionSid The execution_sid
+     * @param string $flowSid Flow Sid.
+     * @param string $executionSid Execution Sid.
      * @return \Twilio\Rest\Studio\V1\Flow\Execution\ExecutionContextContext 
      */
     public function __construct(Version $version, $flowSid, $executionSid) {

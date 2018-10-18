@@ -15,11 +15,13 @@ use Twilio\Rest\Video\V1;
 
 /**
  * @property \Twilio\Rest\Video\V1 v1
+ * @property \Twilio\Rest\Video\V1\CompositionHookList compositionHooks
  * @property \Twilio\Rest\Video\V1\CompositionSettingsList compositionSettings
  * @property \Twilio\Rest\Video\V1\RecordingList recordings
  * @property \Twilio\Rest\Video\V1\RecordingSettingsList recordingSettings
  * @property \Twilio\Rest\Video\V1\CompositionList compositions
  * @property \Twilio\Rest\Video\V1\RoomList rooms
+ * @method \Twilio\Rest\Video\V1\CompositionHookContext compositionHooks(string $sid)
  * @method \Twilio\Rest\Video\V1\CompositionSettingsContext compositionSettings()
  * @method \Twilio\Rest\Video\V1\RecordingContext recordings(string $sid)
  * @method \Twilio\Rest\Video\V1\RecordingSettingsContext recordingSettings()
@@ -83,6 +85,22 @@ class Video extends Domain {
         }
 
         throw new TwilioException('Unknown context ' . $name);
+    }
+
+    /**
+     * @return \Twilio\Rest\Video\V1\CompositionHookList 
+     */
+    protected function getCompositionHooks() {
+        return $this->v1->compositionHooks;
+    }
+
+    /**
+     * @param string $sid The Composition Hook Sid that uniquely identifies the
+     *                    Composition Hook to fetch.
+     * @return \Twilio\Rest\Video\V1\CompositionHookContext 
+     */
+    protected function contextCompositionHooks($sid) {
+        return $this->v1->compositionHooks($sid);
     }
 
     /**
@@ -153,7 +171,8 @@ class Video extends Domain {
     }
 
     /**
-     * @param string $sid The sid
+     * @param string $sid The Room Sid or name that uniquely identifies this
+     *                    resource.
      * @return \Twilio\Rest\Video\V1\RoomContext 
      */
     protected function contextRooms($sid) {

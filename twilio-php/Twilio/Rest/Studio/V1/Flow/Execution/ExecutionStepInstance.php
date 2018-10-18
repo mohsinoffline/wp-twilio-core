@@ -16,8 +16,6 @@ use Twilio\Values;
 use Twilio\Version;
 
 /**
- * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
- * 
  * @property string sid
  * @property string accountSid
  * @property string flowSid
@@ -39,9 +37,9 @@ class ExecutionStepInstance extends InstanceResource {
      * 
      * @param \Twilio\Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
-     * @param string $flowSid The flow_sid
-     * @param string $executionSid The execution_sid
-     * @param string $sid The sid
+     * @param string $flowSid Flow Sid.
+     * @param string $executionSid Execution Sid.
+     * @param string $sid Step Sid.
      * @return \Twilio\Rest\Studio\V1\Flow\Execution\ExecutionStepInstance 
      */
     public function __construct(Version $version, array $payload, $flowSid, $executionSid, $sid = null) {

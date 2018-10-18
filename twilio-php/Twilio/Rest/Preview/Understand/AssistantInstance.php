@@ -27,25 +27,28 @@ use Twilio\Version;
  * @property array links
  * @property boolean logQueries
  * @property string sid
- * @property integer ttl
  * @property string uniqueName
  * @property string url
- * @property string responseUrl
  * @property string callbackUrl
  * @property string callbackEvents
  */
 class AssistantInstance extends InstanceResource {
     protected $_fieldTypes = null;
-    protected $_intents = null;
+    protected $_tasks = null;
     protected $_modelBuilds = null;
     protected $_queries = null;
+    protected $_assistantFallbackActions = null;
+    protected $_assistantInitiationActions = null;
+    protected $_dialogues = null;
+    protected $_styleSheet = null;
 
     /**
      * Initialize the AssistantInstance
      * 
      * @param \Twilio\Version $version Version that contains the resource
      * @param mixed[] $payload The response payload
-     * @param string $sid The sid
+     * @param string $sid A 34 character string that uniquely identifies this
+     *                    resource.
      * @return \Twilio\Rest\Preview\Understand\AssistantInstance 
      */
     public function __construct(Version $version, array $payload, $sid = null) {
@@ -61,10 +64,8 @@ class AssistantInstance extends InstanceResource {
             'links' => Values::array_get($payload, 'links'),
             'logQueries' => Values::array_get($payload, 'log_queries'),
             'sid' => Values::array_get($payload, 'sid'),
-            'ttl' => Values::array_get($payload, 'ttl'),
             'uniqueName' => Values::array_get($payload, 'unique_name'),
             'url' => Values::array_get($payload, 'url'),
-            'responseUrl' => Values::array_get($payload, 'response_url'),
             'callbackUrl' => Values::array_get($payload, 'callback_url'),
             'callbackEvents' => Values::array_get($payload, 'callback_events'),
         );
@@ -128,12 +129,12 @@ class AssistantInstance extends InstanceResource {
     }
 
     /**
-     * Access the intents
+     * Access the tasks
      * 
-     * @return \Twilio\Rest\Preview\Understand\Assistant\IntentList 
+     * @return \Twilio\Rest\Preview\Understand\Assistant\TaskList 
      */
-    protected function getIntents() {
-        return $this->proxy()->intents;
+    protected function getTasks() {
+        return $this->proxy()->tasks;
     }
 
     /**
@@ -152,6 +153,42 @@ class AssistantInstance extends InstanceResource {
      */
     protected function getQueries() {
         return $this->proxy()->queries;
+    }
+
+    /**
+     * Access the assistantFallbackActions
+     * 
+     * @return \Twilio\Rest\Preview\Understand\Assistant\AssistantFallbackActionsList 
+     */
+    protected function getAssistantFallbackActions() {
+        return $this->proxy()->assistantFallbackActions;
+    }
+
+    /**
+     * Access the assistantInitiationActions
+     * 
+     * @return \Twilio\Rest\Preview\Understand\Assistant\AssistantInitiationActionsList 
+     */
+    protected function getAssistantInitiationActions() {
+        return $this->proxy()->assistantInitiationActions;
+    }
+
+    /**
+     * Access the dialogues
+     * 
+     * @return \Twilio\Rest\Preview\Understand\Assistant\DialogueList 
+     */
+    protected function getDialogues() {
+        return $this->proxy()->dialogues;
+    }
+
+    /**
+     * Access the styleSheet
+     * 
+     * @return \Twilio\Rest\Preview\Understand\Assistant\StyleSheetList 
+     */
+    protected function getStyleSheet() {
+        return $this->proxy()->styleSheet;
     }
 
     /**

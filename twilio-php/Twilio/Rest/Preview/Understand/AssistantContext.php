@@ -12,10 +12,14 @@ namespace Twilio\Rest\Preview\Understand;
 use Twilio\Exceptions\TwilioException;
 use Twilio\InstanceContext;
 use Twilio\Options;
+use Twilio\Rest\Preview\Understand\Assistant\AssistantFallbackActionsList;
+use Twilio\Rest\Preview\Understand\Assistant\AssistantInitiationActionsList;
+use Twilio\Rest\Preview\Understand\Assistant\DialogueList;
 use Twilio\Rest\Preview\Understand\Assistant\FieldTypeList;
-use Twilio\Rest\Preview\Understand\Assistant\IntentList;
 use Twilio\Rest\Preview\Understand\Assistant\ModelBuildList;
 use Twilio\Rest\Preview\Understand\Assistant\QueryList;
+use Twilio\Rest\Preview\Understand\Assistant\StyleSheetList;
+use Twilio\Rest\Preview\Understand\Assistant\TaskList;
 use Twilio\Serialize;
 use Twilio\Values;
 use Twilio\Version;
@@ -24,25 +28,38 @@ use Twilio\Version;
  * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
  * 
  * @property \Twilio\Rest\Preview\Understand\Assistant\FieldTypeList fieldTypes
- * @property \Twilio\Rest\Preview\Understand\Assistant\IntentList intents
+ * @property \Twilio\Rest\Preview\Understand\Assistant\TaskList tasks
  * @property \Twilio\Rest\Preview\Understand\Assistant\ModelBuildList modelBuilds
  * @property \Twilio\Rest\Preview\Understand\Assistant\QueryList queries
+ * @property \Twilio\Rest\Preview\Understand\Assistant\AssistantFallbackActionsList assistantFallbackActions
+ * @property \Twilio\Rest\Preview\Understand\Assistant\AssistantInitiationActionsList assistantInitiationActions
+ * @property \Twilio\Rest\Preview\Understand\Assistant\DialogueList dialogues
+ * @property \Twilio\Rest\Preview\Understand\Assistant\StyleSheetList styleSheet
  * @method \Twilio\Rest\Preview\Understand\Assistant\FieldTypeContext fieldTypes(string $sid)
- * @method \Twilio\Rest\Preview\Understand\Assistant\IntentContext intents(string $sid)
+ * @method \Twilio\Rest\Preview\Understand\Assistant\TaskContext tasks(string $sid)
  * @method \Twilio\Rest\Preview\Understand\Assistant\ModelBuildContext modelBuilds(string $sid)
  * @method \Twilio\Rest\Preview\Understand\Assistant\QueryContext queries(string $sid)
+ * @method \Twilio\Rest\Preview\Understand\Assistant\AssistantFallbackActionsContext assistantFallbackActions()
+ * @method \Twilio\Rest\Preview\Understand\Assistant\AssistantInitiationActionsContext assistantInitiationActions()
+ * @method \Twilio\Rest\Preview\Understand\Assistant\DialogueContext dialogues(string $sid)
+ * @method \Twilio\Rest\Preview\Understand\Assistant\StyleSheetContext styleSheet()
  */
 class AssistantContext extends InstanceContext {
     protected $_fieldTypes = null;
-    protected $_intents = null;
+    protected $_tasks = null;
     protected $_modelBuilds = null;
     protected $_queries = null;
+    protected $_assistantFallbackActions = null;
+    protected $_assistantInitiationActions = null;
+    protected $_dialogues = null;
+    protected $_styleSheet = null;
 
     /**
      * Initialize the AssistantContext
      * 
      * @param \Twilio\Version $version Version that contains the resource
-     * @param string $sid The sid
+     * @param string $sid A 34 character string that uniquely identifies this
+     *                    resource.
      * @return \Twilio\Rest\Preview\Understand\AssistantContext 
      */
     public function __construct(Version $version, $sid) {
@@ -85,11 +102,12 @@ class AssistantContext extends InstanceContext {
         $data = Values::of(array(
             'FriendlyName' => $options['friendlyName'],
             'LogQueries' => Serialize::booleanToString($options['logQueries']),
-            'Ttl' => $options['ttl'],
             'UniqueName' => $options['uniqueName'],
-            'ResponseUrl' => $options['responseUrl'],
             'CallbackUrl' => $options['callbackUrl'],
             'CallbackEvents' => $options['callbackEvents'],
+            'FallbackActions' => Serialize::jsonObject($options['fallbackActions']),
+            'InitiationActions' => Serialize::jsonObject($options['initiationActions']),
+            'StyleSheet' => Serialize::jsonObject($options['styleSheet']),
         ));
 
         $payload = $this->version->update(
@@ -126,16 +144,16 @@ class AssistantContext extends InstanceContext {
     }
 
     /**
-     * Access the intents
+     * Access the tasks
      * 
-     * @return \Twilio\Rest\Preview\Understand\Assistant\IntentList 
+     * @return \Twilio\Rest\Preview\Understand\Assistant\TaskList 
      */
-    protected function getIntents() {
-        if (!$this->_intents) {
-            $this->_intents = new IntentList($this->version, $this->solution['sid']);
+    protected function getTasks() {
+        if (!$this->_tasks) {
+            $this->_tasks = new TaskList($this->version, $this->solution['sid']);
         }
 
-        return $this->_intents;
+        return $this->_tasks;
     }
 
     /**
@@ -162,6 +180,64 @@ class AssistantContext extends InstanceContext {
         }
 
         return $this->_queries;
+    }
+
+    /**
+     * Access the assistantFallbackActions
+     * 
+     * @return \Twilio\Rest\Preview\Understand\Assistant\AssistantFallbackActionsList 
+     */
+    protected function getAssistantFallbackActions() {
+        if (!$this->_assistantFallbackActions) {
+            $this->_assistantFallbackActions = new AssistantFallbackActionsList(
+                $this->version,
+                $this->solution['sid']
+            );
+        }
+
+        return $this->_assistantFallbackActions;
+    }
+
+    /**
+     * Access the assistantInitiationActions
+     * 
+     * @return \Twilio\Rest\Preview\Understand\Assistant\AssistantInitiationActionsList 
+     */
+    protected function getAssistantInitiationActions() {
+        if (!$this->_assistantInitiationActions) {
+            $this->_assistantInitiationActions = new AssistantInitiationActionsList(
+                $this->version,
+                $this->solution['sid']
+            );
+        }
+
+        return $this->_assistantInitiationActions;
+    }
+
+    /**
+     * Access the dialogues
+     * 
+     * @return \Twilio\Rest\Preview\Understand\Assistant\DialogueList 
+     */
+    protected function getDialogues() {
+        if (!$this->_dialogues) {
+            $this->_dialogues = new DialogueList($this->version, $this->solution['sid']);
+        }
+
+        return $this->_dialogues;
+    }
+
+    /**
+     * Access the styleSheet
+     * 
+     * @return \Twilio\Rest\Preview\Understand\Assistant\StyleSheetList 
+     */
+    protected function getStyleSheet() {
+        if (!$this->_styleSheet) {
+            $this->_styleSheet = new StyleSheetList($this->version, $this->solution['sid']);
+        }
+
+        return $this->_styleSheet;
     }
 
     /**

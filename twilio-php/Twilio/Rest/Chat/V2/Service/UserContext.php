@@ -20,6 +20,7 @@ use Twilio\Version;
 /**
  * @property \Twilio\Rest\Chat\V2\Service\User\UserChannelList userChannels
  * @property \Twilio\Rest\Chat\V2\Service\User\UserBindingList userBindings
+ * @method \Twilio\Rest\Chat\V2\Service\User\UserChannelContext userChannels(string $channelSid)
  * @method \Twilio\Rest\Chat\V2\Service\User\UserBindingContext userBindings(string $sid)
  */
 class UserContext extends InstanceContext {
@@ -30,8 +31,8 @@ class UserContext extends InstanceContext {
      * Initialize the UserContext
      * 
      * @param \Twilio\Version $version Version that contains the resource
-     * @param string $serviceSid The service_sid
-     * @param string $sid The sid
+     * @param string $serviceSid Sid of the Service this user belongs to.
+     * @param string $sid Key that uniquely defines the user to fetch.
      * @return \Twilio\Rest\Chat\V2\Service\UserContext 
      */
     public function __construct(Version $version, $serviceSid, $sid) {

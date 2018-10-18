@@ -24,19 +24,24 @@ abstract class AssistantOptions {
      *                            no queries will be stored, if true, queries will
      *                            be stored for 30 days and deleted thereafter.
      *                            Defaults to true if no value is provided.
-     * @param integer $ttl The ttl
      * @param string $uniqueName A user-provided string that uniquely identifies
      *                           this resource as an alternative to the sid. Unique
      *                           up to 64 characters long.
-     * @param string $responseUrl The webhook URL called to fetch the response to
-     *                            an incoming communication expressed in Assistant
-     *                            TwiML.
-     * @param string $callbackUrl The callback_url
-     * @param string $callbackEvents The callback_events
+     * @param string $callbackUrl A user-provided URL to send event callbacks to.
+     * @param string $callbackEvents Space-separated list of callback events that
+     *                               will trigger callbacks.
+     * @param array $fallbackActions The JSON actions to be executed when the
+     *                               user's input is not recognized as matching any
+     *                               Task.
+     * @param array $initiationActions The JSON actions to be executed on inbound
+     *                                 phone calls when the Assistant has to say
+     *                                 something first.
+     * @param array $styleSheet The JSON object that holds the style sheet for the
+     *                          assistant
      * @return CreateAssistantOptions Options builder
      */
-    public static function create($friendlyName = Values::NONE, $logQueries = Values::NONE, $ttl = Values::NONE, $uniqueName = Values::NONE, $responseUrl = Values::NONE, $callbackUrl = Values::NONE, $callbackEvents = Values::NONE) {
-        return new CreateAssistantOptions($friendlyName, $logQueries, $ttl, $uniqueName, $responseUrl, $callbackUrl, $callbackEvents);
+    public static function create($friendlyName = Values::NONE, $logQueries = Values::NONE, $uniqueName = Values::NONE, $callbackUrl = Values::NONE, $callbackEvents = Values::NONE, $fallbackActions = Values::NONE, $initiationActions = Values::NONE, $styleSheet = Values::NONE) {
+        return new CreateAssistantOptions($friendlyName, $logQueries, $uniqueName, $callbackUrl, $callbackEvents, $fallbackActions, $initiationActions, $styleSheet);
     }
 
     /**
@@ -47,19 +52,24 @@ abstract class AssistantOptions {
      *                            no queries will be stored, if true, queries will
      *                            be stored for 30 days and deleted thereafter.
      *                            Defaults to true if no value is provided.
-     * @param integer $ttl The ttl
      * @param string $uniqueName A user-provided string that uniquely identifies
      *                           this resource as an alternative to the sid. Unique
      *                           up to 64 characters long.
-     * @param string $responseUrl The webhook URL called to fetch the response to
-     *                            an incoming communication expressed in Assistant
-     *                            TwiML.
-     * @param string $callbackUrl The callback_url
-     * @param string $callbackEvents The callback_events
+     * @param string $callbackUrl A user-provided URL to send event callbacks to.
+     * @param string $callbackEvents Space-separated list of callback events that
+     *                               will trigger callbacks.
+     * @param array $fallbackActions The JSON actions to be executed when the
+     *                               user's input is not recognized as matching any
+     *                               Task.
+     * @param array $initiationActions The JSON actions to be executed on inbound
+     *                                 phone calls when the Assistant has to say
+     *                                 something first.
+     * @param array $styleSheet The JSON object that holds the style sheet for the
+     *                          assistant
      * @return UpdateAssistantOptions Options builder
      */
-    public static function update($friendlyName = Values::NONE, $logQueries = Values::NONE, $ttl = Values::NONE, $uniqueName = Values::NONE, $responseUrl = Values::NONE, $callbackUrl = Values::NONE, $callbackEvents = Values::NONE) {
-        return new UpdateAssistantOptions($friendlyName, $logQueries, $ttl, $uniqueName, $responseUrl, $callbackUrl, $callbackEvents);
+    public static function update($friendlyName = Values::NONE, $logQueries = Values::NONE, $uniqueName = Values::NONE, $callbackUrl = Values::NONE, $callbackEvents = Values::NONE, $fallbackActions = Values::NONE, $initiationActions = Values::NONE, $styleSheet = Values::NONE) {
+        return new UpdateAssistantOptions($friendlyName, $logQueries, $uniqueName, $callbackUrl, $callbackEvents, $fallbackActions, $initiationActions, $styleSheet);
     }
 }
 
@@ -72,24 +82,30 @@ class CreateAssistantOptions extends Options {
      *                            no queries will be stored, if true, queries will
      *                            be stored for 30 days and deleted thereafter.
      *                            Defaults to true if no value is provided.
-     * @param integer $ttl The ttl
      * @param string $uniqueName A user-provided string that uniquely identifies
      *                           this resource as an alternative to the sid. Unique
      *                           up to 64 characters long.
-     * @param string $responseUrl The webhook URL called to fetch the response to
-     *                            an incoming communication expressed in Assistant
-     *                            TwiML.
-     * @param string $callbackUrl The callback_url
-     * @param string $callbackEvents The callback_events
+     * @param string $callbackUrl A user-provided URL to send event callbacks to.
+     * @param string $callbackEvents Space-separated list of callback events that
+     *                               will trigger callbacks.
+     * @param array $fallbackActions The JSON actions to be executed when the
+     *                               user's input is not recognized as matching any
+     *                               Task.
+     * @param array $initiationActions The JSON actions to be executed on inbound
+     *                                 phone calls when the Assistant has to say
+     *                                 something first.
+     * @param array $styleSheet The JSON object that holds the style sheet for the
+     *                          assistant
      */
-    public function __construct($friendlyName = Values::NONE, $logQueries = Values::NONE, $ttl = Values::NONE, $uniqueName = Values::NONE, $responseUrl = Values::NONE, $callbackUrl = Values::NONE, $callbackEvents = Values::NONE) {
+    public function __construct($friendlyName = Values::NONE, $logQueries = Values::NONE, $uniqueName = Values::NONE, $callbackUrl = Values::NONE, $callbackEvents = Values::NONE, $fallbackActions = Values::NONE, $initiationActions = Values::NONE, $styleSheet = Values::NONE) {
         $this->options['friendlyName'] = $friendlyName;
         $this->options['logQueries'] = $logQueries;
-        $this->options['ttl'] = $ttl;
         $this->options['uniqueName'] = $uniqueName;
-        $this->options['responseUrl'] = $responseUrl;
         $this->options['callbackUrl'] = $callbackUrl;
         $this->options['callbackEvents'] = $callbackEvents;
+        $this->options['fallbackActions'] = $fallbackActions;
+        $this->options['initiationActions'] = $initiationActions;
+        $this->options['styleSheet'] = $styleSheet;
     }
 
     /**
@@ -120,17 +136,6 @@ class CreateAssistantOptions extends Options {
     }
 
     /**
-     * The ttl
-     * 
-     * @param integer $ttl The ttl
-     * @return $this Fluent Builder
-     */
-    public function setTtl($ttl) {
-        $this->options['ttl'] = $ttl;
-        return $this;
-    }
-
-    /**
      * A user-provided string that uniquely identifies this resource as an alternative to the sid. Unique up to 64 characters long.
      * 
      * @param string $uniqueName A user-provided string that uniquely identifies
@@ -144,22 +149,9 @@ class CreateAssistantOptions extends Options {
     }
 
     /**
-     * The webhook URL called to fetch the response to an incoming communication expressed in Assistant TwiML.
+     * A user-provided URL to send event callbacks to.
      * 
-     * @param string $responseUrl The webhook URL called to fetch the response to
-     *                            an incoming communication expressed in Assistant
-     *                            TwiML.
-     * @return $this Fluent Builder
-     */
-    public function setResponseUrl($responseUrl) {
-        $this->options['responseUrl'] = $responseUrl;
-        return $this;
-    }
-
-    /**
-     * The callback_url
-     * 
-     * @param string $callbackUrl The callback_url
+     * @param string $callbackUrl A user-provided URL to send event callbacks to.
      * @return $this Fluent Builder
      */
     public function setCallbackUrl($callbackUrl) {
@@ -168,13 +160,52 @@ class CreateAssistantOptions extends Options {
     }
 
     /**
-     * The callback_events
+     * Space-separated list of callback events that will trigger callbacks.
      * 
-     * @param string $callbackEvents The callback_events
+     * @param string $callbackEvents Space-separated list of callback events that
+     *                               will trigger callbacks.
      * @return $this Fluent Builder
      */
     public function setCallbackEvents($callbackEvents) {
         $this->options['callbackEvents'] = $callbackEvents;
+        return $this;
+    }
+
+    /**
+     * The JSON actions to be executed when the user's input is not recognized as matching any Task.
+     * 
+     * @param array $fallbackActions The JSON actions to be executed when the
+     *                               user's input is not recognized as matching any
+     *                               Task.
+     * @return $this Fluent Builder
+     */
+    public function setFallbackActions($fallbackActions) {
+        $this->options['fallbackActions'] = $fallbackActions;
+        return $this;
+    }
+
+    /**
+     * The JSON actions to be executed on inbound phone calls when the Assistant has to say something first.
+     * 
+     * @param array $initiationActions The JSON actions to be executed on inbound
+     *                                 phone calls when the Assistant has to say
+     *                                 something first.
+     * @return $this Fluent Builder
+     */
+    public function setInitiationActions($initiationActions) {
+        $this->options['initiationActions'] = $initiationActions;
+        return $this;
+    }
+
+    /**
+     * The JSON object that holds the style sheet for the assistant
+     * 
+     * @param array $styleSheet The JSON object that holds the style sheet for the
+     *                          assistant
+     * @return $this Fluent Builder
+     */
+    public function setStyleSheet($styleSheet) {
+        $this->options['styleSheet'] = $styleSheet;
         return $this;
     }
 
@@ -203,24 +234,30 @@ class UpdateAssistantOptions extends Options {
      *                            no queries will be stored, if true, queries will
      *                            be stored for 30 days and deleted thereafter.
      *                            Defaults to true if no value is provided.
-     * @param integer $ttl The ttl
      * @param string $uniqueName A user-provided string that uniquely identifies
      *                           this resource as an alternative to the sid. Unique
      *                           up to 64 characters long.
-     * @param string $responseUrl The webhook URL called to fetch the response to
-     *                            an incoming communication expressed in Assistant
-     *                            TwiML.
-     * @param string $callbackUrl The callback_url
-     * @param string $callbackEvents The callback_events
+     * @param string $callbackUrl A user-provided URL to send event callbacks to.
+     * @param string $callbackEvents Space-separated list of callback events that
+     *                               will trigger callbacks.
+     * @param array $fallbackActions The JSON actions to be executed when the
+     *                               user's input is not recognized as matching any
+     *                               Task.
+     * @param array $initiationActions The JSON actions to be executed on inbound
+     *                                 phone calls when the Assistant has to say
+     *                                 something first.
+     * @param array $styleSheet The JSON object that holds the style sheet for the
+     *                          assistant
      */
-    public function __construct($friendlyName = Values::NONE, $logQueries = Values::NONE, $ttl = Values::NONE, $uniqueName = Values::NONE, $responseUrl = Values::NONE, $callbackUrl = Values::NONE, $callbackEvents = Values::NONE) {
+    public function __construct($friendlyName = Values::NONE, $logQueries = Values::NONE, $uniqueName = Values::NONE, $callbackUrl = Values::NONE, $callbackEvents = Values::NONE, $fallbackActions = Values::NONE, $initiationActions = Values::NONE, $styleSheet = Values::NONE) {
         $this->options['friendlyName'] = $friendlyName;
         $this->options['logQueries'] = $logQueries;
-        $this->options['ttl'] = $ttl;
         $this->options['uniqueName'] = $uniqueName;
-        $this->options['responseUrl'] = $responseUrl;
         $this->options['callbackUrl'] = $callbackUrl;
         $this->options['callbackEvents'] = $callbackEvents;
+        $this->options['fallbackActions'] = $fallbackActions;
+        $this->options['initiationActions'] = $initiationActions;
+        $this->options['styleSheet'] = $styleSheet;
     }
 
     /**
@@ -251,17 +288,6 @@ class UpdateAssistantOptions extends Options {
     }
 
     /**
-     * The ttl
-     * 
-     * @param integer $ttl The ttl
-     * @return $this Fluent Builder
-     */
-    public function setTtl($ttl) {
-        $this->options['ttl'] = $ttl;
-        return $this;
-    }
-
-    /**
      * A user-provided string that uniquely identifies this resource as an alternative to the sid. Unique up to 64 characters long.
      * 
      * @param string $uniqueName A user-provided string that uniquely identifies
@@ -275,22 +301,9 @@ class UpdateAssistantOptions extends Options {
     }
 
     /**
-     * The webhook URL called to fetch the response to an incoming communication expressed in Assistant TwiML.
+     * A user-provided URL to send event callbacks to.
      * 
-     * @param string $responseUrl The webhook URL called to fetch the response to
-     *                            an incoming communication expressed in Assistant
-     *                            TwiML.
-     * @return $this Fluent Builder
-     */
-    public function setResponseUrl($responseUrl) {
-        $this->options['responseUrl'] = $responseUrl;
-        return $this;
-    }
-
-    /**
-     * The callback_url
-     * 
-     * @param string $callbackUrl The callback_url
+     * @param string $callbackUrl A user-provided URL to send event callbacks to.
      * @return $this Fluent Builder
      */
     public function setCallbackUrl($callbackUrl) {
@@ -299,13 +312,52 @@ class UpdateAssistantOptions extends Options {
     }
 
     /**
-     * The callback_events
+     * Space-separated list of callback events that will trigger callbacks.
      * 
-     * @param string $callbackEvents The callback_events
+     * @param string $callbackEvents Space-separated list of callback events that
+     *                               will trigger callbacks.
      * @return $this Fluent Builder
      */
     public function setCallbackEvents($callbackEvents) {
         $this->options['callbackEvents'] = $callbackEvents;
+        return $this;
+    }
+
+    /**
+     * The JSON actions to be executed when the user's input is not recognized as matching any Task.
+     * 
+     * @param array $fallbackActions The JSON actions to be executed when the
+     *                               user's input is not recognized as matching any
+     *                               Task.
+     * @return $this Fluent Builder
+     */
+    public function setFallbackActions($fallbackActions) {
+        $this->options['fallbackActions'] = $fallbackActions;
+        return $this;
+    }
+
+    /**
+     * The JSON actions to be executed on inbound phone calls when the Assistant has to say something first.
+     * 
+     * @param array $initiationActions The JSON actions to be executed on inbound
+     *                                 phone calls when the Assistant has to say
+     *                                 something first.
+     * @return $this Fluent Builder
+     */
+    public function setInitiationActions($initiationActions) {
+        $this->options['initiationActions'] = $initiationActions;
+        return $this;
+    }
+
+    /**
+     * The JSON object that holds the style sheet for the assistant
+     * 
+     * @param array $styleSheet The JSON object that holds the style sheet for the
+     *                          assistant
+     * @return $this Fluent Builder
+     */
+    public function setStyleSheet($styleSheet) {
+        $this->options['styleSheet'] = $styleSheet;
         return $this;
     }
 

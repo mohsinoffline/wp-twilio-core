@@ -11,6 +11,7 @@ namespace Twilio\Rest\Video;
 
 use Twilio\Domain;
 use Twilio\Exceptions\TwilioException;
+use Twilio\Rest\Video\V1\CompositionHookList;
 use Twilio\Rest\Video\V1\CompositionList;
 use Twilio\Rest\Video\V1\CompositionSettingsList;
 use Twilio\Rest\Video\V1\RecordingList;
@@ -19,16 +20,19 @@ use Twilio\Rest\Video\V1\RoomList;
 use Twilio\Version;
 
 /**
+ * @property \Twilio\Rest\Video\V1\CompositionHookList compositionHooks
  * @property \Twilio\Rest\Video\V1\CompositionSettingsList compositionSettings
  * @property \Twilio\Rest\Video\V1\RecordingList recordings
  * @property \Twilio\Rest\Video\V1\RecordingSettingsList recordingSettings
  * @property \Twilio\Rest\Video\V1\CompositionList compositions
  * @property \Twilio\Rest\Video\V1\RoomList rooms
+ * @method \Twilio\Rest\Video\V1\CompositionHookContext compositionHooks(string $sid)
  * @method \Twilio\Rest\Video\V1\RecordingContext recordings(string $sid)
  * @method \Twilio\Rest\Video\V1\CompositionContext compositions(string $sid)
  * @method \Twilio\Rest\Video\V1\RoomContext rooms(string $sid)
  */
 class V1 extends Version {
+    protected $_compositionHooks = null;
     protected $_compositionSettings = null;
     protected $_recordings = null;
     protected $_recordingSettings = null;
@@ -44,6 +48,16 @@ class V1 extends Version {
     public function __construct(Domain $domain) {
         parent::__construct($domain);
         $this->version = 'v1';
+    }
+
+    /**
+     * @return \Twilio\Rest\Video\V1\CompositionHookList 
+     */
+    protected function getCompositionHooks() {
+        if (!$this->_compositionHooks) {
+            $this->_compositionHooks = new CompositionHookList($this);
+        }
+        return $this->_compositionHooks;
     }
 
     /**

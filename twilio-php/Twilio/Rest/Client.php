@@ -20,6 +20,8 @@ use Twilio\VersionInfo;
  * 
  * @property \Twilio\Rest\Accounts accounts
  * @property \Twilio\Rest\Api api
+ * @property \Twilio\Rest\Authy authy
+ * @property \Twilio\Rest\Autopilot autopilot
  * @property \Twilio\Rest\Chat chat
  * @property \Twilio\Rest\Fax fax
  * @property \Twilio\Rest\IpMessaging ipMessaging
@@ -36,6 +38,8 @@ use Twilio\VersionInfo;
  * @property \Twilio\Rest\Wireless wireless
  * @property \Twilio\Rest\Sync sync
  * @property \Twilio\Rest\Studio studio
+ * @property \Twilio\Rest\Verify verify
+ * @property \Twilio\Rest\Voice voice
  * @property \Twilio\Rest\Api\V2010\AccountInstance account
  * @property \Twilio\Rest\Api\V2010\Account\AddressList addresses
  * @property \Twilio\Rest\Api\V2010\Account\ApplicationList applications
@@ -91,6 +95,8 @@ class Client {
     protected $_account;
     protected $_accounts = null;
     protected $_api = null;
+    protected $_authy = null;
+    protected $_autopilot = null;
     protected $_chat = null;
     protected $_fax = null;
     protected $_ipMessaging = null;
@@ -107,6 +113,8 @@ class Client {
     protected $_wireless = null;
     protected $_sync = null;
     protected $_studio = null;
+    protected $_verify = null;
+    protected $_voice = null;
 
     /**
      * Initializes the Twilio Client
@@ -592,6 +600,30 @@ class Client {
     }
 
     /**
+     * Access the Authy Twilio Domain
+     * 
+     * @return \Twilio\Rest\Authy Authy Twilio Domain
+     */
+    protected function getAuthy() {
+        if (!$this->_authy) {
+            $this->_authy = new Authy($this);
+        }
+        return $this->_authy;
+    }
+
+    /**
+     * Access the Autopilot Twilio Domain
+     * 
+     * @return \Twilio\Rest\Autopilot Autopilot Twilio Domain
+     */
+    protected function getAutopilot() {
+        if (!$this->_autopilot) {
+            $this->_autopilot = new Autopilot($this);
+        }
+        return $this->_autopilot;
+    }
+
+    /**
      * Access the Chat Twilio Domain
      * 
      * @return \Twilio\Rest\Chat Chat Twilio Domain
@@ -781,6 +813,30 @@ class Client {
             $this->_studio = new Studio($this);
         }
         return $this->_studio;
+    }
+
+    /**
+     * Access the Verify Twilio Domain
+     * 
+     * @return \Twilio\Rest\Verify Verify Twilio Domain
+     */
+    protected function getVerify() {
+        if (!$this->_verify) {
+            $this->_verify = new Verify($this);
+        }
+        return $this->_verify;
+    }
+
+    /**
+     * Access the Voice Twilio Domain
+     * 
+     * @return \Twilio\Rest\Voice Voice Twilio Domain
+     */
+    protected function getVoice() {
+        if (!$this->_voice) {
+            $this->_voice = new Voice($this);
+        }
+        return $this->_voice;
     }
 
     /**
