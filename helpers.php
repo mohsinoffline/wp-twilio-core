@@ -8,6 +8,7 @@
 function twl_send_sms( $args ) {
 	$options = twl_get_options();
 	$options['number_to'] = $options['message'] = '';
+	$options = wp_parse_args( $options, twl_get_defaults() );
 	$args = wp_parse_args( $args, $options );
 	$log = twl_validate_sms_args( $args );
 
@@ -92,6 +93,8 @@ function twl_get_defaults() {
 		'mobile_field' => '',
 		'url_shorten' => '',
 		'url_shorten_api_key' => '',
+		'url_shorten_bitly' => '',
+		'url_shorten_bitly_token' => '',
 	);
 	return apply_filters( 'twl_defaults', $twl_defaults );
 }
