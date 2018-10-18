@@ -10,23 +10,12 @@ function twl_filter_message_urls( $message, $args ) {
 	global $bitly_token, $group_guid;
 	if( $args['url_shorten_bitly'] && $args['url_shorten_bitly_token'] ) {
 		$bitly_token = apply_filters( 'twl_bitly_token', $args['url_shorten_bitly_token'] );
-		$result = wp_remote_get( 'https://api-ssl.bitly.com/v4/groups', array(
-			'headers' => array( 'Authorization' => "Bearer $bitly_token", 'Content-Type' => 'application/json' ),
-		) );
-		
-		if ( !is_wp_error( $result ) ) {
-			$result = json_decode( $result['body'] );
-			if( isset( $result->groups ) && is_array( $result->groups ) ) {
-				$group = reset( $result->groups );
-				if( isset( $group->guid ) ) {
-					$group_guid = $group->guid;
-					//echo $group_guid;
-					$regex = '"\b(https?://\S+)"';
-					$message = preg_replace_callback( $regex, function( $url ) {
-						return twl_url_shorten_bitly( $url[0] );
-					}, $message );
-				}
-			}
+		$group_guid = twl_get_bitly_group_guid( $bitly_token );
+		if( $group_guid ) {
+			$regex = '"\b(https?://\S+)"';
+			$message = preg_replace_callback( $regex, function( $url ) {
+				return twl_url_shorten_bitly( $url[0] );
+			}, $message );
 		}
 		
 	}
@@ -93,4 +82,27 @@ function twl_url_shorten_bitly( $url ) {
 		return $result->link;
 
 	return $url;
+}
+
+function twl_get_bitly_group_guid( $bitly_token ) {
+	
+	$group_guid = get_transient( 'twl_bitly_group_guid' );
+	if( !$group_guid ) {
+		
+		$result = wp_remote_get( 'https://api-ssl.bitly.com/v4/groups', array(
+			'headers' => array( 'Authorization' => "Bearer $bitly_token", 'Content-Type' => 'application/json' ),
+		) );
+		
+		if ( !is_wp_error( $result ) ) {
+			$result = json_decode( $result['body'] );
+			if( isset( $result->groups ) && is_array( $result->groups ) ) {
+				$group = reset( $result->groups );
+				if( isset( $group->guid ) ) {
+					$group_guid = $group->guid;
+					set_transient( 'twl_bitly_group_guid', $group_guid, WEEK_IN_SECONDS );
+				}
+			}
+		}
+	}
+	return $group_guid;
 }
