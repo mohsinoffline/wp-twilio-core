@@ -19,7 +19,7 @@ Here's a list of what the plugin provides out of the box:
 * Hooks to add additional tabs on the plugin settings page to allow managing all SMS related settings from the same page
 * Basic logging capability to keep track of up to 100 entries
 * Mobile Phone User Field added to each profile (optional)
-* Shorten URLs using Google URL Shortener API (optional)
+* Shorten URLs using Bit.ly or Google URL Shortener API (optional)
 
 <h3>twl_send_sms( $args )</h3>
 <p>Sends a standard text message from your Twilio Number when arguments are passed in an array format. Description of each array key is given below.</p>
@@ -32,7 +32,8 @@ number_from *(optional)* | string | Override the Twilio Number from settings. Mu
 account_sid *(optional)* | string | Override the Twilio Account SID from settings. Must be associated with Twilio number and Auth Token.
 auth_token *(optional)* | string | Override the Auth Token from settings. Must be associated with Twilio number and Account SID.
 logging *(optional)* | integer (1 or 0) | Override the logging option set from the settings page. Requires the digit '1' to enable.
-url_shorten *(optional)* | integer (1 or 0) | Override the URL shortening option set from the settings page. Requires the digit '1' to enable.
+url_shorten *(optional)* | integer (1 or 0) | Override the Goo.gl URL shortening option set from the settings page. Requires the digit '1' to enable.
+url_shorten_bitly *(optional)* | integer (1 or 0) | Override the Bit.ly URL shortening option set from the settings page. Requires the digit '1' to enable.
 
 Returns an array with response from Twilio's servers on success of a *WP_Error* object on failure.
 

@@ -1,9 +1,9 @@
 === WP Twilio Core ===
 Contributors: mohsinoffline
-Donate link: https://themebound.com/
+Donate link: https://themebound.com/contact-us/send-payment/
 Tags: twilio, sms, text message
 Requires at least: 4.2
-Tested up to: 4.8
+Tested up to: 5.0
 Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -26,7 +26,7 @@ Here's a list of what the plugin provides out of the box:
 * Hooks to add additional tabs on the plugin settings page to allow managing all SMS related settings from the same page
 * Basic logging capability to keep track of up to 100 entries
 * Mobile Phone User Field added to each profile (optional)
-* Shorten URLs using Google URL Shortener API (optional)
+* Shorten URLs using Bit.ly or Google URL Shortener API (optional)
 
 Extend, Contribute, Integrate
 -------
@@ -57,6 +57,10 @@ Yes, you will need to signup on [Twilio](https://www.twilio.com/), and obtain a 
 2. Settings page in the WordPress admin back end.
 
 == Changelog ==
+
+= 1.2.0 =
+* Added URL shortening option via Bit.ly URL Shortener API
+* Update Twilio PHP helper library to 5.24.1
 
 = 1.1.0 =
 * Update Twilio PHP helper library to 5.7.0
