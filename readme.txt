@@ -4,7 +4,7 @@ Donate link: https://themebound.com/contact-us/send-payment/
 Tags: twilio, sms, text message
 Requires at least: 4.2
 Tested up to: 5.0
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,9 @@ Yes, you will need to signup on [Twilio](https://www.twilio.com/), and obtain a 
 2. Settings page in the WordPress admin back end.
 
 == Changelog ==
+
+= 1.2.1 =
+* Added contact and add-on menus
 
 = 1.2.0 =
 * Added URL shortening option via Bit.ly URL Shortener API

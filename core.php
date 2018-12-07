@@ -3,14 +3,14 @@
  * Plugin Name: WP Twilio Core
  * Plugin URI: https://themebound.com/shop/wp-twilio-core/
  * Description: A simple plugin to add SMS capability to your website using the Twilio API. Allows developers to easily extend the settings page and built in functionality.
- * Version: 1.2.0
+ * Version: 1.2.1
  * Author: Themebound.com
  * Author URI: https://themebound.com
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
 
-define( 'TWL_CORE_VERSION', '1.2.0' );
+define( 'TWL_CORE_VERSION', '1.2.1' );
 define( 'TWL_CORE_OPTION', 'twl_option' );
 define( 'TWL_CORE_OPTION_PAGE', 'twilio-options' );
 define( 'TWL_CORE_SETTING', 'twilio-options' );
@@ -22,6 +22,34 @@ if( !defined( 'TWL_TD' ) ) {
 
 if( !defined( 'TWL_PATH' ) ) {
 	define( 'TWL_PATH', plugin_dir_path( __FILE__ ) );
+}
+
+if ( ! function_exists( 'twl_freemius' ) ) {
+    // Create a helper function for easy SDK access.
+    function twl_freemius() {
+        global $twl_freemius;
+
+        if ( ! isset( $twl_freemius ) ) {
+            // Include Freemius SDK.
+            require_once( TWL_PATH . 'freemius/start.php' );
+
+            $twl_freemius = fs_dynamic_init( array(
+                'id'                  => '2894',
+                'slug'                => 'wp-twilio-core',
+                'type'                => 'plugin',
+                'public_key'          => 'pk_41d58e132e8e380880894f44eb5ca',
+                'is_premium'          => false,
+                'has_addons'          => true,
+                'has_paid_plans'      => false,
+                'menu'                => array(
+                    'slug'           => 'twilio-options',
+                    'support'        => false,
+                ),
+            ) );
+        }
+
+        return $twl_freemius;
+    }
 }
 
 require_once( TWL_PATH . 'twilio-php/Twilio/autoload.php' );
@@ -37,6 +65,10 @@ class WP_Twilio_Core {
 
 	private function __construct() {
 		$this->set_page_url();
+		// Init Freemius.
+		twl_freemius();
+		// Signal that SDK was initiated.
+		do_action( 'twl_freemius_loaded' );
 	}
 
 	public function init() {
@@ -63,7 +95,7 @@ class WP_Twilio_Core {
 	 * @access public
 	 */
 	public function admin_menu() {
-		add_options_page( __( 'Twilio', TWL_TD ), __( 'Twilio', TWL_TD ), 'administrator', TWL_CORE_OPTION_PAGE, array( $this, 'display_tabs' ) );
+		add_menu_page( __( 'Twilio', TWL_TD ), __( 'Twilio', TWL_TD ), 'administrator', TWL_CORE_OPTION_PAGE, array( $this, 'display_tabs' ), 'dashicons-email-alt', 91 );
 	}
 
 	/**
@@ -101,7 +133,7 @@ class WP_Twilio_Core {
 	 * @access public
 	 */
 	public function set_page_url() {
-		$base = admin_url( 'options-general.php' );
+		$base = admin_url( 'admin.php' );
 		$this->page_url = add_query_arg( 'page',  TWL_CORE_OPTION_PAGE, $base );
 	}
 
@@ -177,4 +209,5 @@ class WP_Twilio_Core {
 $twl_instance = WP_Twilio_Core::get_instance();
 add_action( 'plugins_loaded', array( $twl_instance, 'init' ) );
 register_activation_hook( __FILE__, array( 'WP_Twilio_Core', 'plugin_activated' ) );
-register_uninstall_hook( __FILE__, array( 'WP_Twilio_Core', 'plugin_uninstalled' ) );
+twl_freemius()->add_action( 'after_uninstall', array( 'WP_Twilio_Core', 'plugin_uninstalled' ) );
+
