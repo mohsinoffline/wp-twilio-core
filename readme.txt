@@ -1,9 +1,9 @@
 === WP Twilio Core ===
 Contributors: mohsinoffline
-Donate link: https://themebound.com/contact-us/send-payment/
+Donate link: https://wpsms.io
 Tags: twilio, sms, text message
 Requires at least: 4.2
-Tested up to: 5.0
+Tested up to: 5.0.3
 Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -31,9 +31,9 @@ Here's a list of what the plugin provides out of the box:
 Extend, Contribute, Integrate
 -------
 
-Visit the [plugin page](https://themebound.com/shop/wp-twilio-core/) for full integration details. Contributors are welcome to send pull requests via [GitHub repository](https://github.com/mohsinoffline/wp-twilio-core).
+Visit the [plugin page](https://wpsms.io/) for full integration details. Contributors are welcome to send pull requests via [GitHub repository](https://github.com/mohsinoffline/wp-twilio-core).
 
-For custom integration with your WordPress website, please [contact us here](https://themebound.com/contact-us/).
+For custom integration with your WordPress website, please [contact us here](https://wpsms.io/).
 
 Disclaimer: This plugin is not affiliated with or supported by Twilio, Inc. All logos and trademarks are the property of their respective owners. 
 

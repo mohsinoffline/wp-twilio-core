@@ -71,6 +71,6 @@ add_action( 'twl_display_tab', 'add_my_shop_tab_content', 10, 2 );
 Feel free to send pull requests. They are always welcome!
 	
 <h5>Copyright</h5>
-[WP Twilio Core](https://themebound.com/shop/wp-twilio-core/) plugin created by [Themebound](https://themebound.com/). It is also available at the [WordPress Plugins repository](https://wordpress.org/plugins/wp-twilio-core/). For custom integration with your WordPress website, please [contact us here](https://themebound.com/contact-us/).
+[WP Twilio Core](https://wpsms.io/) plugin created by [WP SMS](https://wpsms.io). It is also available at the [WordPress Plugins repository](https://wordpress.org/plugins/wp-twilio-core/). For custom integration with your WordPress website, please [contact us here](https://wpsms.io/).
 
 Disclaimer: This plugin is not affiliated with or supported by Twilio, Inc. All logos and trademarks are the property of their respective owners.

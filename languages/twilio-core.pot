@@ -242,7 +242,7 @@ msgid "WP Twilio Core"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "https://themebound.com/shop/wp-twilio-core/"
+msgid "https://wpsms.io/"
 msgstr ""
 
 #. Description of the plugin/theme
@@ -253,9 +253,9 @@ msgid ""
 msgstr ""
 
 #. Author of the plugin/theme
-msgid "Themebound.com"
+msgid "WP SMS"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "https://themebound.com"
+msgid "https://wpsms.io"
 msgstr ""

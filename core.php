@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: WP Twilio Core
- * Plugin URI: https://themebound.com/shop/wp-twilio-core/
+ * Plugin URI: https://wpsms.io/
  * Description: A simple plugin to add SMS capability to your website using the Twilio API. Allows developers to easily extend the settings page and built in functionality.
  * Version: 1.2.1
- * Author: Themebound.com
- * Author URI: https://themebound.com
+ * Author: WP SMS
+ * Author URI: https://wpsms.io
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
