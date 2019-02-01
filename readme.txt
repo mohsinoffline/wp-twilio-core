@@ -1,6 +1,6 @@
 === WP Twilio Core ===
 Contributors: mohsinoffline
-Donate link: https://wpsms.io
+Donate link: https://wpgateways.com/support/send-payment/
 Tags: twilio, sms, text message
 Requires at least: 4.2
 Tested up to: 5.0.3
