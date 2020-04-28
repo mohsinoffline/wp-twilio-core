@@ -5,29 +5,24 @@ COMPOSER = $(shell which composer)
 ifeq ($(strip $(COMPOSER)),)
 	COMPOSER = php composer.phar
 endif
+PHPVERSION = $(shell php -r 'echo PHP_VERSION;')
 
 all: test
 
 clean:
-	@rm -rf venv vendor
+	@rm -rf docs venv vendor composer.lock
 
-install:
-	@composer --version || (echo "Composer is not installed, please install Composer"; exit 1);
-	# Composer: http://getcomposer.org/download/
+install: clean
+	@composer --version || (curl -s https://getcomposer.org/installer | php);
 	$(COMPOSER) install
 
 vendor: install
 
-# if these fail, you may need to install the helper library
 test: install
-	@PATH=vendor/bin:$(PATH) phpunit --report-useless-tests --strict-coverage --disallow-test-output --colors --configuration Twilio/Tests/phpunit.xml
-	@PATH=vendor/bin:$(PATH) phpunit --report-useless-tests --strict-coverage --disallow-test-output --colors Services/Tests/TwilioTest.php
+	@PATH=vendor/bin:$(PATH) phpunit --strict-coverage --disallow-test-output --colors --configuration tests/phpunit.xml
 
-docs-install:
-	composer require --dev apigen/apigen
-
-docs: docs-install
-	vendor/bin/apigen generate -s ./ -d docs/api --exclude="Tests/*" --exclude="vendor/*" --exclude="autoload.php" --template-theme bootstrap --main Twilio
+docs:
+	vendor/bin/apigen generate --source src -d docs/api --exclude="autoload.php" --template-theme bootstrap --main Twilio
 
 authors:
 	echo "Authors\n=======\n\nA huge thanks to all of our contributors:\n\n" > AUTHORS.md
@@ -46,4 +41,16 @@ docker-push:
 	docker push twilio/twilio-php:apidefs-${API_DEFINITIONS_SHA}
 	docker push twilio/twilio-php:latest
 
-.PHONY: all clean test docs docs-install test-install authors
+docker-dev-build:
+	-docker stop twilio_php${VERSION}
+	-docker rm twilio_php${VERSION}
+	docker image build --tag="twilio/php${VERSION}" --build-arg version=${VERSION} -f ./Dockerfile-dev .
+	docker run -td --name="twilio_php${VERSION}" --mount type=bind,source=${PWD},target=/twilio twilio/php${VERSION} /bin/bash
+
+docker-dev-clean:
+	docker ps --format '{{.Names}}' | grep "^twilio_php" | xargs -I {} sh -c "docker stop {} && docker rm {}" > /dev/null
+
+docker-dev-test:
+	docker exec -t twilio_php${VERSION} /bin/bash -c 'make all'
+
+.PHONY: all clean install test docs authors docker-dev-build docker-dev-clean docker-dev-test

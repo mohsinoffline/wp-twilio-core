@@ -3,8 +3,8 @@ Contributors: mohsinoffline
 Donate link: https://wpgateways.com/support/send-payment/
 Tags: twilio, sms, text message
 Requires at least: 4.2
-Tested up to: 5.1
-Stable tag: 1.2.2
+Tested up to: 5.4
+Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,10 @@ Yes, you will need to signup on [Twilio](https://www.twilio.com/), and obtain a 
 2. Settings page in the WordPress admin back end.
 
 == Changelog ==
+
+= 1.2.3 =
+* Update Twilio PHP helper library to 5.42.2
+* Update Freemius library to 2.3.2
 
 = 1.2.2 =
 * Security fix

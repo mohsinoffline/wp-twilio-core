@@ -3,14 +3,14 @@
  * Plugin Name: WP Twilio Core
  * Plugin URI: https://wpsms.io/
  * Description: A simple plugin to add SMS capability to your website using the Twilio API. Allows developers to easily extend the settings page and built in functionality.
- * Version: 1.2.2
+ * Version: 1.2.3
  * Author: WP SMS
  * Author URI: https://wpsms.io
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
 
-define( 'TWL_CORE_VERSION', '1.2.2' );
+define( 'TWL_CORE_VERSION', '1.2.3' );
 define( 'TWL_CORE_OPTION', 'twl_option' );
 define( 'TWL_CORE_OPTION_PAGE', 'twilio-options' );
 define( 'TWL_CORE_SETTING', 'twilio-options' );
@@ -52,7 +52,7 @@ if ( ! function_exists( 'twl_freemius' ) ) {
     }
 }
 
-require_once( TWL_PATH . 'twilio-php/Twilio/autoload.php' );
+require_once( TWL_PATH . 'twilio-php/src/Twilio/autoload.php' );
 require_once( TWL_PATH . 'helpers.php' );
 require_once( TWL_PATH . 'url-shorten.php' );
 if ( is_admin() ) {
